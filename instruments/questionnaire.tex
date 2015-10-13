@@ -1,0 +1,110 @@
+\documentclass[a4paper,english,numbers=noenddot,bibliography=totoc,chapterprefix=on,DIV=12]{scrartcl}
+
+\usepackage[utf8x]{inputenc}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{amssymb,amsmath}
+\usepackage{enumitem}
+\usepackage{bookmark,hyperref}
+\usepackage{multirow}
+\usepackage[labelfont=bf,font=small]{caption}
+\usepackage[font=footnotesize]{subcaption}
+\usepackage{rotating}
+
+\usepackage{subcaption}
+\usepackage{tabularx}
+
+\setcapindent{0mm}
+
+% boldmath in headings and toc, but not headers
+\def\bfseries{\fontseries \bfdefault \selectfont \boldmath}
+
+%allows footnotes in tabular
+\usepackage{footnote}
+\makesavenoteenv{tabular}
+
+% avoid space issues after macro
+\usepackage{xspace}
+\newcommand{\tof}{TOF\xspace}
+
+
+
+\begin{document}
+
+\title{Questionnaire: Requirements on Live Data Reduction and Experiment Control Software}
+\author{Simon Heybrock, Jonathan Taylor, Michael Wedel\\
+    {\small\href{mailto:simon.heybrock@esss.se}{\nolinkurl{simon.heybrock@esss.se}}},{\small\href{mailto:jonathan.taylor@esss.se}{\nolinkurl{jonathan.taylor@esss.se}}},{\small\href{mailto:michael.wedel@esss.se}{\nolinkurl{michael.wedel@esss.se}}}}
+
+\maketitle
+
+\tableofcontents
+
+
+\section{Motivation}
+
+
+\section{Questions}
+
+\begin{itemize}
+  \item User sits down in front of computer to run their experiment.
+    What do they need to do, typically?
+    What are common work flows?
+  \item What are typical time-scales?
+    \begin{itemize}
+      \item For (visual) feedback (e.g., an intensity plot)?
+      \item For manual control?
+      \item For automated control?
+    \end{itemize}
+  \item What do users need to see during the experiment?
+    \begin{itemize}
+      \item ``What is the detector seeing now?''
+      \item Integral over the full length of the run?
+      \item Compare data from different parameters regions of the run (e.g., different temperatures)?
+    \end{itemize}
+  \item What kind of interaction with the live data reduction is required \emph{during a run}?
+    \begin{itemize}
+      \item None.
+      \item Simple (re-bin, create plots for data from earlier in the run).
+      \item Create/modify reduction script while running.
+    \end{itemize}
+  \item What would event mode be used for?
+    \begin{itemize}
+      \item Not crucial during experiment.
+      \item Filtering (on what aspects?).
+      \item Re-binning.
+    \end{itemize}
+  \item What are typical time periods for gathering or accumulating data?
+    \begin{itemize}
+      \item With fixed experiment conditions?
+      \item With varying conditions (e.g., a temperature ramp)?
+    \end{itemize}
+  \item Monitors:
+    \begin{itemize}
+      \item What kinds of monitors will the instrument have?
+      \item Will monitors run in event mode?
+        What event rates are to be expected?
+      \item If yes, is this required in the reduction (for what reasons)?
+      \item Can we circumvent event mode by histogramming the monitors on, e.g., a per-pulse basis?
+    \end{itemize}
+  \item Is there anything that you have to or want to do with the 3D detectors?
+    \begin{itemize}
+      \item No.
+      \item Unclear.
+      \item Find trajectories to remove scattering by anything but the sample.
+    \end{itemize}
+  \item What needs to be stored during a live reduction?
+    \begin{itemize}
+      \item Plots, e.g., $I(Q)$ plot?
+      \item Big ``reduced'' data (i.e., before integrating, slicing, and plotting)? If not, will users typically re-reduce things after the experiment or are most of them happy with the plots obtained during the experiment?
+    \end{itemize}
+  \item For the questions above, are there big differences between:
+    \begin{itemize}
+      \item Normal users?
+      \item Power users?
+      \item Instrument scientist?
+    \end{itemize}
+\end{itemize}
+
+
+
+\end{document}
