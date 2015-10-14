@@ -1,3 +1,8 @@
+add_latex_document(ess.tex)
+add_custom_command(TARGET ess_pdf POST_BUILD COMMAND
+    ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_BINARY_DIR}/ess.pdf
+    ${CMAKE_BINARY_DIR}/pdf/mantid_ess.pdf)
+
 add_latex_document(frontend-backend-architecture.tex)
 add_custom_command(TARGET frontend-backend-architecture_pdf POST_BUILD COMMAND
     ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_BINARY_DIR}/frontend-backend-architecture.pdf

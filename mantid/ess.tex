@@ -1,0 +1,195 @@
+\documentclass[a4paper,english,numbers=noenddot,bibliography=totoc,chapterprefix=on,DIV=12]{scrartcl}
+
+\usepackage[utf8x]{inputenc}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{amssymb,amsmath}
+\usepackage{enumitem}
+\usepackage{bookmark,hyperref}
+\usepackage{multirow}
+\usepackage[labelfont=bf,font=small]{caption}
+\usepackage[font=footnotesize]{subcaption}
+\usepackage{rotating}
+
+\usepackage{subcaption}
+\usepackage{tabularx}
+\usepackage{listings}
+
+\setcapindent{0mm}
+
+% boldmath in headings and toc, but not headers
+\def\bfseries{\fontseries \bfdefault \selectfont \boldmath}
+
+%allows footnotes in tabular
+\usepackage{footnote}
+\makesavenoteenv{tabular}
+
+% avoid space issues after macro
+\usepackage{xspace}
+\newcommand{\tof}{TOF\xspace}
+
+
+
+\begin{document}
+
+\title{Mantid for ESS}
+\author{Simon Heybrock\\
+    {\small\href{mailto:simon.heybrock@esss.se}{\nolinkurl{simon.heybrock@esss.se}}}}
+
+\maketitle
+
+\tableofcontents
+
+\section{Tasks}
+
+\begin{tabular}{ll}
+    \hline
+    \hline
+    Streaming protocol design \& definition \\
+    Fake streamer implementation \\
+    Listener implementation \\
+    \hline
+    Design Mantid back end / front end architecture \\
+    Design interface and control protocol & is the python interface sufficient?\\
+    Design streaming components & high-bandwidth reduced data / visualized data \\
+    Implement back end \\
+    Implement front end \\
+    \hline
+    Parallel instrument load / sub-instrument load \\
+    Parallel load of other files \\
+    Parallel store of other files \\
+    \hline
+    Generic parallel algorithms & make the algorithm design ready for parallelism \\
+    Identify trivially parallel algorithms & no changes required \\
+    Implement changes for simple parallel algorithms & simple changes, such as global sums \\
+    Implement changes for complex parallel algorithms & complex changes \\
+    Optimize complex parallel algorithms & complex parallelism $\Rightarrow$ scaling issues \\
+    \hline
+    Optimize core components \\
+    \hline
+    Gather event mode requirements & why event mode? \\
+    Determine and overcome technical limits & memory, re-processing speed \\
+    Design event mode architecture & what changes for event mode? \\
+    Implement event mode \\
+    \hline
+    \hline
+\end{tabular}
+
+
+\section{Interfaces}
+
+What interfaces to the outside and within do we have (and do we need to define)?\\
+\begin{tabularx}{\textwidth}{llX}
+    \hline
+    \hline
+    Interface & Type & Comments \\
+    \hline
+    \hline
+    event stream (including meta data) & external & joint with Tobias \\
+    front end / back end & internal & \\
+    \hline
+    \hline
+\end{tabularx}
+
+
+
+\section{Dependencies}
+
+\begin{tabularx}{\textwidth}{llX}
+    \hline
+    \hline
+    Component & Depends on\dots & \\
+    \hline
+    \hline
+    Parallel Mantid & back end / front end & Cannot run parallel in GUI mode, GUI must be front end, parallel part is back end. \\
+    Parallel Mantid & Instrument redesign & Parallel Mantid needs sub-instruments. The should be implemented in the new design of the Instrument code. \\
+    Compute hardware & parallel Mantid \\
+    \hline
+    \hline
+\end{tabularx}
+
+\section{Random thoughts and questions}
+
+\begin{itemize}
+    \item Where to draw the line between front end and back end?
+        Maybe the simplest solution is to stream a workspace from the back end to the front end.
+        We could then basically use the existing GUI for visualization.
+        It is unclear how control would work though.
+    \item How is the GUI currently controlling the Mantid core?
+        Is it using the python interface?
+        If so, it might be easier to move the core to a different machine.
+    \item Does the python interface have performance issues that make it unsuitable for communication between back end and front end?
+    \item Do some research about existing systems for separating GUI from compute parts.
+        What about things like Qt's model-view mechanism or MVC?
+        Is this suitable to be run via network?
+    \item With the front end / back end system, what parts can or must be done on the front end?
+        Complex visualization might still be too expensive, to we need to do things like rendering on the back end?
+        Does that make integration in the existing GUI harder?
+    \item What part of an reduction can we afford to make interactive?
+        Clicking a button or changing a value in a text field in the GUI may cause very expensive re-computation.
+        Should the main reduction be based on a fixed script?
+    \item We may need to communicate to users the cost of what the do or want to do, e.g.,
+        \begin{itemize}
+            \item when they attempt to change a parameter, warn them about the ensuing re-computation and give a time estimate, option to opt out
+            \item report progress when re-processing all event data
+        \end{itemize}
+    \item Fall back solution: non-interactive display of data, reduction controlled by script that is started at the beginning, not interactive.
+        This basically suggests the first thing that should be implemented in the front end / back end framework:
+        \begin{itemize}
+            \item front end can send reduction script to back end
+            \item front end receives output data (visualization) from back end and displays it (non-interactively)
+        \end{itemize}
+    \item Fall back solutions if we cannot keep up with data rate:
+        \begin{itemize}
+            \item process only every $n$-th frame, the resulting loss of statistics could be quantified pretty easily and communicated to the user via the GUI
+            \item if processing latency is high, we may still be able to process everything, but just have a long pipeline --- functionality would be ensured
+        \end{itemize}
+    \item What do we do about stability?
+        On a parallel run with many nodes hardware failures become more and more likely.
+        Is this in a range where we have to do something about it?
+        Unless we implement a special solution, a hardware failure on a compute node cause a temporary loss of the gathered live data and reduction results --- everything would need do be read back from disk, which may be much too slow.
+        A rough estimation, assuming exponential decay of the number of live components, where each components probability for survival of more than 5 years is $1/e$:
+        \begin{itemize}
+            \item chance to have no failure for a whole day with 10 nodes: 0.993.
+            \item chance to have no failure for a whole day with 100 nodes: 0.936.
+        \end{itemize}
+        Conclusion: these numbers are not close enough to 1 to be ignored:
+        \begin{itemize}
+            \item get a better estimate, are failure rates really this high (no hard drives would be involved in the compute nodes)?
+            \item find out if people could live with this
+            \item if not, find a solution (checkpoints?)
+        \end{itemize}
+        %Journal of Physics: Conference Series 78 (2007) 012022
+        %doi:10.1088/1742-6596/78/1/012022
+        % 0.3 failures per year per processor
+        % not 100% clear whether the nodes include HDDs, probably not
+    \item Select event data based on meta-data query.
+        For example, keep data in Nexus files ``per-frame'', filter frames to load based on meta data.
+        This will keep the required file-system bandwidth to a minimum.
+        For several use scenarios this would be an alternative to keeping all events in memory.
+\end{itemize}
+
+
+\section{Details}
+
+\subsection{Sub-instrument load}
+
+\begin{itemize}
+    \item Cannot be based on detector --- there are files that automatically combine several detectors into a single spectrum (for example LET Nexus files).
+\end{itemize}
+{\small
+\begin{tabularx}{\textwidth}{p{4cm}lX}
+    \hline
+    \hline
+    Task & Status & Comments \\
+    \hline
+    \hline
+    Determine sub-instrument automatically based on MPI rank and number of ranks & blocked & easy \\
+    Load only subset of spectra from \texttt{.nxs} & buggy/incomplete & need a way to get total count before load, blocked by \#13456 and \#13457 \\
+    \hline
+    \hline
+\end{tabularx}
+}
+
+
+\end{document}
