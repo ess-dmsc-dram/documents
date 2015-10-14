@@ -1,0 +1,190 @@
+\documentclass[a4paper,english,numbers=noenddot,bibliography=totoc,chapterprefix=on,DIV=12]{scrartcl}
+
+\usepackage[utf8x]{inputenc}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{amssymb,amsmath}
+\usepackage{enumitem}
+\usepackage{bookmark,hyperref}
+\usepackage{multirow}
+\usepackage[labelfont=bf,font=small]{caption}
+\usepackage[font=footnotesize]{subcaption}
+\usepackage{rotating}
+
+\usepackage{subcaption}
+\usepackage{tabularx}
+\usepackage{listings}
+
+\setcapindent{0mm}
+
+% boldmath in headings and toc, but not headers
+\def\bfseries{\fontseries \bfdefault \selectfont \boldmath}
+
+%allows footnotes in tabular
+\usepackage{footnote}
+\makesavenoteenv{tabular}
+
+% avoid space issues after macro
+\usepackage{xspace}
+\newcommand{\tof}{TOF\xspace}
+
+
+
+\begin{document}
+
+\title{Mantid Front End / Back End Architecture}
+\author{Simon Heybrock, Michael Wedel\\
+    {\small\href{mailto:simon.heybrock@esss.se}{\nolinkurl{simon.heybrock@esss.se}}},{\small\href{mailto:michael.wedel@esss.se}{\nolinkurl{michael.wedel@esss.se}}}}
+
+\maketitle
+
+\tableofcontents
+
+\section{Motivation}
+
+As motivated in other documents, for performance reasons we will need to parallelize Mantid of several or many nodes of a cluster.
+This document discusses how the Mantid instances on the cluster (the \emph{back end}) can be controlled by a \emph{front end} and what the requirements on the two are.
+
+\section{Requirements}
+
+\begin{enumerate}
+  \item \emph{Live reduction:} Data is read from an event stream and the result is updated/displayed continuously.
+    We would like to be able to do the following \emph{while running}:
+    \begin{enumerate}
+      \item Change (certain) parameters of the reduction script.
+      \item Replace the reduction script.
+      \item Modify the reduction script.
+    \end{enumerate}
+  \item \emph{Batch reduction:} Reduce data from a series of files.
+  \item \emph{Interactive reduction:} Work flow similar to how \texttt{MantidPlot} is used right now, with a GUI or a Python console.
+  \item Minimize the number of different mechanisms that need support and provide a seamless and consistent user interface.
+    Therefore, the three cases should be unified as much as possible.
+  \item Visualization of large data volumes that cannot be kept in memory of a single node.
+  \item Keep track of and control memory consumption.
+\end{enumerate}
+
+\section{Discussion}
+
+\subsection{General}
+
+\begin{itemize}
+  \item It is unclear how \texttt{MantidPlot} will have evolved by the time ESS is running.
+    We will therefore ignore the case of interactive reduction for now and focus on live and batch reduction.
+    A solution for interactive reduction might eventually emerge from this.
+  \item The case of batch reduction is basically straightforward --- we can simple launch an MPI run with a given Python script.
+  \item Visualization of large data volumes is in principle already possible based on ParaView, which supports a cluster mode.
+    It is unclear how much we need to modify the current integration into \texttt{MantidPlot}, but given that all components we need are there in ParaView there should not be any big obstacles.
+    Apart from that, the open questions are:
+    \begin{itemize}
+      \item How to load or create a large \texttt{MDWorkspace} on the nodes of a cluster, i.e., how to get to the point where we can just hand things to ParaView?
+      \item How to integrate this with live reduction?
+    \end{itemize}
+  \item It is likely that some reductions while require both, \texttt{Workspace} and \texttt{MDWorkspace}.
+    According to my current understanding the two will require different MPI models (distribution of data based on different aspects, e.g., detector index and blocks of a volume).
+    This may imply that we need two (or more) subsets of MPI ranks working on the same reduction (with a big amount of data re-distribution when transiting from \texttt{Workspace} to \texttt{MDWorkspace}).
+    Basically, we have to keep options open by making sure we can specify MPI communicators for our algorithms and do not hard-code \texttt{MPI\_COMM\_WORLD} anywhere.
+\end{itemize}
+
+\subsection{Live reduction}
+
+There are some things to keep in mind when considering potential solutions:
+\begin{itemize}
+  \item We want to run in event mode, i.e., gather events for a potentially long time.
+    Modifications of the reduction script (or parameters to the script) must be done in a way to:
+    \begin{itemize}
+      \item Avoid re-processing the full run when possible.
+      \item Make sure that reduction results are always in a consistent state, i.e., when changing the reduction at some point in a run, we have to make sure that we do not mix these results with results from earlier in the run.
+        This basically means that we have to keep track of which (event) data we can keep and which we have to drop when such modifications are made.
+    \end{itemize}
+  \item When modifying a reduction script during a run, it will happen that the script is broken.
+    We should be able to recover from this state without the need to redo everything from the start of the run.
+\end{itemize}
+It is hard to imagine a completely generic system where we do not lose any intermediate results and have the option to arbitrarily modify a reduction script.
+We should definitely support the solution at the opposite extreme, since it is simple and provides a fall back:
+\emph{To change the reduction script or its parameters, drop everything.}
+This gives us two choices:
+\begin{itemize}
+  \item Just start gathering data from the point when the new script takes effect.
+    This solution is probably viable for several instruments where users only need the live reduction for viewing the current state, i.e., ``what did the detectors see during the past 10 seconds''.
+  \item When more history is required, we can re-stream the events from our file system.
+    This will result in potentially large delays.
+\end{itemize}
+This minimal solution will not suffice everywhere in practice.
+For example, it would not even allow for (cheap) re-binning of the final result when the users wants to zoom in a spectrum view.
+A compromise between the extreme cases could be as follows:
+\emph{A reduction script is made from a short chain of snippets. Changing a snippet preserves everything that happened before the snippet.}\footnote{What we are calling \emph{snippet} here is probably very similar or even identical to a \texttt{WorkflowAlgorithm}.}
+To give an example, a SANS reduction could have the following snippets:
+\begin{enumerate}
+  \item Receive data from a stream and insert it into a workspace.
+  \item Reduction in event mode until each MPI rank has an $I_{\mathrm{local}}(Q)$.
+  \item Re-bin and sum all $I_{\mathrm{local}}(Q)$ to obtain $I(Q)$ is histogram mode.
+\end{enumerate}
+What is the point of this? It gives us the following:
+\begin{itemize}
+  \item The snippet boundary between (1) and (2) avoids reading all data from disk in case the reduction script changes.
+  \item The snippet boundary between (2) and (3) avoids re-reducing all data in case the users wants to change the final bin size.
+\end{itemize}
+We could further refine this, e.g., by ending the main reduction step before the integration, i.e., keep $\vec Q$ or $\lambda$, such that we can later compute choose to compute, e.g., $I(Q_x,Q_y)$ or $I(Q,\lambda)$.
+
+Notes and open questions:
+\begin{itemize}
+  \item We can easily add or remove visualization views.
+    For example, in a SANS run a user might start only with $I(Q)$ and later realize that also $I(Q_x,Q_y)$ is needed.
+    If the main reduction snippet was chosen properly, it would be trivial to add a second view that reads the result.
+  \item The memory consumption will grow with the number of snippets.
+  \item Where do we merge results from individual chunks from the event stream?
+  \item We have to make sure that the \texttt{AnalysisDataService} of Mantid does not keep around temporary workspaces from within snippets.
+  \item Somehow all snippets have to be run in an infinite loop, based on the chunks of events that arrive via the stream.
+    It is unclear how exactly we would deal with this.
+    \begin{itemize}
+      \item Should all snippets work on the same chunk size, or does it make sense to reduce the frequency with which snippets further down the chain are executed?
+      \item Do we need an asynchronous way of receiving the event stream?
+        That is, can we afford to run the reduction script on each chunk of events directly, or do we need separate threads that are responsible for receiving the stream or reducing the data.
+        The latter would result in several difficulties, so we should consider if it can feasibly be avoided.
+      \item Likewise, how do we handle receiving commands from the front end?
+        If this is done from within the main reduction loop we might get issues with latencies and timeouts.
+    \end{itemize}
+    We may need to implement some sort of producer-consumer pattern.
+    Receiving the stream, reducing the data, and producing the final data set for visualization may need to run independently in with different update frequencies.
+    Basically this would require several threads (which will require some additional work when placing MPI ranks).
+    When a snippet completes it may create or update a workspace and thereby trigger another snippet.
+  \item How to deal with loading things only once, i.e., vanadium run?
+    This seems to imply that we need several entry points.
+    The snippet that loads and processes the vanadium run would be executed only once (unless the input vanadium run is changed).
+  \item How to keep data from individual chunks?
+    Separate workspaces?
+    If yes,
+    \begin{itemize}
+      \item How do we ensure consistency, i.e., same division on all ranks, correct assignment of monitor data?
+        Just do it based on pulse IDs.
+      \item If we have a list of workspaces, how do we apply a filter?
+        Would need to look at all workspaces in a list and pick relevant events.
+        We could either produce one output workspace, or keep a list equivalent to the input list.
+        Who would be responsible for merging the workspaces?
+    \end{itemize}
+    If not, how to we avoid re-reducing all data at each step?
+    The following approach may do what we need:
+    \begin{enumerate}
+      \item We have an existing workspace and corresponding existing reduction results.
+      \item Put new data into new workspace, trigger its reduction to obtain new results.
+      \item Add new results to existing results.
+      \item Add the new workspace to the existing workspace without triggering its re-reduction.
+    \end{enumerate}
+    Items (2) to (4) can be iterated.
+    Basically, we would have a ``live'' workspace that most of the reduction would work on, and a ``history'' workspace that is used to accumulate the live workspaces.
+    The key point is that we add the new workspace to the existing workspace \emph{after} running the reduction for it.
+    This will work under the assumption that the reduction work flow is flexible with respect to when workspaces are added, i.e., reduction should commute with accumulation.
+  \item To what extent is it feasible to have the front end connected via the internet, i.e., a potentially slow and unstable connection?
+\end{itemize}
+
+
+
+
+%Random questions:
+%\begin{itemize}
+%  \item How to communicate with potentially many MPI ranks efficiently?
+%    Efficiency is maybe not crucial right now, we will have to see how high the update frequencies are.
+%\end{itemize}
+
+
+\end{document}

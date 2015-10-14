@@ -1,1 +1,2 @@
+add_subdirectory(frontend-backend-architecture)
 add_subdirectory(performance_projection)
