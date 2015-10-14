@@ -4,3 +4,4 @@ project(DMSC-instrument-data-documents NONE)
 include(UseLATEX.cmake)
 
 add_subdirectory(instruments)
+add_subdirectory(mantid)

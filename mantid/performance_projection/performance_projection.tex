@@ -1,0 +1,90 @@
+\documentclass[a4paper,english,numbers=noenddot,bibliography=totoc,chapterprefix=on,DIV=12]{scrartcl}
+
+\usepackage[utf8x]{inputenc}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{amssymb,amsmath}
+\usepackage{enumitem}
+\usepackage{bookmark,hyperref}
+\usepackage{multirow}
+\usepackage[labelfont=bf,font=small]{caption}
+\usepackage[font=footnotesize]{subcaption}
+\usepackage{rotating}
+
+\usepackage{subcaption}
+\usepackage{tabularx}
+\usepackage{listings}
+
+\setcapindent{0mm}
+
+% boldmath in headings and toc, but not headers
+\def\bfseries{\fontseries \bfdefault \selectfont \boldmath}
+
+%allows footnotes in tabular
+\usepackage{footnote}
+\makesavenoteenv{tabular}
+
+% avoid space issues after macro
+\usepackage{xspace}
+\newcommand{\tof}{TOF\xspace}
+
+
+
+\begin{document}
+
+\title{Performance Projection for Live Data Reduction at ESS}
+\author{Simon Heybrock\\
+    {\small\href{mailto:simon.heybrock@esss.se}{\nolinkurl{simon.heybrock@esss.se}}}}
+
+\maketitle
+
+\tableofcontents
+
+
+\section{Motivation}
+
+We need to establish an estimate of the performance of data reduction with Mantid for ESS instruments.
+The two main reasons are:
+\begin{itemize}
+    \item We need to figure out how to distribute development efforts.
+    \item Sune will need some input on the required hardware.
+\end{itemize}
+
+\section{Unknown factors}
+
+There is a whole series of factors that strongly influence the performance, but are unknown at this point:
+\begin{itemize}
+    \item Event rate (this may scale better or worse than linear!).
+    \item Number of cores or nodes available on the reduction hardware (cluster).
+    \item Additional reduction complexity due to 3D detectors.
+    \item Speedup due to Mantid framework optimizations.
+    \item Performance of loading/receiving data and inserting it into proper workspaces.
+    \item More complex reduction scripts due to more complex instruments (apart from detectors).
+    \item Higher requirements due to new science cases with increased complexity (compared to those dealt with currently by Mantid at existing facilities).
+    \item Additional cost and complexity due to event mode.
+    \item Monitors $\leftrightarrow$ event mode?
+\end{itemize}
+We list possible and ongoing mitigations in Tab.~\ref{tab:unknown_factors}.
+
+\begin{table}
+    \small
+\begin{tabularx}{\textwidth}{lXl}
+    \hline
+    what & potential solution & status \\
+    \hline
+    event rate & work based on highest estimates & ongoing \\
+    available hardware & communicate (to instrument teams?) that there has to be a trade off between hardware cost and options in reduction, discuss with Sune & to do \\
+    3D detectors & redesign Mantid instrument/geometry code, get more details from detector group & to do \\
+    Mantid optimizations & depends on instrument/geometry redesign & blocked\\
+    load/stream performance & do more benchmarks, work on improvements & to do \\
+    complexer instruments & discuss details with instrument scientists from early on & started \\
+    complexer science cases & discuss details with instrument scientists from early on & to do \\
+    event mode & discuss options with Mantid team and instrument scientists & started \\
+    monitors &  discuss options with Mantid team and instrument scientists & to do \\
+    \hline
+\end{tabularx}
+\caption{\label{tab:unknown_factors}Unknown factors and mitigations.}
+\end{table}
+
+
+\end{document}
