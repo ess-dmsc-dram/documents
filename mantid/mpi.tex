@@ -1,0 +1,120 @@
+\documentclass[a4paper,english,numbers=noenddot,bibliography=totoc,chapterprefix=on,DIV=12]{scrartcl}
+
+\usepackage[utf8x]{inputenc}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{amssymb,amsmath}
+\usepackage{enumitem}
+\usepackage{bookmark,hyperref}
+\usepackage{multirow}
+\usepackage[labelfont=bf,font=small]{caption}
+\usepackage[font=footnotesize]{subcaption}
+\usepackage{rotating}
+
+\usepackage{subcaption}
+\usepackage{tabularx}
+\usepackage{listings}
+
+\setcapindent{0mm}
+
+% boldmath in headings and toc, but not headers
+\def\bfseries{\fontseries \bfdefault \selectfont \boldmath}
+
+%allows footnotes in tabular
+\usepackage{footnote}
+\makesavenoteenv{tabular}
+
+% avoid space issues after macro
+\usepackage{xspace}
+\newcommand{\tof}{TOF\xspace}
+
+
+
+\begin{document}
+
+\title{Mantid and MPI}
+\author{Simon Heybrock\\
+    {\small\href{mailto:simon.heybrock@esss.se}{\nolinkurl{simon.heybrock@esss.se}}}}
+
+\maketitle
+
+\tableofcontents
+
+\section{Notes}
+
+\begin{itemize}
+  \item The existing \texttt{MPIAlgorithm} \texttt{GatherWorkspaces} is made for a different MPI model than the one we envision for ESS.
+    It cannot be used.
+  \item For MPI communication of custom data types \texttt{boost::serialization} could be used.
+    This is what is done in \texttt{GatherWorkspaces}, and we adopted this also for a first implementation of \texttt{GatherWorkspaceOnMaster}.\footnote{Note that the \texttt{load} and \texttt{save} implementations in \texttt{MPISerialization} are incomplete and therefore special to \texttt{GatherWorkspaces} --- they should not be used outside that context (TODO: fix current cmake issues\dots why is it using the wrong implementation?).}
+    However, it seems to be extremely slow, so for many cases this will not be an option.
+    We might need to resort to copying data to a buffer manually and sending that.\footnote{First, gather the buffer sizes, second send/recv with proper size. Sends can be blocking (nothing else to do), recv could be non-blocking, so we can receive from several ranks at the same time.}
+  \item \texttt{LoadNexusProcessed} is extremely slow when not all spectra are loaded (such as in the case when we do a parallel load).
+    We must either circumvent this or provide a faster implementation.
+  \item What is the point of having a separate \texttt{MPIAlgorithms} category?
+    Many of the existing \texttt{Algorithms} will be converted to support MPI, but it would probably make little sense to move them.
+    That is, it may make sense to completely ignore \texttt{MPIAlgorithms} --- the algorithms in there were anyways made for a different MPI model.
+  \item We should probably build Mantid with as little threading as possible:
+    \begin{itemize}
+      \item The current threading model seems to be very inefficient, i.e., in most cases running in hybrid (threading + MPI) mode does not pay off --- we want only MPI.
+      \item Not compiling with threading in the first place may improve the performance, since it gives more freedom to the compiler.
+      \item Compiling without OpenMP is simple.
+      \item Apart from OpenMP there also seem to be some pthread things. In addition to that Poco mutexes are used. I did not see an option in the Poco compilation that would allow for disabling threading.
+    \end{itemize}
+  \item How to deal with the transition between a \texttt{Workspace} and an \texttt{MDWorkspace}
+  \item Direct-inelastic experiment: rotating crystal, many 3D volumes need to be combined into a 4D volume.
+    How can we deal with this when an MPI split based on detectors?
+    How to cut an \texttt{MDWorkspace}?
+    It may not be cubic and will be inhomogeneous.
+    Do we need some kind of partitioning algorithms?
+  \item Visualization?
+    Separate MPI-based run?
+  \item How to interact with the control frontend?
+  \item How to deal with monitors in event mode?
+    Having each monitor on all MPI ranks would probably not be feasible then.
+    How will ESS monitors work?
+    Do we really need event mode?
+  \item Nick brought up the idea of \texttt{WorkspaceProxy} --- a way to farm out operations on workspaces to the cluster.
+    The idea is not 100\% clear to me right now, so we have to discuss this again.
+    Questions:
+    \begin{itemize}
+      \item Where would data be?
+        Can we keep it on the cluster?
+        We have to.
+      \item What about algorithms?
+        Not only the workspaces must be distributed, but also what algorithms do to them.
+    \end{itemize}
+  \item It may be worth looking at how \texttt{ParaView} does things.
+  \item How to speed up loading in general?
+    Impose certain structure on Nexus files?
+  \item How to control the backend?
+    How to keep it running?
+    Probably a Python server.
+    Reduce data in chunks arriving via stream.
+    How to modify reduction script while running?
+    How to make sure we get rid of workspaces we don't need any more?
+    How to implement a mechanism that keeps memory from running full?
+\end{itemize}
+
+
+\section{\texttt{MDWorkspace}}
+
+\begin{itemize}
+  \item How to partition?
+  \item How to deal with a volume that grows over time?
+  \item How to deal with regions of very different densities?
+  \item Can we handle overlapping regions on different MPI ranks?
+  \item Should we support overlapping regions?
+  \item We might need to support re-distribution of \texttt{MDBoxes}.
+    The current implementation might need to be modified slightly.
+\end{itemize}
+
+\section{TODO}
+
+\begin{itemize}
+  \item \texttt{GatherWorkspacesOnMaster} support for non-event workspaces.
+\end{itemize}
+
+
+
+\end{document}
