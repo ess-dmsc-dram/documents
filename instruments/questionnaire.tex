@@ -75,6 +75,8 @@ The next section contains a series of question:
 
 \begin{enumerate}
   \item What do you find at existing facilities that limit what you can do?
+  \item What aspects of other facilities instrument control do you feel we should implement \& not implement?
+  \item What aspects of control are a necessity for experiment setup, instrument calibration?
   \item User sits down in front of computer to run their experiment.
     What do they need to (or want to) do, typically?
     What are common work flows?
@@ -83,6 +85,22 @@ The next section contains a series of question:
       \item Initial manual setup/tuning, start measurement, wait till end of run?
       \item Lots of manual interaction during most of the run?
     \end{itemize}
+    \small\texttt{
+  An example from DG spectroscopy for crystal rotation scan:
+    \begin{itemize}
+      \item Get crystal alignment from white beam operation.
+      \item Check correct crystal plane is in the correct scattering geometry for the instrument.
+      \item Check mosaic of co-aligned arrays.
+      \item Calculate required crystal alignment wrt $k_i$ \& $Q$.
+      \item Calculate rotation limits for $Q$ coverage and correct sampling.
+      \item Select base $E_i$ for RMM mode and evaluate counting time to get acceptable statistics.
+      \item generate \& run a control script that does a step scan of omega.
+      \item Run reduction script to reduce data for $n$ incident energies in RMM mode on each file (Here if the scan is continuous the event data is filtered for angle)
+      \item Run accumulateMD or genSQW to generate a volume dataset \& evaluate.
+      \item Generate model volume (or extract plane from volume and compare with a model)
+      \item Evaluate background dependence for a series of planes or cuts and fit model to data using a global set of parameters.
+    \end{itemize}
+  }
   \item What do users need to see during the experiment?
     \begin{itemize}
       \item ``What is the detector seeing now?''
@@ -99,7 +117,13 @@ The next section contains a series of question:
     \begin{itemize}
       \item Start-stop.
       \item Gather data continuously.
-        If so, why?
+        It would be very useful here to elaborate some use cases for continuous event mode collection:
+        \begin{itemize}
+          \item For DG spectroscopy one can rotate the crystal continuously and filter the event list on angle to generate a volume dataset.
+          \item Generating a volume dataset from a ramp of a control parameter such as temperature or field.
+          \item ...
+        \end{itemize}
+        Based on these \& other information we should aim to set some limits for maximum event mode file size which is a function of event rate and run time.
     \end{itemize}
   \item What kind of interaction with the live data reduction is required \emph{during a run}?
     \begin{itemize}
@@ -108,6 +132,15 @@ The next section contains a series of question:
       \item Change parameters of reduction script (examples appreciated).
       \item Create/modify reduction script while running.
     \end{itemize}
+    \small\texttt{
+      cf. from previous example:
+        \begin{itemize}
+          \item Run reduction script to reduce data for $n$ incident engeries in RMM mode on each file (Here if the scan is continuous the event data is filtered for angle)
+          \item Run accumulateMD or genSQW to generate a volume dataset \& evaluate.
+          \item Generate model volume (or extract plane from volume and compare with a model)
+          \item Evaluate background dependence for a series of planes or cuts and fit model to data using a global set of parameters.
+        \end{itemize}
+      }
   \item What do you want to do with event mode that you can not do at existing facilities?
   \item What would event mode be used for?
     \begin{itemize}
@@ -125,7 +158,7 @@ The next section contains a series of question:
       \item With fixed experiment conditions (same $T$, same $p$, same everything)?
       \item With varying conditions (e.g., a temperature ramp)?
     \end{itemize}
-  {\color{black!60}
+    {\color{black!60}
   \item Monitors:
     \begin{itemize}
       \item What kinds of monitors will the instrument have?
@@ -136,29 +169,54 @@ The next section contains a series of question:
     \end{itemize}
   }
   {\color{black!60}
-  \item Is there anything that you have to or want to do with the 3D detectors?
-    \begin{itemize}
-      \item No.
-      \item Unclear.
-      \item Find trajectories to remove scattering by anything but the sample.
-    \end{itemize}
-  }
+\item Is there anything that you have to or want to do with the 3D detectors?
+  \begin{itemize}
+    \item No.
+    \item Unclear.
+    \item Find trajectories to remove scattering by anything but the sample.
+  \end{itemize}
+}
   \item What needs to be stored during a run?
     \begin{itemize}
       \item Plots, e.g., $I(Q)$ plot?
       \item Big ``reduced'' data (i.e., before integrating, slicing, and plotting)?
         {\color{black!60}
         If not, will users typically re-reduce things after the experiment or are most of them happy with the plots obtained during the experiment?
-        }
-    \end{itemize}
-  \item For the questions above, are there big differences between:
-    \begin{itemize}
-      \item Normal users?
-      \item Power users?
-      \item Instrument scientist?
-    \end{itemize}
+      }
+  \end{itemize}
+\item For the questions above, are there big differences between:
+  \begin{itemize}
+    \item Normal users?
+    \item Power users?
+    \item Instrument scientists?
+  \end{itemize}
 \end{enumerate}
 
+
+\section {Remote access}
+
+We should generate a strategy on how we enable remote access to the experiment control.
+This is not necessarily urgent, but we should keep it in mind.
+For this we need to document some use cases for remote access:
+\begin{itemize}
+  \item Access to motion control for alignment (like D33).
+  \item Status checking.
+  \item Full off-site control for the instrument scientist (like the Sunday afternoon call from the users when you would rather not come into the instrument).
+  \item Full off-site control for the user.
+  \item ...
+\end{itemize}
+For the list we generate it would be good to have input on what methods of access you would like to see.
+Commonly it seems there is a mix between web based status monitoring and remote desktop access.
+What are your preferences?
+
+
+\section{Scripting}
+
+We can discuss this at a later date.
+\begin{itemize}
+  \item Will most likely be based on Python and probably provide some kind of graphical interactivity.
+  \item We would be happy to get some input about ``Do'' and ``Don't'' based on your experience at other facilities.
+\end{itemize}
 
 
 \end{document}
