@@ -1,0 +1,705 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 744.09448819 1052.3622047"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="event_mode_costs_and_tradeoffs.svg">
+  <defs
+     id="defs4">
+    <marker
+       inkscape:isstock="true"
+       style="overflow:visible;"
+       id="marker4549"
+       refX="0.0"
+       refY="0.0"
+       orient="auto"
+       inkscape:stockid="Arrow1Lend">
+      <path
+         transform="scale(0.8) rotate(180) translate(12.5,0)"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1;fill:#000000;fill-opacity:1"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         id="path4551" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="marker4471"
+       style="overflow:visible;"
+       inkscape:isstock="true">
+      <path
+         id="path4473"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1;fill:#000000;fill-opacity:1"
+         transform="scale(0.4) rotate(180) translate(10,0)" />
+    </marker>
+    <marker
+       inkscape:isstock="true"
+       style="overflow:visible;"
+       id="marker7190"
+       refX="0.0"
+       refY="0.0"
+       orient="auto"
+       inkscape:stockid="Arrow1Mend">
+      <path
+         transform="scale(0.4) rotate(180) translate(10,0)"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1;fill:#000000;fill-opacity:1"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         id="path7192" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="marker6636"
+       style="overflow:visible;"
+       inkscape:isstock="true">
+      <path
+         id="path6638"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1;fill:#000000;fill-opacity:1"
+         transform="scale(0.4) rotate(180) translate(10,0)" />
+    </marker>
+    <marker
+       inkscape:isstock="true"
+       style="overflow:visible;"
+       id="marker4886"
+       refX="0.0"
+       refY="0.0"
+       orient="auto"
+       inkscape:stockid="Arrow1Mend"
+       inkscape:collect="always">
+      <path
+         transform="scale(0.4) rotate(180) translate(10,0)"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1;fill:#000000;fill-opacity:1"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         id="path4888" />
+    </marker>
+    <marker
+       inkscape:isstock="true"
+       style="overflow:visible;"
+       id="marker4538"
+       refX="0.0"
+       refY="0.0"
+       orient="auto"
+       inkscape:stockid="Arrow1Mend"
+       inkscape:collect="always">
+      <path
+         transform="scale(0.4) rotate(180) translate(10,0)"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1;fill:#000000;fill-opacity:1"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         id="path4540" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow1Mend"
+       style="overflow:visible;"
+       inkscape:isstock="true"
+       inkscape:collect="always">
+      <path
+         id="path4185"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1;fill:#000000;fill-opacity:1"
+         transform="scale(0.4) rotate(180) translate(10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow1Lend"
+       style="overflow:visible;"
+       inkscape:isstock="true"
+       inkscape:collect="always">
+      <path
+         id="path4179"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1;fill:#000000;fill-opacity:1"
+         transform="scale(0.8) rotate(180) translate(12.5,0)" />
+    </marker>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.4"
+     inkscape:cx="112.83277"
+     inkscape:cy="25.600753"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:snap-bbox="true"
+     inkscape:bbox-paths="true"
+     inkscape:bbox-nodes="true"
+     inkscape:snap-bbox-midpoints="true"
+     inkscape:window-width="2558"
+     inkscape:window-height="1364"
+     inkscape:window-x="0"
+     inkscape:window-y="15"
+     inkscape:window-maximized="0">
+    <inkscape:grid
+       type="xygrid"
+       id="grid3336" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#b8d1ff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4138"
+       width="138.62946"
+       height="59.258911"
+       x="311"
+       y="52.732746" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:20px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="324.18457"
+       y="89.510643"
+       id="text4144"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4146"
+         x="324.18457"
+         y="89.510643">Aggregator</tspan></text>
+    <rect
+       y="223.3622"
+       x="271"
+       height="342.88705"
+       width="458"
+       id="rect4161"
+       style="fill:#b8d1ff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <rect
+       y="403.36221"
+       x="321"
+       height="37.999985"
+       width="198"
+       id="rect5960"
+       style="fill:#ceacab;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.99999988;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <rect
+       style="fill:#ceacab;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.99999988;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect5958"
+       width="198"
+       height="37.999985"
+       x="311"
+       y="393.36221" />
+    <rect
+       y="383.36221"
+       x="301"
+       height="37.999985"
+       width="198"
+       id="rect5956"
+       style="fill:#ceacab;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.99999988;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <text
+       sodipodi:linespacing="125%"
+       id="text4163"
+       y="249.81825"
+       x="366.7041"
+       style="font-style:normal;font-weight:normal;font-size:20px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       xml:space="preserve"><tspan
+         y="249.81825"
+         x="366.7041"
+         id="tspan4165"
+         sodipodi:role="line">Live Reduction Cluster</tspan></text>
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;marker-end:url(#Arrow1Mend)"
+       d="m 390,122.3622 0,85"
+       id="path4170"
+       inkscape:connector-curvature="0" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:15px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="408.35205"
+       y="143.75868"
+       id="text4478"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4480"
+         x="408.35205"
+         y="143.75868"
+         style="fill:#ff0000;fill-opacity:1">10^7 neutron events per second</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:15px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="408.35205"
+       y="163.75868"
+       id="text4501"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4503"
+         x="408.35205"
+         y="163.75868">1 neutron event ~ 16 Byte of data</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:15px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="408.35205"
+       y="183.49501"
+       id="text4505"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4507"
+         x="408.35205"
+         y="183.49501">10^7 neutrons/s ~ 160 MByte/s</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:15px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="279.17236"
+       y="313.7587"
+       id="text4509"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4511"
+         x="279.17236"
+         y="313.7587">data reduction typically needs more than a single copy</tspan><tspan
+         sodipodi:role="line"
+         x="279.17236"
+         y="332.5087"
+         id="tspan4513">=&gt; 3x (if we try hard) to 10x (more realistic) more memory</tspan><tspan
+         sodipodi:role="line"
+         x="279.17236"
+         y="351.2587"
+         id="tspan5944">=&gt; <tspan
+   style="fill:#ff0000;fill-opacity:1"
+   id="tspan5946">0.5 to 2 GByte/s</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:15px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="278.41064"
+       y="319.2421"
+       id="text4515"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4517"
+         x="278.41064"
+         y="319.2421" /></text>
+    <g
+       id="g5104"
+       transform="translate(-120,-39.999993)">
+      <rect
+         style="fill:#b8d1ff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect4522"
+         width="138"
+         height="77.999985"
+         x="151"
+         y="263.36221" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:20px;line-height:125%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         x="219.87305"
+         y="297.31827"
+         id="text4524"
+         sodipodi:linespacing="125%"><tspan
+           sodipodi:role="line"
+           id="tspan4526"
+           x="219.87305"
+           y="297.31827">Filesystem</tspan><tspan
+           id="tspan4528"
+           sodipodi:role="line"
+           x="219.87305"
+           y="322.31827">&quot;disk&quot;</tspan></text>
+    </g>
+    <path
+       inkscape:connector-curvature="0"
+       id="path4536"
+       d="m 340.71429,123.18504 -160,75"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker4538)"
+       sodipodi:nodetypes="cc" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path4884"
+       d="m 499.97829,582.3622 0,85"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker4886)" />
+    <g
+       id="g7156"
+       transform="translate(-10.000015,-10.000024)">
+      <rect
+         y="693.36218"
+         x="370.99997"
+         height="78.000046"
+         width="238.00005"
+         id="rect5046"
+         style="fill:#b8d1ff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.99999976;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text5048"
+         y="727.87976"
+         x="489.44336"
+         style="font-style:normal;font-weight:normal;font-size:20px;line-height:125%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           y="727.87976"
+           x="489.44336"
+           sodipodi:role="line"
+           id="tspan5052">Live view &amp; interaction</tspan><tspan
+           id="tspan6626"
+           y="752.87976"
+           x="489.44336"
+           sodipodi:role="line">with reduction</tspan></text>
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:15px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="319.24927"
+       y="271.85928"
+       id="text5058"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan5060"
+         x="319.24927"
+         y="271.85928"
+         style="font-size:12.5px">&quot;Cluster' = collection of compute nodes, e.g.,</tspan><tspan
+         sodipodi:role="line"
+         x="319.24927"
+         y="287.48428"
+         id="tspan5064"
+         style="font-size:12.5px">a system with 2 CPUs and some RAM (main memory)</tspan><tspan
+         sodipodi:role="line"
+         x="319.24927"
+         y="303.10928"
+         id="tspan5066"
+         style="font-size:12.5px" /><tspan
+         sodipodi:role="line"
+         x="319.24927"
+         y="318.73428"
+         id="tspan5062"
+         style="font-size:12.5px" /></text>
+    <rect
+       style="fill:#ceacab;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.99999988;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect5056"
+       width="198"
+       height="37.999985"
+       x="291"
+       y="373.36221" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:15px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="303.83423"
+       y="397.95425"
+       id="text5068"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan5070"
+         x="303.83423"
+         y="397.95425">1 node = 1k to 5k EUR </tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:15px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="279.01123"
+       y="474.2421"
+       id="text5076"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan5078"
+         x="279.01123"
+         y="474.2421">Example: <tspan
+   style="fill:#ff0000;fill-opacity:1"
+   id="tspan7162">10 nodes</tspan>, 256 GB RAM each</tspan><tspan
+         sodipodi:role="line"
+         x="279.01123"
+         y="492.9921"
+         id="tspan5080">=&gt;  2.6 TByte</tspan><tspan
+         sodipodi:role="line"
+         x="279.01123"
+         y="511.7421"
+         id="tspan5082">Neutron data:</tspan><tspan
+         sodipodi:role="line"
+         x="279.01123"
+         y="530.49207"
+         id="tspan5084">0.5 to 2 GByte/s</tspan><tspan
+         sodipodi:role="line"
+         x="279.01123"
+         y="549.24207"
+         id="tspan5086">=&gt; out of memory after <tspan
+   style="fill:#ff0000;fill-opacity:1"
+   id="tspan4390">20 to 80 minutes</tspan></tspan></text>
+    <g
+       id="g5093"
+       transform="translate(-0.62945557,-70.629453)">
+      <rect
+         style="fill:#b8d1ff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect5095"
+         width="138.62946"
+         height="59.258911"
+         x="311"
+         y="52.732746" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:20px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         x="324.18457"
+         y="89.510643"
+         id="text5097"
+         sodipodi:linespacing="125%"><tspan
+           sodipodi:role="line"
+           id="tspan5099"
+           x="324.18457"
+           y="89.510643">Instrument</tspan></text>
+    </g>
+    <rect
+       style="fill:#ceacab;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.99999988;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect5962"
+       width="198"
+       height="37.999985"
+       x="321"
+       y="403.36221" />
+    <rect
+       y="393.36221"
+       x="311"
+       height="37.999985"
+       width="198"
+       id="rect5964"
+       style="fill:#ceacab;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.99999988;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <rect
+       style="fill:#ceacab;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.99999988;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect5966"
+       width="198"
+       height="37.999985"
+       x="301"
+       y="383.36221" />
+    <rect
+       y="373.36221"
+       x="291"
+       height="37.999985"
+       width="198"
+       id="rect5968"
+       style="fill:#ceacab;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.99999988;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <text
+       sodipodi:linespacing="125%"
+       id="text5970"
+       y="397.95425"
+       x="296.89087"
+       style="font-style:normal;font-weight:normal;font-size:15px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       xml:space="preserve"><tspan
+         y="397.95425"
+         x="296.89087"
+         id="tspan5972"
+         sodipodi:role="line">1 node = <tspan
+   id="tspan4386"
+   style="fill:#ff0000;fill-opacity:1"> 5k to 10k EUR</tspan></tspan></text>
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker6636)"
+       d="m 449.97829,675.00226 0,-85"
+       id="path6634"
+       inkscape:connector-curvature="0" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path7188"
+       d="m 185.36548,307.48171 68.47939,50.35448"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:4, 4;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#marker7190)" />
+    <rect
+       style="fill:#d2f0b4;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect8148"
+       width="838"
+       height="538.00006"
+       x="-39"
+       y="803.36218" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:20px;line-height:125%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="369.83398"
+       y="834.0321"
+       id="text8150"
+       sodipodi:linespacing="125%"><tspan
+         id="tspan8154"
+         sodipodi:role="line"
+         x="369.83398"
+         y="834.0321">Solutions / Tradeoffs</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:15px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="0.043952942"
+       y="863.75867"
+       id="text8170"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="0.043952942"
+         y="863.75867"
+         id="tspan8188">Two aspects to consider:</tspan><tspan
+         sodipodi:role="line"
+         x="0.043952942"
+         y="882.50867"
+         id="tspan4342">1. <tspan
+   style="fill:#ff0000;fill-opacity:1"
+   id="tspan4346">keeping historical events</tspan> somewhere (events older than a few minutes)</tspan><tspan
+         sodipodi:role="line"
+         x="0.043952942"
+         y="901.25867"
+         id="tspan4344">2. <tspan
+   style="fill:#ff0000;fill-opacity:1"
+   id="tspan4358">re-processing historical events</tspan> on demand (change reduction script, re-bin everything, ...)</tspan><tspan
+         sodipodi:role="line"
+         x="0.043952942"
+         y="920.00867"
+         id="tspan8180"> </tspan></text>
+    <rect
+       y="1063.3622"
+       x="81"
+       height="138.00005"
+       width="598"
+       id="rect4392"
+       style="fill:#9de050;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.99999988;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:15px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="93.55468"
+       y="1090.8917"
+       id="text4260"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4262"
+         x="93.55468"
+         y="1090.8917"
+         style="font-size:20px;fill:#000000;fill-opacity:1">Software-based (compromise):</tspan><tspan
+         sodipodi:role="line"
+         x="93.55468"
+         y="1110.908"
+         id="tspan4264">1. drop old events</tspan><tspan
+         sodipodi:role="line"
+         x="93.55468"
+         y="1129.658"
+         id="tspan4266">2. reduce statistics for old events</tspan><tspan
+         sodipodi:role="line"
+         x="93.55468"
+         y="1148.408"
+         id="tspan4268">3. keep only reduced data, e.g., I(Q,t) with certain time resolution</tspan><tspan
+         sodipodi:role="line"
+         x="93.55468"
+         y="1167.158"
+         id="tspan5309">4. any fancy scheme we can think of for a specific reduction type</tspan><tspan
+         sodipodi:role="line"
+         x="93.55468"
+         y="1185.908"
+         id="tspan4270">All of these <tspan
+   style="fill:#ff0000;fill-opacity:1"
+   id="tspan5445">limit options and flexibility</tspan> -- but may be <tspan
+   style="fill:#ff0000;fill-opacity:1"
+   id="tspan5474">perfect for some cases</tspan></tspan></text>
+    <g
+       id="g4408"
+       transform="translate(160,-180.00001)">
+      <rect
+         y="1123.3622"
+         x="-179"
+         height="98.000046"
+         width="798"
+         id="rect4406"
+         style="fill:#9de050;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text4284"
+         y="1149.6417"
+         x="-171.24512"
+         style="font-style:normal;font-weight:normal;font-size:15px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-size:20px;fill:#000000;fill-opacity:1"
+           y="1149.6417"
+           x="-171.24512"
+           id="tspan4286"
+           sodipodi:role="line">Buy more nodes for reduction cluster ($$$):</tspan><tspan
+           id="tspan4288"
+           y="1169.658"
+           x="-171.24512"
+           sodipodi:role="line">1. more RAM =&gt; longer event retention</tspan><tspan
+           id="tspan4292"
+           y="1188.408"
+           x="-171.24512"
+           sodipodi:role="line">2. more compute power =&gt; can afford more re-processing of historical events</tspan><tspan
+           id="tspan4296"
+           y="1207.158"
+           x="-171.24512"
+           sodipodi:role="line">3. may be &quot;limited&quot; to 10s or 100s of nodes, depending on instrument, more may slow down processing</tspan></text>
+    </g>
+    <g
+       id="g5351">
+      <rect
+         style="fill:#9de050;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect4404"
+         width="738"
+         height="98.000046"
+         x="1"
+         y="1223.3622" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text4302"
+         y="1249.0167"
+         x="11.988525"
+         style="font-style:normal;font-weight:normal;font-size:15px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           y="1249.0167"
+           x="11.988525"
+           id="tspan4304"
+           sodipodi:role="line"><tspan
+             id="tspan4312"
+             style="font-size:20px">Load historical events from disk when needed ($$$, compromise):</tspan></tspan><tspan
+           id="tspan4308"
+           y="1269.033"
+           x="11.988525"
+           sodipodi:role="line">1. do not have more nodes for processing =&gt; limited computed power for re-processing</tspan><tspan
+           id="tspan4310"
+           y="1287.783"
+           x="11.988525"
+           sodipodi:role="line">2. reading from disk is slow =&gt; potentially very high cost if we require IO-speed &gt;&gt; event-rate</tspan><tspan
+           id="tspan5349"
+           y="1306.533"
+           x="11.988525"
+           sodipodi:role="line">3. IO speed will limit the number of use cases where is is useful</tspan><tspan
+           id="tspan4306"
+           y="1325.283"
+           x="11.988525"
+           sodipodi:role="line" /></text>
+    </g>
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot4332"
+       style="fill:black;stroke:none;stroke-opacity:1;stroke-width:1px;stroke-linejoin:miter;stroke-linecap:butt;fill-opacity:1;font-family:sans-serif;font-style:normal;font-weight:normal;font-size:15px;line-height:125%;letter-spacing:0px;word-spacing:0px"><flowRegion
+         id="flowRegion4334"><rect
+           id="rect4336"
+           width="30"
+           height="50"
+           x="-40"
+           y="572.36218" /></flowRegion><flowPara
+         id="flowPara4338"></flowPara></flowRoot>    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)"
+       d="m 7.9884044,1237.8437 c 0,0 -213.7026944,-575.4815 166.2973056,-875.4815"
+       id="path4463"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <path
+       sodipodi:nodetypes="cc"
+       inkscape:connector-curvature="0"
+       id="path4547"
+       d="m 733.75358,978.63208 c 0,0 246.24642,-476.26988 -196.64332,-563.72075"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#marker4549)" />
+  </g>
+</svg>
