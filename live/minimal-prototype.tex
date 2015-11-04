@@ -1,0 +1,198 @@
+\documentclass[a4paper,english,numbers=noenddot,bibliography=totoc,chapterprefix=on,DIV=12]{scrartcl}
+
+\usepackage[utf8x]{inputenc}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{amssymb,amsmath}
+\usepackage{enumitem}
+\usepackage{bookmark,hyperref}
+\usepackage{multirow}
+\usepackage[labelfont=bf,font=small]{caption}
+\usepackage[font=footnotesize]{subcaption}
+\usepackage{rotating}
+
+\usepackage{subcaption}
+\usepackage{tabularx}
+
+\setcapindent{0mm}
+
+% boldmath in headings and toc, but not headers
+\def\bfseries{\fontseries \bfdefault \selectfont \boldmath}
+
+%allows footnotes in tabular
+\usepackage{footnote}
+\makesavenoteenv{tabular}
+
+% avoid space issues after macro
+\usepackage{xspace}
+\newcommand{\tof}{TOF\xspace}
+\newcommand{\epics}{EPICS\xspace}
+\newcommand{\mantid}{\texttt{Mantid}\xspace}
+\newcommand{\python}{\texttt{Python}\xspace}
+\newcommand{\zmq}{\texttt{ZeroMQ}\xspace}
+
+
+
+\begin{document}
+
+\title{Experiment Control and Live Reduction: Minimal Prototype}
+\author{Simon Heybrock\\
+    {\small\href{mailto:simon.heybrock@esss.se}{\nolinkurl{simon.heybrock@esss.se}}}}
+
+\maketitle
+
+\tableofcontents
+
+
+\section{Motivation}
+
+\begin{itemize}
+  \item Create a prototype of the various software components for experiment control and live reduction and their interaction.
+  \item Identify potential issues at an early stage before creating a more heave-weight system.
+  \item Model \emph{setup} and \emph{interaction} of various components, \emph{not} performance issues.
+    Modelling performance issues would require considerably more effort for creating a realistic test case.
+\end{itemize}
+
+
+\section{Components}
+
+We need to model the following components, which are part of the scope of DMSC-Instrument-Data:
+\begin{enumerate}
+  \item Receive an event stream.
+    \begin{itemize}
+      \item Stream creation is out of our scope, but we need to implement a fake event streamer.
+    \end{itemize}
+  \item Distribute event stream to all MPI ranks of a Mantid back end.
+    \begin{itemize}
+      \item It is currently unclear how to deal with receiving the stream on multiple MPI ranks, where each rank needs only a certain subset of the stream.
+      \item For now, let us assume that the streamer is not aware of the split, i.e., there is only a single stream.
+      \item Thus, we need a single listener for the stream, which then splits and redistributes it to all MPI ranks on the Mantid back end.
+    \end{itemize}
+  \item Run reduction of event stream data on a Mantid back end.
+    \begin{itemize}
+      \item The minimal implementation of this is a fixed reduction script that cannot be modified or accept new parameters while it is running.
+      \item Assuming we have a reduction script that can be run in parallel with MPI there is nothing to do here, we just use something like
+        \begin{verbatim}
+mpirun -n 16 mpipython reduction.py
+        \end{verbatim}
+    \end{itemize}
+  \item Display and update reduction results.
+    \begin{itemize}
+      \item This implies that we need to transfer the reduction results from the back end to the front end.
+      \item The simplest solution, which might be enough for this test, would be to simply let the back end store the results on a network file system and load them on the front end.
+        For the very first test this would probably be enough.
+      \item Plotting could be done with \texttt{gnuplot} or a \texttt{Python} library.
+    \end{itemize}
+  \item Control experiment.
+    \begin{itemize}
+      \item The instrument/experiment is out of our scope.
+      \item Basically we want to change a parameter, say the temperature $T$, and see the influence on the data.
+      \item The simplest solution would be to change a parameter of the fake event streamer.
+        The streamer would then change the distribution of events, which in turn should become visible in the reduction results.
+      \item Using \epics for this seems to be the obvious choice.
+    \end{itemize}
+\end{enumerate}
+
+
+\section{Detailed requirements}
+
+\begin{itemize}
+  \item The event streamer is out of our scope, so we assume it is running (start fake event streamer manually).
+  \item The fake event streamer must be able to register and de-register a (single) listener and stream event data to it (on request).
+  \item The control front end must be able to modify a parameter of the event streamer.
+  \item The control front end must be able to start the back end.
+  \item The back end must run with MPI (at least 2 ranks).
+  \item The back end must provide reduced data for visualization.
+  \item The listener must register with the fake event streamer and receive events from it.
+  \item The listener must split the event stream and distribute it to all MPI ranks of the back end.
+  \item There must be a visualization of the reduced data that updates automatically.
+\end{itemize}
+
+
+\section{Implementation thoughts}
+
+\subsection{Fake event streamer}
+
+\begin{itemize}
+  \item Should understand \epics.
+  \item Base it on \python, so we can use \texttt{pyepics}.
+  \item To keep it simple, we do not want to have to deal with an actual instrument or creating realistic data.
+    We could, e.g., create an event distribution with Gaussian peaks at different \tof in each pixel.
+    Changing temperature could influence with width of the peaks.
+\end{itemize}
+
+\subsection{Listener}
+
+\begin{itemize}
+  \item Should this be one of the ranks on the back end?
+\end{itemize}
+
+\subsection{Reduction script}
+
+\begin{itemize}
+  \item Should produce 1D data, such that it is easy to plot.
+  \item For this test, we are not interested in anything related to neutrons or neutron detectors.
+    Just keep it as simple as possible, but still model the behavior of a reduction distributed on a cluster:
+    \begin{itemize}
+      \item split and distribute event stream to all ranks
+      \item some algorithms that can be omitted for these tests
+      \item gather data on a single rank
+      \item store result or send it to front end
+    \end{itemize}
+  \item Use an algorithm that simply sums all spectra, like \texttt{DiffractionFocussing}?
+  \item Write reduction result to network file system.
+  \item Should we overwrite existing files?
+    Keep doing this at a low frequency (say 1 to 10 seconds) and we have a simple mechanism of updating, if we re-plot periodically.
+\end{itemize}
+
+\subsection{Back end}
+
+\begin{itemize}
+  \item Does it make sense to use something simpler than \mantid here for initial tests?
+    That is, a simple \python-based fake back end.
+\end{itemize}
+
+\subsection{Control front end}
+
+\begin{itemize}
+  \item Use a \python console for initial tests?
+\end{itemize}
+
+\subsection{Visualization front end}
+
+\begin{itemize}
+  \item \python plotting library or \texttt{gnuplot} that reads output file from network file system every few seconds.
+\end{itemize}
+
+
+\section{Implementation}
+
+The following obstacles and subtleties were encountered during the early implementation phase.
+This is an important result, since we have to keep all this in mind when designing the final system.
+
+\begin{itemize}
+  \item MPI based back end processes data: packets from event stream put into a queue, processed one by one.
+    If we change a parameter (such as bin sizes), it is critical to sure that \emph{all MPI ranks change it at exactly the same packet}.
+  \item We (may) use MPI for various things:
+    \begin{itemize}
+      \item re-distribution of the event stream to all ranks
+      \item communication of the ranks during Mantid reduction (potentially multiple independent parts of the reduction!)
+      \item gathering of final results
+      \item sending commands to all ranks (e.g., for changing a bin parameter)
+    \end{itemize}
+    It seemed to be of advantage to have a separate thread for each of these, however, MPI calls from several threads can be slower or interfere with each other (currently it is not clear to me if and how this works with the MPI implementations for Python).
+    It may be of advantage to avoid MPI calls from multiple threads.
+  \item Where should we buffer the event stream?
+    Since this is a big amount of data, this should probably be done on the back end, distributed on all nodes.
+    How do we do this, but still keep MPI communication restricted to a single thread?
+  \item Python's GIL (global interpreter lock) may make the \texttt{threading} module inefficient for our purposes, consider \texttt{multiprocessing}.
+  \item The Python \texttt{multiprocessing} module does not seem to work out of the box with \texttt{mpi4py} --- probably \texttt{MPI\_Init} is called only once, so MPI calls from different processing are interfering?
+  \item Adding \texttt{EventWorkspaces} does not also add the histograms --- calling \texttt{readY()} after an add operation will cause a re-binning.
+    This is important when keeping all events.
+    The solution is to keep two separate workspaces: on for events, one for the histogram.
+  \item \zmq's PUB/SUB probably is not reliable enough for broadcasting commands --- even at a low rate, etc.
+  \item \zmq's PUSH/PULL for broadcasting commands: I understood that it should to round-robin, so pushing the same packet once for each client might be a solution.
+    However, this does not seem to work reliably either, at least on a system with heavy load.
+\end{itemize}
+
+\end{document}
