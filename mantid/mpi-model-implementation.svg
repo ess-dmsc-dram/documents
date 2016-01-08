@@ -144,17 +144,17 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.979899"
-     inkscape:cx="443.63789"
-     inkscape:cy="747.41407"
+     inkscape:cx="586.82215"
+     inkscape:cy="804.48769"
      inkscape:document-units="px"
      inkscape:current-layer="layer2"
-     showgrid="false"
+     showgrid="true"
      inkscape:snap-bbox="true"
      inkscape:bbox-paths="true"
      inkscape:bbox-nodes="true"
      inkscape:snap-bbox-midpoints="true"
      inkscape:window-width="2511"
-     inkscape:window-height="1380"
+     inkscape:window-height="1450"
      inkscape:window-x="0"
      inkscape:window-y="31"
      inkscape:window-maximized="1"
@@ -171,7 +171,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -619,7 +619,9 @@
          sodipodi:role="line"
          x="520"
          y="174.95985"
-         id="tspan16166">    exec();</tspan><tspan
+         id="tspan16166">    exec(<tspan
+   style="fill:#ff0000;fill-opacity:1"
+   id="tspan4318">executionMode</tspan>);</tspan><tspan
          sodipodi:role="line"
          x="520"
          y="187.45985"
@@ -858,5 +860,57 @@
            x="244.71924"
            y="342.95422">Scale</tspan></text>
     </g>
+    <text
+       sodipodi:linespacing="125%"
+       id="text4339"
+       y="249.95985"
+       x="520"
+       style="font-style:normal;font-weight:normal;font-size:10px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       xml:space="preserve"><tspan
+         y="249.95985"
+         x="520"
+         id="tspan4341"
+         sodipodi:role="line"
+         style="font-size:7.5px">Algorithm::exec(ExecutionMode m) {</tspan><tspan
+         style="fill:#000000;fill-opacity:1;font-size:7.5px"
+         id="tspan4349"
+         y="262.45984"
+         x="520"
+         sodipodi:role="line">    if(m == StorageMode::Distributed)</tspan><tspan
+         style="fill:#000000;fill-opacity:1;font-size:7.5px"
+         y="274.95984"
+         x="520"
+         sodipodi:role="line"
+         id="tspan4361">        return exec();</tspan><tspan
+         style="fill:#000000;fill-opacity:1;font-size:7.5px"
+         y="287.45984"
+         x="520"
+         sodipodi:role="line"
+         id="tspan4363">    if(m == StorageMode::MasterOnly)</tspan><tspan
+         style="fill:#000000;fill-opacity:1;font-size:7.5px"
+         y="299.95984"
+         x="520"
+         sodipodi:role="line"
+         id="tspan4365">        if(MPI_rank == 0)</tspan><tspan
+         style="fill:#000000;fill-opacity:1;font-size:7.5px"
+         y="312.45984"
+         x="520"
+         sodipodi:role="line"
+         id="tspan4367">            return exec();</tspan><tspan
+         style="fill:#000000;fill-opacity:1;font-size:7.5px"
+         y="324.95984"
+         x="520"
+         sodipodi:role="line"
+         id="tspan4369">    [...]</tspan><tspan
+         id="tspan4351"
+         y="337.45984"
+         x="520"
+         sodipodi:role="line"
+         style="font-size:7.5px">}</tspan><tspan
+         id="tspan4353"
+         y="349.95984"
+         x="520"
+         sodipodi:role="line"
+         style="font-size:7.5px" /></text>
   </g>
 </svg>
