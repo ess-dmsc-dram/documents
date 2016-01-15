@@ -2,10 +2,16 @@
 
 ## Motivation
 
+Current neutron facilities are pushing Mantid to its usability limits, performance and memory-consumption wise. Latest with ESS going into operation we will reach the point where running Mantid on a single computer is not feasible anymore.
+
+A certain amount of work has been put into Mantid MPI support previously, but the scope and spread are so far limited.
+
+Data reduction generally seems to be a good target for parallelization across many computers, since many parts of the problem are only loosely coupled.
+
 
 ## Current status
 
-- Support for certain workflows (in particular `SNSPowderReduction`).
+- Support for certain work flows (in particular `SNSPowderReduction`).
 - Requires special preparation of reduction script.
 
 
@@ -23,9 +29,11 @@
 
 Generally, algorithms deal with large number of spectra (or event lists) that are being processed serially (or partially in parallel when threading is implemented). The key to the proposed design is, that **many algorithms treat all spectra independently**. Thus it is in many cases efficient to put different spectra on different MPI ranks. We choose this as the basic concept for the MPI design.
 
-Data corresponding to a workspace may be stored in different ways across MPI ranks. We logically think of a single workspace, even if it is spread out to many MPI ranks (and thus technically we have an instance of a workspace on each rank). We refer to this as *storage mode* of a workspace.
+The basics of the proposed design are quite simple. We need to add just two new concepts which together facility running Mantid with MPI:
 
-Algorithms are executed in a way that depends on the storage mode of the input and possibly flag arguments to the algorithm. We refer to this as *execution mode* of an algorithm. The storage mode of all output workspaces is determined and set by the algorithm.
+1. Data corresponding to a workspace may be stored in different ways across MPI ranks. We logically think of a single workspace, even if it is spread out to many MPI ranks (and thus technically we have an instance of a workspace on each rank). We refer to this as *storage mode* of a workspace.
+
+2. Algorithms are executed in a way that depends on the storage mode of the input workspaces and possibly flag arguments to the algorithm. We refer to this as *execution mode* of an algorithm. The storage mode of all output workspaces is determined and set by the algorithm.
 
 ### Implementation
 
@@ -40,7 +48,7 @@ The following basic changes are required:
   * Optional flags (this should be used as little as possible, since it will basically require from script authors to know about MPI).
 - Possible execution modes are:
   * `ExecutionMode::Invalid` Indicates a state where execution is not possible. This should not happen in normal operation and is used for reporting errors.
-  * `ExecutionMode::Serial` Serial execution (non-MPI build MPI build with single rank).
+  * `ExecutionMode::Serial` Serial execution (non-MPI build or MPI build with single rank).
   * `ExecutionMode::Identical` Independent execution in the same way on each rank.
   * `ExecutionMode::Distributed` Distributed execution, may involve communication.
   * `ExecutionMode::MasterOnly` Execution only on the master rank.
@@ -52,7 +60,7 @@ In the proposed design the implementation is almost trivial for most algorithms.
 
 Most algorithms are "trivially parallel", i.e., they treat all spectra independently. As a consequence we could run them with `ExecutionMode::Distributed` without any changes. However, making this possible as a default is risky, because then we would need to make really sure to modify all algorithms that are not "trivial". Therefore, we propose:
 
-- In the default implementation an algorithm does not support parallel execution. It will throw an error when attempting this. This will also allows us to do a "guided" port of existing algorithms: We can run a reduction script with MPI, see where it fails, port the failing algorithm for MPI, and repeat.
+- In the default implementation an algorithm does not support parallel execution. It will throw an error when attempting this. This will also allow us to do a "guided" port of existing algorithms: We can run a reduction script with MPI, see where it fails, port the failing algorithm for MPI, and repeat.
 - To ease porting "trivially parallel" algorithms, we introduce a new base class `TriviallyParallelAlgorithm`. When a developer has convinced himself that an algorithm has no features that would require changes for parallel execution, he can modify it to inherit from `TriviallyParallelAlgorithm` instead of from `Algorithm`.
 
 This approach is minimally invasive and reasonably safe.
@@ -61,7 +69,8 @@ This approach is minimally invasive and reasonably safe.
 
 Further notes:
 
-- Even if a workspace has `StorageMode::MasterOnly`, the workspace will still exist on all ranks. Data in the workspace on non-master will be ignored. If we would not have a workspace on all ranks, we would not be able to run reduction scripts without modification. The alternative would be to have the workspace only on the master rank. Then all reduction scripts that at some point have workspaces with `StorageMode::MasterOnly` would need to have branches, e.g., something like
+- Even if a workspace has `StorageMode::MasterOnly`, the workspace will still exist on all ranks. Data in the workspaces on non-master ranks will be ignored. If we would not have a workspace on all ranks, we would not be able to run reduction scripts without modification. The alternative would be to have the workspace only on the master rank. Then all reduction scripts that at some point have workspaces with `StorageMode::MasterOnly` would need to have branches, e.g., something like
+
   ```python
   if MPI::getRank() == MPI::getMasterRank():
       # Algorithms that should run only on the master rank
@@ -71,13 +80,18 @@ Further notes:
 
 ## Mantid components with special design requirements
 
-### `MDWorkspace`
+### MDWorkspace
 
 `MDWorkspace` is not based on a discrete list of spectra, but a multi-dimensional volume. We can parallelize this with MPI by cutting the volume into blocks (not necessarily contiguous). There is no fundamental problem with this, however there are quite a few subtleties and aspects that require a significant effort to implement.
 
 - There are transitions from `Workspace` to `MDWorkspace`, e.g., when events are inserted into an `MDWorkspace`, so the MPI design must be able to support both in the same run.
 - Not all coordinates in an `MDWorkspace` are necessarily equal. Computationally, there may be a stronger coupling along certain directions in the volume, e.g., λ vs. Q.
 - The volume does not have a simple structure: The relevant volume is often not cubic, and there are regions of high and low density. As a consequence we need to be able to split the volume in a very flexible way to balance the load, and probably also need to be able to redistribute on the fly.
+- In summary, we need the following:
+  * A ways to split an `MDGridBox`.
+  * Partitioning strategies and algorithms.
+  * Redistribution of `MDGridBox`, i.e., a ways to move remove a specific box from the workspace on one rank and add it on another.
+  * A solution for load balancing, both static (i.e., at startup) and dynamic (i.e., during a run, when large load imbalance occurs).
 
 ### Monitors
 
@@ -109,7 +123,7 @@ The most efficient way to read a file is in big blocks. We can do this in parall
 
 ### Saving
 
-Many save operations deal with small data, so this can simply be done from the master rank. However, there will also be large data to save, e.g., a processed event workspace. In that case we will need parallel writing. This is supported by HDF5 (the file format underlying Nexus). Basically we just need to gather more detailed requirements and figure out an implementation. This should pose no new problems for the MPI design, but will require some effort.
+Many save operations deal with small data, so this can simply be done from the master rank. However, there will also be large data to save, e.g., a processed event workspace. In that case we will need parallel writing. This is supported by HDF5 (the file format underlying Nexus). Basically we just need to gather more detailed requirements and figure out an implementation. This should pose no new problems for the MPI design as such, but will require some effort.
 
 ### Visualization
 
