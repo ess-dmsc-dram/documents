@@ -1,3 +1,5 @@
+**This document is as of now tracked in the Mantid document repository. Any further changes should be done here: https://github.com/mantidproject/documents/blob/master/Design/mpi-design.md.**
+
 # Mantid MPI support
 
 ## Motivation
@@ -148,7 +150,11 @@ It is unclear how interaction with MPI-based data reduction could work, maybe we
 
 ### Distribution
 
-How would we distribute MPI builds of Mantid? Unless we want to ship a specific MPI library with Mantid this does not make much sense. The specific library (implementation and maybe even version) has probably to to be known at compile- or latest link-time, and it is not of advantage to limit our users to specific MPI version. That is, we have two options:
+How would we distribute MPI builds of Mantid? Unless we want to ship a specific MPI library with Mantid this does not make much sense. The specific library (implementation and maybe even version) has probably to be known at compile- or latest link-time, and it is not of advantage to limit our users to specific MPI version. That is, we have two options:
 
 - Provide Mantid MPI builds linked with specific MPI version.
 - Provide Mantid MPI only as source.
+
+### Testing
+
+Setting up tests for an MPI implementation is a bit cumbersome. For unit tests the best way might be to mock all calls to the MPI library.
