@@ -34,3 +34,11 @@ Comments
   - For clearly defined things like "a virtual device", Docker seems like the way to go
   - For development environment or other complex software (the entire control system?), virtual machine may be more appropriate (system is closer to "actual computer")
   - Informed ICS about Docker-packaging in integration meeting, seemed interesting for them as well
+
+Decisions made
+--------------
+* Although aimed at similar problems, in the context of the current project, both technologies serve a useful purpose.
+* Vagrant will be used for generating images for development environments and projection environments (Nicos) (IBEX).
+* Docker will be used to containerize individual or groups of individual virtual devices.
+* For any hosted applications where interaction with a graphical user interface is required Vagrant will be used.
+
