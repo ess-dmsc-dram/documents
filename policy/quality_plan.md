@@ -47,6 +47,6 @@ quality requirements prior to production use. Prototypes should be version
 controlled in git, publically available, and provide good documentation
 for setup and execution.
 
-## 7 Quality
+## 7 Philosophy
 
-Given the long timeline for ESS transition into operation, we must absolutely ensure that any software development is of a sustainable and maintainable quality that allows for a long software lifetime. That is, quality should not be sacrificed for short-term solutions or for adding new features.
+Final deliverable dates are on very large timescales as far as usual software projects are concerned. Given the long timeline for ESS transition into operation, we must ensure that any software development is of a sustainable and maintainable quality that allows for a long software lifetime. Quality and stability should not be sacrificed for short-term solutions or for hasty additions of new features.
