@@ -1,10 +1,5 @@
 # Spectrum- and Detector-Info
 
-![](SPECTRUM_INFO_1.JPG)
-![](SPECTRUM_INFO_2.JPG)
-![](SPECTRUM_INFO_3.JPG)
-![](SPECTRUM_INFO_4.JPG)
-
 - What we previously labelled `GeometryDataArray` is quite similar to what is done for the new `Histogram` type.
   - For example, `class MaskFlags` contains: `cow_ptr<FixedLengthVector> m_data`
   - `class L2s` etc.
@@ -56,6 +51,11 @@
     }
   }
   ```
+
+![](SPECTRUM_INFO_1.JPG)
+![](SPECTRUM_INFO_2.JPG)
+![](SPECTRUM_INFO_3.JPG)
+![](SPECTRUM_INFO_4.JPG)
 
 ## Complex beam paths
 
@@ -134,10 +134,6 @@
 
 ## MPI support
 
-![](MPI_1.JPG)
-![](MPI_2.JPG)
-![](MPI_4.JPG)
-
 - If we keep the full instrument on each MPI rank, the instrument/geometry code does not scale (speed up) at all when the number of MPI ranks is increased.
   For example, we would always need to compute the full set of L2 distances in `DetectorInfo`.
   - Consequence: Must split up the instrument.
@@ -211,9 +207,11 @@
   - Receive temporary spectra from other ranks, based on `getRankForSpectrum` (based on *old* spectrum indices).
   - Sum up temporaries to obtain spectra for output workspace.
 
-### Finding parents
+![](MPI_1.JPG)
+![](MPI_2.JPG)
+![](MPI_4.JPG)
 
-![](mpi_parent_solution .JPG)
+### Finding parents
 
 How do we find parent indices in the current `InstrumentTree`?
 
@@ -239,10 +237,10 @@ How do we find parent indices in the current `InstrumentTree`?
   }
   ```
 
+![](mpi_parent_solution .JPG)
+
 
 # Flattened InstrumentTree
-
-![](new_node_design.JPG)
 
 The current instrument prototype requires a fair bit of pointer handling, in particular also during modifications.
 An alternative could be as follows:
@@ -275,12 +273,10 @@ class Node {
 - `const`-only access to components is still essential.
 - Modification mechanism is essentially the same (via `InstrumentTree::modify()`).
 
+![](new_node_design.JPG)
+
 
 # Step scans
-
-![](STEP_SCAN_1.JPG)
-![](STEP_SCAN_2.JPG)
-![](STEP_SCAN_3.JPG)
 
 How to get spectrum position?
 - Detector positions are time dependent.
@@ -333,9 +329,11 @@ How to implement this?
 - Do we need to be concerned about increased instrument size? We now have several additional vectors on each detector.
   - Probably not, since the corresponding event/histogram information will likewise be bigger for a moving instrument and the addition bytes for positions are not relevant.
 
-# Continuous scans
+![](STEP_SCAN_1.JPG)
+![](STEP_SCAN_2.JPG)
+![](STEP_SCAN_3.JPG)
 
-![](CONTINUOUS_SCAN_1.JPG)
+# Continuous scans
 
 - Consider spectra as fixed in space (as for the step scan), detectors move through these positions.
 - Cannot go straight to spectrum, otherwise we cannot to detector-dependent normalization.
@@ -344,3 +342,5 @@ How to implement this?
   - Define length scale, corresponding to with of band in diagram.
   - Transform into spectra (basically this is a transformation into a fine-grained step scan).
 - Or just keep everything in an `MDEventWorkspace`, to keep it truly continuous.
+
+![](CONTINUOUS_SCAN_1.JPG)
