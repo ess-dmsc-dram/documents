@@ -1,5 +1,10 @@
 # Spectrum- and Detector-Info
 
+![](SPECTRUM_INFO_1.JPG)
+![](SPECTRUM_INFO_2.JPG)
+![](SPECTRUM_INFO_3.JPG)
+![](SPECTRUM_INFO_4.JPG)
+
 - What we previously labelled `GeometryDataArray` is quite similar to what is done for the new `Histogram` type.
   - For example, `class MaskFlags` contains: `cow_ptr<FixedLengthVector> m_data`
   - `class L2s` etc.
@@ -122,6 +127,10 @@
 
 ## MPI support
 
+![](MPI_1.JPG)
+![](MPI_2.JPG)
+![](MPI_4.JPG)
+
 - If we keep the full instrument on each MPI rank, the instrument/geometry code does not scale (speed up) at all when the number of MPI ranks is increased.
   For example, we would always need to compute the full set of L2 distances in `DetectorInfo`.
   - Consequence: Must split up the instrument.
@@ -197,6 +206,8 @@
 
 ### Finding parents
 
+![](mpi_parent_solution .JPG)
+
 How do we find parent indices in the current `InstrumentTree`?
 
 - Extend `InstrumentTree`:
@@ -260,6 +271,8 @@ class Node {
 
 # Step scans
 
+![](STEP_SCAN_1.JPG)
+![](STEP_SCAN_2.JPG)
 ![](STEP_SCAN_3.JPG)
 
 How to get spectrum position?
