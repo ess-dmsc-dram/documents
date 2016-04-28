@@ -8,7 +8,9 @@
 - What we previously labelled `GeometryDataArray` is quite similar to what is done for the new `Histogram` type.
   - For example, `class MaskFlags` contains: `cow_ptr<FixedLengthVector> m_data`
   - `class L2s` etc.
-- ```cpp
+- `DetectorInfo`:
+
+  ```cpp
   class DetectorInfo {
     private:
       InstrumentTree m_tree;
@@ -34,7 +36,9 @@
   ```
 - `SpectrumInfo` and `DetectorInfo` can share, e.g., the same `MaskFlags`. Correctness would be enforced by implicit size check by `FixedLengthVector`.
 - Need a type `Spectrum`, storing a vector of detector indices.
-- ```cpp
+- `SpectrumInfo`:
+
+  ```cpp
   SpectrumInfo::getL2(size_t index) {
     if(!m_l2s)
       initL2();
@@ -58,7 +62,8 @@
 - Add:
   - `class PathComponent`
   - `class Path` ordered list of indices referring to `PathComponent` in `InstrumentTree`
-- ```cpp
+- `InstrumentTree`:
+  ```cpp
   class InstrumentTree {
     std::vector<Detector *> m_detectors; // as we have currently
     // new, does not include detectors!
@@ -66,7 +71,8 @@
   };
   ```
 
-- ```cpp
+- `PathComponent`:
+  ```cpp
   class PathComponent : public Component {
     // Internal scattering length, e.g., arc length of guide, could be computed
     // in a complex way, in the most extreme case by actual ray tracing.
@@ -81,7 +87,8 @@
   };
   ```
 
-- ```cpp
+- `Path`:
+  ```cpp
   class Path {
     // Index into vector of InstrumentTree (see above)
     // Need to make sure to rebuild this when InstrumentTree is invalidated
@@ -283,7 +290,9 @@ How to get spectrum position?
 How to implement this?
 - A workspace now has roughly `nDetector * nTimePositions` spectra (assuming no grouping).
 - Average over posititions of all detectors, by querying detector position for given time.
-- ```cpp
+
+- Extend detector:
+  ```cpp
   class MovableDetector {
   private:
     // As before
@@ -305,7 +314,9 @@ How to implement this?
       return findBestMatchingTimeIndex(time);
     }
   ```
-- ```cpp
+
+- Extend spectrum:
+  ```cpp
   class Spectrum {
     // Indices into time/position arrays in MovableDetector
     // Note that this needs to be a vector (i.e., one index for each detector
@@ -318,6 +329,7 @@ How to implement this?
     std::vector<std::vector<size_t>> detectors;
   };
   ```
+
 - Do we need to be concerned about increased instrument size? We now have several additional vectors on each detector.
   - Probably not, since the corresponding event/histogram information will likewise be bigger for a moving instrument and the addition bytes for positions are not relevant.
 
