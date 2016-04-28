@@ -114,3 +114,138 @@
     l += distance(pathComponents[-1].exitPoint(), detectorPosition);
   }
   ```
+
+## MPI support
+
+- If we keep the full instrument on each MPI rank, the instrument/geometry code does not scale (speed up) at all when the number of MPI ranks is increased.
+  For example, we would always need to compute the full set of L2 distances in `DetectorInfo`.
+  - Consequence: Must split up the instrument.
+- Split by **spectrum**, **not** by **detector**.
+  - Otherwise things get very complicated if detectors for a given spectrum are scattered accross more than one MPI rank.
+- Must move detectors from one rank to another when detector grouping into spectra changes.
+  - **Important**: The grouping into spectra can be different for every workspace, so we will also have instrument trees with different distributions to MPI ranks.
+  - Examples for algorithms that change the grouping of detectos into spectra and thus require moving detectors are: `GroupSpectra`, `SumSpectra`, `DiffractionFocussing`, and algorithms for azimuthal integration for SANS.
+- For loading instruments, communicating with other MPI ranks, and for redistributing detectors we need have a **mapping function**:
+  - Based on the total number of MPI ranks (and optionally the total number of spectra) it returns a unique rank for a given spectrum index.
+  - Example:
+    ```cpp
+    int getRankForSpectrum(size_t spectrumIndex) {
+      return spectrumIndex % nRank;
+    }
+    ```
+  - This mapping is flexible, and arbitrary functions with this signature can be used for mapping. In particular, the mapping function may need to be adjusted for good load balance, depending on the instrument, experiment, and the algorithms in the corresponding reduction workflow.
+  - The mapping for detectors follows from this mapping for spectra in combination with the specific grouping of detectors into spectra in a given workspace.
+
+    ```cpp
+    // Rough analogue to current implementation (no changes)
+    class Workspace {
+      std::vector<Spectrum> m_spectra;
+    };
+    // Rough analogue to current implementation (no changes)
+    class Spectrum {
+      std::vector<size_t> m_detectorIndices;
+    };
+    
+    int rank = getRankForSpectrum(spectrumIndex);
+    // all these detector indices are on the computed rank
+    auto detectorIndices = workspace.getDetectorIndices(spectrumIndex);
+    ```
+
+- Redistribution of an instrument:
+  - We want to remove a detector from the instrument tree on rank A and insert it on rank B.
+  - To this end, we need to be able to identify and transmit the parent of a detector in the instrument tree.
+    In the new instrument tree desig this is slightly more complex than in the current implementation, since components to not store their parent.
+  - We thus introduce a new vector of non-detector components in the instrument tree. Indices into this vector uniquely identify a parent component of a detector. The indices must be identical on all MPI ranks. In particular, this implies that all non-detector components must be present on all MPI ranks.
+    ```cpp
+    class InstrumentTree {
+      std::vector<Detector *> m_detectors;
+      std::vector<Component *> m_components;
+       }
+    ```
+  - Redistribution can now happen roughly as follows:
+    ```cpp
+    // One vector entry for each target rank
+    std::vector<std::vector<size_t>> componentIndices =
+        instrumentTree.findDetectors(getRankForSpectrum);
+    std::vector<std::vector<Detector>> detectors =
+        instrumentTree.removeDetectors(componentIndices);
+    for(int rank=0; rank<nRank; ++rank)
+      MPI_Send(detectors[rank], componentIndices[rank], rank);
+    
+    std::vector<std::vector<size_t>> newComponentIndices(nRank);
+    std::vector<std::vector<Detector>> newDetectors(nRank);
+    for(int rank=0; rank<nRank; ++rank)
+      MPI_Recv(newDetectors[rank], newComponentIndices[rank], rank);
+
+    addDetectors(newComponentIndices, newComponentIndices);
+    ```
+
+- Example for redistribution: `GroupDetectors`:
+  - `N` input spectra.
+  - `M` output spectra, `M <= N`.
+  - Instrument and spectra of input workspace are distributed according to mapping function `getRankForSpectrum`.
+  - Create output instrument by redistributing detectors in a copy of the the input instrument.
+  - Group detectors into spectra locally (temporary).
+  - Send temporary spectra to target ranks, based on `getRankForSpectrum` (based on *new* spectrum indices).
+  - Receive temporary spectra from other ranks, based on `getRankForSpectrum` (based on *old* spectrum indices).
+  - Sum up temporaries to obtain spectra for output workspace.
+
+### Finding parents
+
+How do we find parent indices in the current `InstrumentTree`?
+
+- Extend `InstrumentTree`:
+  ```cpp
+  class InstrumentTree {
+    std::vector<Detector *> m_detectors;
+    std::vector<size_t> m_detectorParentComponentIndices;
+    std::vector<Component *> m_components;
+  };
+
+  void InstrumentTree::findDetectors(detectors &, parentIndices &, components &) {
+    auto iterator = this->createIterator();
+    while(iterator.next()) {
+      iterator->registerNonDetector(components);
+      iterator->registerDetector(...);
+    }
+  }
+
+  void Detector::registerDetectors(detectors &, parentIndices &, currentParentIndex) {
+    detectors.push_back(this);
+    parentIndices.push_back(currentParentIndex);
+  }
+  ```
+
+
+# Flattened InstrumentTree
+
+![](new_node_design.JPG)
+
+The current instrument prototype requires a fair bit of pointer handling, in particular also during modifications.
+An alternative could be as follows:
+
+- `Node` tree is flattened into a vector, held by `InstrumentTree`.
+- `Node` represents a building block of the tree structure.
+- `Component` holds *data* (such as bank position) or vector of detectors (no multi-level assembly concept in here, in contrast to current instrument).
+
+```cpp
+class InstrumentTree {
+  std::vector<Node> m_nodes;
+};
+
+class Node {
+  // Could be a detector, but in general it is not.
+  // If it is an assembly, it is at most depth one (with detectors as leaves).
+  cow_ptr<Component> m_component;
+  // Indices refer to vector in InstrumentTree
+  std::vector<size_t> m_children;
+  // Indix refers to vector in InstrumentTree
+  size_t m_parent;
+};
+```
+
+- Every component that is not a detector is wrapped in a node.
+  No changes to `idf` files should be necessary.
+- The `Node` vector in `InstrumentTree` never changes (for a given instrument).
+  - Indices are never invalidated (no need for updating pointers in contrast to the full tree we have in the other design).
+  - Same on all MPI ranks.
