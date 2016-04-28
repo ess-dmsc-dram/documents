@@ -59,6 +59,8 @@
     // new, does not include detectors!
     std::vector<PathComponent *> m_pathComponents;
   };
+  ```
+
 - ```cpp
   class PathComponent : public Component {
     // Internal scattering length, e.g., arc length of guide, could be computed
@@ -73,6 +75,7 @@
     Position exitPoint() const;
   };
   ```
+
 - ```cpp
   class Path {
     // Index into vector of InstrumentTree (see above)
@@ -81,6 +84,8 @@
     std::vector<size_t> m_pathComponentIndex;
     // Detector at the end of the path. Detectors are never path components!
   };
+  ```
+
 - `Path` instances are part of `DetectorInfo`.
   ```cpp
    class DetectorInfo {
@@ -249,3 +254,68 @@ class Node {
 - The `Node` vector in `InstrumentTree` never changes (for a given instrument).
   - Indices are never invalidated (no need for updating pointers in contrast to the full tree we have in the other design).
   - Same on all MPI ranks.
+- `const`-only access to components is still essential.
+- Modification mechanism is essentially the same (via `InstrumentTree::modify()`).
+
+
+# Step scans
+
+![](STEP_SCAN_3.JPG)
+
+How to get spectrum position?
+- Detector positions are time dependent.
+- Spectrum positions are fixed and not time dependent.
+- As a consequence a detectors may apear in multiple spectra.
+
+How to implement this?
+- A workspace now has roughly `nDetector * nTimePositions` spectra (assuming no grouping).
+- Average over posititions of all detectors, by querying detector position for given time.
+- ```cpp
+  class MovableDetector {
+  private:
+    // As before
+    Position translation;
+    Matrix rotation;
+    // New: position information (from metadata logs)
+    // Could potentially be partially shared (but is not globally the same).
+    std::vector<double> times;
+    // Stores absolute positions, local to every detector.
+    std::vector<Position> positions;
+  };
+  public:
+    // This is not exposed on SpectrumInfo`, a spectrum has a fixed position!
+    Position getPosition(size_t timeIndex) {
+      return positions[timeIndex];
+    }
+    double getTimeIndex(AbsoluteTime time) {
+      // use this->times to find best discrete time index.
+      return findBestMatchingTimeIndex(time);
+    }
+  ```
+- ```cpp
+  class Spectrum {
+    // Indices into time/position arrays in MovableDetector
+    // Note that this needs to be a vector (i.e., one index for each detector
+    // in the vector below), since MovableDetector::times is *not* globally
+    // the same.
+    std::vector<size_t> timeIndices;
+    // Fine as long as there are no detector groups...
+    std::vector<size_t> detectors;
+    // ... do we need this? Note: groups should not be allowed to be time dependent!
+    std::vector<std::vector<size_t>> detectors;
+  };
+  ```
+- Do we need to be concerned about increased instrument size? We now have several additional vectors on each detector.
+  - Probably not, since the corresponding event/histogram information will likewise be bigger for a moving instrument and the addition bytes for positions are not relevant.
+
+# Continuous scans
+
+![](CONTINUOUS_SCAN_1.JPG)
+
+- Consider spectra as fixed in space (as for the step scan), detectors move through these positions.
+- Cannot go straight to spectrum, otherwise we cannot to detector-dependent normalization.
+  - Consider, e.g., a rocking scan. We could "compress" data by merging contributions to spectrum X by detector Y at different times, due to the cyclic motion. However, corrections like time-dependent efficiency due to varying gas pressure complicate this. Such corrections must be done before any compression.
+- After corrections that depend on both absolute time and detector ID, we can create spectra:
+  - Define length scale, corresponding to with of band in diagram.
+  - Transform into spectra (basically this is a transformation into a fine-grained step scan).
+- Or just keep everything in an `MDEventWorkspace`, to keep it truly continuous.
