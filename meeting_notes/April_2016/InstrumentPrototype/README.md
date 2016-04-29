@@ -272,6 +272,13 @@ class Node {
   - Same on all MPI ranks.
 - `const`-only access to components is still essential.
 - Modification mechanism is essentially the same (via `InstrumentTree::modify()`).
+- Can avoid copy of a detector array:
+  - When we rename a bank, this currently copies all detectors.
+  - By separating bank meta-data from the detector array this copy can be avoided.
+  - There are two ways to do this: (1) a bank could have two cow pointers, one for meta data and one for the detectors array, or (2) add another node below a bank that wraps the detector array.
+- There should be cascading and non-cascading `Commands`. For example:
+  - Renaming the root node is non-cascading (banks should not be renamed).
+  - Moving the root is cascading and should move all banks.
 
 ![](new_node_design.JPG)
 
