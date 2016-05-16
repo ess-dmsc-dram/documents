@@ -26,7 +26,7 @@ brew install pyqt --build-from-source
 brew install numpy
 brew install libtiff
 ```
-1. Create a *.pth file in `venv/lib/python2.7/site-packages/homebrew.pth`
+1. Create a *.pth file in `venv/lib/python2.7/site-packages/homebrew.pth` with the following contents based on the brew installed python packages above.
 ```bash
 /usr/local/Cellar/sip/4.16.5/lib/python2.7/site-packages/
 /usr/local/Cellar/pyqt/4.11.3/lib/python2.7/site-packages/
