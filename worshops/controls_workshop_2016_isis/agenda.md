@@ -11,9 +11,9 @@
 
 ###Other Proposed Popular Topics###
 
-*Extending Mantid with Python
-*An introduction to Mantid
-*Data streaming technologies
+* Extending Mantid with Python
+* An introduction to Mantid
+* Data streaming technologies
 
 ##June 7th Workshop##
 ###Morning###
