@@ -10,6 +10,7 @@
 ###Morning###
 * IBEX Demo (TBC)
 * Nicos/IBEX Script Server (TBC)
+
 ###Afternoon###
 * How to simulate a stateful device (Most likely in afternoon)
 
