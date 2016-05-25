@@ -12,7 +12,7 @@
 * Nicos/IBEX Script Server (TBC)
 
 ###Afternoon###
-* How to simulate a stateful device (Most likely in afternoon)
+* How to simulate a stateful device (Michael Wedel, Michael Hart)
 
 ###Other Proposed Popular Topics###
 
