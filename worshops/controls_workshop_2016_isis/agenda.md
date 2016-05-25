@@ -26,7 +26,7 @@
 * ISIS Timing system (Dave Templeman)
 
 ###Afternoon###
-* Formal Welcome (5 minutes, TBC)
+* Formal Welcome (5 minutes, Owen Arnold)
   * Review of November Workshop (10 minutes, TBC)
 * Status Updates (Max 20 minutes each)
   * Jon Taylor
