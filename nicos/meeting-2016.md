@@ -32,7 +32,7 @@ Possible dates for the workshop from the respective organizations:
   
 The duration of the workshop should be two (full, if possible) days.
   
-## Topics
+## Topics/Questions
 
 ### Short (!!!!) introductions
   - What have we done with NICOS so far
