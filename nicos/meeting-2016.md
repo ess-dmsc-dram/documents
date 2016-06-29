@@ -20,7 +20,7 @@ The following people from the respective organizations are going to participate 
 
 Where should we have the meeting? Jens suggested Garching or Copenhagen.
 
-  - **Michael W.**: I suggest **Garching**, but Copenhagen would be okay too.
+  - **Michael W.**: I suggest **Garching** (more NICOS developers will be available). We could set up another meeting in Copenhagen/Lund later on.
 
 ## Dates
 Current suggestion:
