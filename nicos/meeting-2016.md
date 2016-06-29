@@ -59,4 +59,5 @@ The duration of the workshop should be two (full, if possible) days.
   - Guidelines for requiring packages (e.g. pyepics, pvaPy from our side later on)
   - Where to add tests, documentation
   - A small tutorial adding a new device might be useful (all steps from deciding where to put code to code review)
+  - How to add 'views'/'synoptics' like the TAS test instrument over new setups.
   - Automated testing/Build server support
