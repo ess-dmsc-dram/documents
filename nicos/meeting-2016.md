@@ -28,7 +28,9 @@ Possible dates for the workshop from the respective organizations:
   - DMSC: August 22nd - August 25th
   - STFC ISIS: August 22nd - August 26th
   
-The duration of the workshop should be two (full, if possible) days.
+The duration of the workshop should be two (full, if possible) days. Current suggestion by DMSC:
+
+  - Monday & Tuesday (22./23.), leaving on Wednesday so we can have the entire Tuesday
   
 ## Topics/Questions
 
