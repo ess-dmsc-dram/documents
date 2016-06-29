@@ -20,9 +20,7 @@ The following people from the respective organizations are going to participate 
 
 Where should we have the meeting? Jens suggested Garching or Copenhagen.
 
-  - **Michael W.**: I suggest **Garching**, because otherwise many more people might want to join and there is a risk
-    that the meeting then turns into a series of presentations about departments, control system architectures,
-    timing systems and much more. All this is interesting but I think that belongs in a different meeting.
+  - **Michael W.**: I suggest **Garching**, but Copenhagen would be okay too.
 
 ## Dates
 Possible dates for the workshop from the respective organizations:
