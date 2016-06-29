@@ -13,7 +13,7 @@ The following scopes should be covered at the meeting
 The following people from the respective organizations are going to participate in the meeting:
 
   - FRM2: Jens Krüger, ...
-  - DMSC: Jon Taylor, Simon Heybrock, Michael Wedel (invite David Brodrick)
+  - DMSC: Jon Taylor, Simon Heybrock, Michael Wedel
   - STFC ISIS: Michael Hart, Owen Arnold
   
 ## Location
