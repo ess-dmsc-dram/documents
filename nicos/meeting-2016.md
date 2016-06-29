@@ -27,7 +27,7 @@ Where should we have the meeting? Jens suggested Garching or Copenhagen.
 ## Dates
 Possible dates for the workshop from the respective organizations:
   - FRM2: Weeks 33 and 34 (August 16th - August 26th)
-  - DMSC: Week 34 (August 22nd - August 26th)
+  - DMSC: August 22nd - August 25th
   - STFC ISIS: ...
   
 The duration of the workshop should be two (full, if possible) days.
