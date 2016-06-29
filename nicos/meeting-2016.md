@@ -14,7 +14,7 @@ The following people from the respective organizations are going to participate 
 
   - FRM2: Jens Krüger, ...
   - DMSC: Jon Taylor, Simon Heybrock, Michael Wedel (invite David Brodrick)
-  - STFC ISIS: Michael Hart, Owen Arnold, ...
+  - STFC ISIS: Michael Hart, Owen Arnold
   
 ## Location
 
@@ -28,7 +28,7 @@ Where should we have the meeting? Jens suggested Garching or Copenhagen.
 Possible dates for the workshop from the respective organizations:
   - FRM2: Weeks 33 and 34 (August 16th - August 26th)
   - DMSC: August 22nd - August 25th
-  - STFC ISIS: ...
+  - STFC ISIS: August 22nd - August 26th
   
 The duration of the workshop should be two (full, if possible) days.
   
@@ -49,11 +49,14 @@ The duration of the workshop should be two (full, if possible) days.
   - Should DMSC provide resources that can be integrated (Jenkins slaves...)
   - Participation in (video?)-meetings (weekly? monthly?)
   - Face-to-face meetings (yearly? twice per year?)
+  - Who are the experts on which parts of the system? 
+  - What's channels of communication are best?
   
 ### Detailed design/code walkthrough
-  - Understanding details of NICOS' design better (creation & initialization of objects, scope of objects across processes...)
+  - Understanding details of NICOS' design better (ethos, creation & initialization of objects, scope of objects across processes...)
   - Which services communicate over which channels, short introduction to protocols
   - Adding new device types (understanding the "right level of abstraction", where to add)
   - Guidelines for requiring packages (e.g. pyepics, pvaPy from our side later on)
   - Where to add tests, documentation
   - A small tutorial adding a new device might be useful (all steps from deciding where to put code to code review)
+  - Automated testing/Build server support
