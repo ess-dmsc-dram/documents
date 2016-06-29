@@ -4,6 +4,7 @@
 
 The following scopes should be covered at the meeting
   - Strategy for DMSC contributions to NICOS
+  - Longer term development strategy (5 years)
   - Discussion of organisatory details for contribution
   - Development tutorial and/or code/design walkthrough
 
@@ -12,7 +13,7 @@ The following scopes should be covered at the meeting
 The following people from the respective organizations are going to participate in the meeting:
 
   - FRM2: Jens Krüger, ...
-  - DMSC: Jon Taylor, Simon Heybrock, Michael Wedel
+  - DMSC: Jon Taylor, Simon Heybrock, Michael Wedel (invite David Brodrick)
   - STFC ISIS: Michael Hart, Owen Arnold, ...
   
 ## Location
@@ -39,6 +40,7 @@ The duration of the workshop should be two (full, if possible) days.
   - 10 minutes DMSC, 10 minutes STFC ISIS (max.)
 
 ### Development model/participation
+  - Longer term development strategy (5 years) from the FRM2 perspective
   - Requirements for participation in development of NICOS components
   - Obtaining accounts for infrastructure (build servers, ticket system, status of developers)
   - Running build jobs locally (pylint, ...)
