@@ -38,7 +38,7 @@ The duration of the workshop should be two (full, if possible) days.
   - 10 minutes DMSC, 10 minutes STFC ISIS (max.)
 
 ### Development model/participation
-  - Longer term development strategy (5 years) from the FRM2 perspective
+  - Longer term development strategy (5 years) from the FRM2 perspective (Qt4 vs Qt5, ...)
   - Requirements for participation in development of NICOS components
   - Obtaining accounts for infrastructure (build servers, ticket system, status of developers)
   - Running build jobs locally (pylint, ...)
