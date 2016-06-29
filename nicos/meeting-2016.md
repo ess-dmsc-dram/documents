@@ -55,6 +55,7 @@ The duration of the workshop should be two (full, if possible) days.
 ### Detailed design/code walkthrough
   - Understanding details of NICOS' design better (ethos, creation & initialization of objects, scope of objects across processes...)
   - Which services communicate over which channels, short introduction to protocols
+  - The scope and role of each service. How are they directed? What sequences do we need to be aware of?
   - Adding new device types (understanding the "right level of abstraction", where to add)
   - Guidelines for requiring packages (e.g. pyepics, pvaPy from our side later on)
   - Where to add tests, documentation
