@@ -2,10 +2,10 @@
 
 * [~~Spectrum and Detector Info~~](#spectrum-info-and-detector-info)
 * [Complex beam paths](#complex-beam-paths)
-* [MPI support](MPI support)
-* [~~Flattened InstrumentTree~~](Flattened InstrumentTree)
-* [Step scans](Step scans)
-* [Continuous scans](Continuous scans)
+* [MPI support](#mpi-support)
+* [~~Flattened InstrumentTree~~](#flattened-instrumenttree)
+* [Step scans](#step-scans)
+* [Continuous scans](#continuous-scans)
 
 
 ## Spectrum-Info and Detector-Info
