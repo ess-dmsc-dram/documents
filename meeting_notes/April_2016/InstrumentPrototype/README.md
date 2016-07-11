@@ -1,7 +1,7 @@
 #Items Coded into Prototype
 
-* [~~Spectrum and Detector Info~~](Spectrum-Info and Detector-Info)
-* [Complex beam paths](Complex beam paths)
+* [~~Spectrum and Detector Info~~](#spectrum-info-and-detector-info)
+* [Complex beam paths](#complex-beam-paths)
 * [MPI support](MPI support)
 * [~~Flattened InstrumentTree~~](Flattened InstrumentTree)
 * [Step scans](Step scans)
