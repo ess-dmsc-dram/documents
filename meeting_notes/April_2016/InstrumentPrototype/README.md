@@ -1,4 +1,14 @@
-# Spectrum- and Detector-Info
+#Items Coded into Prototype
+
+* [~~Spectrum and Detector Info~~](Spectrum-Info and Detector-Info)
+* [Complex beam paths](Complex beam paths)
+* [MPI support](MPI support)
+* [~~Flattened InstrumentTree~~](Flattened InstrumentTree)
+* [Step scans](Step scans)
+* [Continuous scans](Continuous scans)
+
+
+## Spectrum-Info and Detector-Info
 
 - What we previously labelled `GeometryDataArray` is quite similar to what is done for the new `Histogram` type.
   - For example, `class MaskFlags` contains: `cow_ptr<FixedLengthVector> m_data`
@@ -240,7 +250,7 @@ How do we find parent indices in the current `InstrumentTree`?
 ![](mpi_parent_solution .JPG)
 
 
-# Flattened InstrumentTree
+## Flattened InstrumentTree
 
 The current instrument prototype requires a fair bit of pointer handling, in particular also during modifications.
 An alternative could be as follows:
@@ -283,7 +293,7 @@ class Node {
 ![](new_node_design.JPG)
 
 
-# Step scans
+## Step scans
 
 How to get spectrum position?
 - Detector positions are time dependent.
@@ -340,7 +350,7 @@ How to implement this?
 ![](STEP_SCAN_2.JPG)
 ![](STEP_SCAN_3.JPG)
 
-# Continuous scans
+## Continuous scans
 
 - Consider spectra as fixed in space (as for the step scan), detectors move through these positions.
 - Cannot go straight to spectrum, otherwise we cannot to detector-dependent normalization.
