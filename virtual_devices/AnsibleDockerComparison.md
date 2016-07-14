@@ -27,7 +27,7 @@ The above are features of the core Docker Engine. Docker additionally provides a
 
 As is probably evident from the above paragraphs, there isn't very much overlap between Ansible and Docker. These are two very different technologies that focus on solving different problems.
 
-It would be worthwhile investigating Docker Compose and Docker Swarm in detail, as there are likely to be more parallels between them and Ansible than between Docker Engine and Ansible. Corrently, this comparison focuses primarily on Docker Engine.
+It would be worthwhile investigating Docker Compose and Docker Swarm in detail, as there are likely to be more parallels between them and Ansible than between Docker Engine and Ansible. This comparison focuses primarily on Docker Engine.
 
 Where there is some overlap in terms of scenarios these two technologies address, the solutions and approaches often differ drastically:
 
