@@ -144,6 +144,35 @@ Prototype lives [here](https://github.com/DMSC-Instrument-Data/instrument-protot
     l += distance(pathComponents[-1].exitPoint(), detectorPosition);
   }
   ```
+  
+### Details on Complex Beam Paths
+
+#### Where Does the Path Information Come From?
+
+In our current design we have placed the paths `CowPtr<std::vector<Path>> m_paths` on the `DetectorInfo`. `m_paths` has the same size as the number of detectors, so it will be possible to calculate l2 as our function `getL2` above describes.
+
+* While the paths should live on the `DetectorInfo` and not on the `InstrumentTree`. The `std::vector<Path>` must be sourced from elsewhere. The informatoin on the paths will ultimately be sourced from the instrument definition (or future equivalent). Nowhere else will describe this information, it cannot be derived. 
+* Given the above point. We should have factories for producing this paths vector. A default implementation could assume the `Source->Sample->Detector` path:
+
+```cpp
+
+// Client usage
+std::unique_ptr<PathFactory> pathFacotry = std::make_unique<SourceSampleDetectorFactory>();
+DetectorInfo detectorInfo(std::move(instrumentTree), std::move(pathFactory));
+
+//.....
+
+// Constructor
+DetectorInfo::DetectorInfo(InstrumentTree&& instrumentTree, std::unique_ptr<PathFactory> pathFactory) : m_instrumentTree(instrumentTree), m_pathFactory(pathFactory) {
+...
+/* This is key. We can now use the FactoryMethod to determine HOW to build the paths. But use the InstrumentTree for WHAT to build it around. */
+m_paths = m_pathFactory.create(m_instrumentTree);
+
+}
+```
+* `DetectorInfo::modify` does NOT need to reset the flight paths, **because it only stores indexes** to the `PathComponents*` and these indexes do not change even though the individual `PathComponents*` may be updated. The `l2` values based on these flight paths do however need to be updated.
+* Related: We decided that we should we initalize the `m_l2` vector as we currently do based on processing the paths. `DetectorInfo::l2` does not perform lazy computation to extract an `l2`, it is done at construction time via the `PathComponents`. 
+
 
 ## MPI support
 
