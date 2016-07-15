@@ -145,13 +145,14 @@ Prototype lives [here](https://github.com/DMSC-Instrument-Data/instrument-protot
   }
   ```
   
-### Outstanding Issues with Complex Beam Paths
+### Details on Complex Beam Paths
 
 #### Where Does the Path Information Come From?
 
-In our current design I think that we have rightly placed the paths `CowPtr<std::vector<Path>> m_paths` on the `DetectorInfo`. `m_paths` has the same size as the number of detectors, so it will be possible to calculate l2 as our function `getL2` above describes.
+In our current design we have placed the paths `CowPtr<std::vector<Path>> m_paths` on the `DetectorInfo`. `m_paths` has the same size as the number of detectors, so it will be possible to calculate l2 as our function `getL2` above describes.
 
-* While I agree that the paths should live on the `DetectorInfo` and not on the `InstrumentTree`. The `std::vector<Path>` must be passed in from elsewhere. The informatoin on the paths will ultimately be sourced from the instrument definition (or future equivalent) No where else will describe this information. Should we think about having different factories for producing this paths vector? I think a default implementation could assume the `Source->Sample->Detector` path:
+* While the paths should live on the `DetectorInfo` and not on the `InstrumentTree`. The `std::vector<Path>` must be sourced from elsewhere. The informatoin on the paths will ultimately be sourced from the instrument definition (or future equivalent). Nowhere else will describe this information, it cannot be derived. 
+* Given the above point. We should have factories for producing this paths vector. A default implementation could assume the `Source->Sample->Detector` path:
 
 ```cpp
 
@@ -168,18 +169,9 @@ DetectorInfo::DetectorInfo(InstrumentTree&& instrumentTree, std::unique_ptr<Path
 m_paths = m_pathFactory.create(m_instrumentTree);
 
 }
-
-// Modify
-DetectorInfo::modify(...){
-
-...
-// Detectors and Paths may be modified (we can now detect when that happens, but when it does, new pointers are required).
-m_paths = m_pathFactory.create(m_instrumentTree);
-}
-
-}}}
 ```
-* Related: Do we keep the `m_l2` and dynamically calculate it via `getL2` as above, or should we initalize the `m_l2` vector as we currently do based on processing the paths. I prefer the latter.
+* `DetectorInfo::modify` does NOT need to reset the flight paths, **because it only stores indexes** to the `PathComponents*` and these indexes do not change even though the individual `PathComponents*` may be updated. The `l2` values based on these flight paths do however need to be updated.
+* Related: We decided that we should we initalize the `m_l2` vector as we currently do based on processing the paths. `DetectorInfo::l2` does not perform lazy computation to extract an `l2`, it is done at construction time via the `PathComponents`. 
 
 
 ## MPI support
