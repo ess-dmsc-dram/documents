@@ -144,6 +144,43 @@ Prototype lives [here](https://github.com/DMSC-Instrument-Data/instrument-protot
     l += distance(pathComponents[-1].exitPoint(), detectorPosition);
   }
   ```
+  
+### Outstanding Issues with Complex Beam Paths
+
+#### Where Does the Path Information Come From?
+
+In our current design I think that we have rightly placed the paths `CowPtr<std::vector<Path>> m_paths` on the `DetectorInfo`. `m_paths` has the same size as the number of detectors, so it will be possible to calculate l2 as our function `getL2` above describes.
+
+* While I agree that the paths should live on the `DetectorInfo` and not on the `InstrumentTree`. The `std::vector<Path>` must be passed in from elsewhere. The informatoin on the paths will ultimately be sourced from the instrument definition (or future equivalent) No where else will describe this information. Should we think about having different factories for producing this paths vector? I think a default implementation could assume the `Source->Sample->Detector` path:
+
+```cpp
+
+// Client usage
+std::unique_ptr<PathFactory> pathFacotry = std::make_unique<SourceSampleDetectorFactory>();
+DetectorInfo detectorInfo(std::move(instrumentTree), std::move(pathFactory));
+
+//.....
+
+// Constructor
+DetectorInfo::DetectorInfo(InstrumentTree&& instrumentTree, std::unique_ptr<PathFactory> pathFactory) : m_instrumentTree(instrumentTree), m_pathFactory(pathFactory) {
+...
+/* This is key. We can now use the FactoryMethod to determine HOW to build the paths. But use the InstrumentTree for WHAT to build it around. */
+m_paths = m_pathFactory.create(m_instrumentTree);
+
+}
+
+// Modify
+DetectorInfo::modify(...){
+
+...
+// Detectors and Paths may be modified (we can now detect when that happens, but when it does, new pointers are required).
+m_paths = m_pathFactory.create(m_instrumentTree);
+}
+
+}}}
+```
+* Related: Do we keep the `m_l2` and dynamically calculate it via `getL2` as above, or should we initalize the `m_l2` vector as we currently do based on processing the paths. I prefer the latter.
+
 
 ## MPI support
 
