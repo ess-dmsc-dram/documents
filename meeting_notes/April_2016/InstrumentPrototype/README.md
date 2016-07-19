@@ -10,6 +10,11 @@ Prototype lives [here](https://github.com/DMSC-Instrument-Data/instrument-protot
 * [Step scans](#step-scans)
 * [Continuous scans](#continuous-scans)
 
+Other Non-Designed Features required on Prototype
+
+* Persistance. How to load and save.
+* Write performance including rotations.
+
 
 ## Spectrum-Info and Detector-Info
 
