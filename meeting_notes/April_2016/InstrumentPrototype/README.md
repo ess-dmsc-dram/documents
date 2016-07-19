@@ -398,3 +398,39 @@ How to implement this?
 - Or just keep everything in an `MDEventWorkspace`, to keep it truly continuous.
 
 ![](CONTINUOUS_SCAN_1.JPG)
+
+## Data Sources
+
+We need to have a mechanism of fully saving and loading an instrument.
+
+* We must be able to save an `InstrumentTree` created in-memory (current Mantid `Instrument` cannot do this).
+* We need to retain the ability to add and remove the saving/loading formats without modifying the core domain code for the instrument. 
+* The domain code should not be aware of the saving/loading mechanism
+* I propose taking a `Repository` approach whereby the persistence of the `InstrumentTree`, `DetectorInfo`, `SpectrumInfo` and other related types is handled by an orthogonal family of `Repositories`.
+
+Repository abstract types may look like this.
+```cpp
+
+/// Pure virtual
+class InstrumentTreeRepository {
+public:
+
+virtual void saveInstrument(InstrumentTree& instrument, Location location) const = 0;
+
+virtual InstrumentTree loadInstrument(Location location) const = 0;
+
+};
+
+/// Pure virtual
+class DetectorInfoRepository {
+
+virtual DetectorInfo loadDetectorInfo(Location location) = 0;
+
+virtual void saveDetectorInfo(const DetectorInfo& detectorInfo, Location location) = 0;
+
+};
+
+```
+
+
+
