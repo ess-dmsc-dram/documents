@@ -228,11 +228,18 @@ m_paths = m_pathFactory.create(m_instrumentTree);
     ```
   - Redistribution can now happen roughly as follows:
     ```cpp
-    // One vector entry for each target rank
+    /* One outer vector element for each target rank.
+       component indexes std::vector<size_t>, which are elements of the outer vector,
+       are indexes of DETECTOR components Grouped by Spectrum. A function pointer is used to reference the rank-splitting function.
+    */
     std::vector<std::vector<size_t>> componentIndices =
         instrumentTree.findDetectors(getRankForSpectrum);
+    /* We store copies of the Detectors grouped by Spectrum. Spectrum are grouped by Rank (outer vector). All Detectors are removed
+       from the host InstrumentTree in the process of doing this.
+    */
     std::vector<std::vector<Detector>> detectors =
         instrumentTree.removeDetectors(componentIndices);
+    // Instrument tree is now purged of detectors
     for(int rank=0; rank<nRank; ++rank)
       MPI_Send(detectors[rank], componentIndices[rank], rank);
     
@@ -241,6 +248,7 @@ m_paths = m_pathFactory.create(m_instrumentTree);
     for(int rank=0; rank<nRank; ++rank)
       MPI_Recv(newDetectors[rank], newComponentIndices[rank], rank);
 
+    // This doesn't look right to me?
     addDetectors(newComponentIndices, newComponentIndices);
     ```
 
