@@ -228,11 +228,62 @@ m_paths = m_pathFactory.create(m_instrumentTree);
     ```
   - Redistribution can now happen roughly as follows:
     ```cpp
-    // One vector entry for each target rank
+    // 1) 
+    // We need to find out which spectra have to be removed from this rank. There are
+    // many options for this (depending on use case), but one is to simply specify the
+    // new desired configuration. This is defined by a partitioning class or method.
+    MyNewPartitioning targetPartitioning(numberOfRanks);
+    // 2)
+    // We need to extract data from the instrument and put it into a buffer such that
+    // it can be sent out with MPI. There is one buffer for each target rank (or a
+    // vector of buffers).
+    // 2a) Data for each spectrum has to be extracted
+    // 2b) Data for each detector has to be extracted
+    std::vector<SpectrumDataBuffer> spectrumAndDetectorData = workspace.split(targetPartitioning);
+    // Internally, many things are happining:
+    MatrixWorkspace::split(const Partitioning &partitioning) {
+      std::vector<SpectrumDataBuffer> buffer(partitioning.numberOfPartitions());
+      for(size_t i=0; i<numberOfHistograms(); ++i) {
+        int partition = partitioning.indexOf(i);
+        buffer.partition[partition].addHistogram(this->histogram(i));
+        buffer.partition[partition].addSpectrum(this->spectrumInfo.spectrum(i));
+        buffer.partition[partition].addDetectors(this->spectrumInfo.spectrum(i).detectors);
+      }
+    }
+    
+    // 3)
+    // Send partitioned data
+    for(int rank=0; rank<targetPartitioning.numberOfPartitions(); ++rank)
+      MPI_Send(spectrumAndDetectorData[rank], rank);
+      
+    // 4)
+    // Receive and merge data
+    std::vector<SpectrumDataBuffer> buffer(targetPartitioning.numberOfPartitions());
+    for(int rank=0; rank<targetPartitioning.numberOfPartitions(); ++rank)
+      MPI_Recv(buffer[rank], rank);
+    SpectrumDataBuffer spectrumData;
+    for(const auto & item : buffer)
+      spectrumData.addData(item);
+      
+    // 5)
+    // Build new instrument based on 'spectrumData'
+    // TODO
+    ```
+    
+    (leaving in the old description for comparison)
+    ```cpp
+    /* One outer vector element for each target rank.
+       component indexes std::vector<size_t>, which are elements of the outer vector,
+       are indexes of DETECTOR components Grouped by Spectrum. A function pointer is used to reference the rank-splitting function.
+    */
     std::vector<std::vector<size_t>> componentIndices =
         instrumentTree.findDetectors(getRankForSpectrum);
+    /* We store copies of the Detectors grouped by Spectrum. Spectrum are grouped by Rank (outer vector). All Detectors are removed
+       from the host InstrumentTree in the process of doing this.
+    */
     std::vector<std::vector<Detector>> detectors =
         instrumentTree.removeDetectors(componentIndices);
+    // Instrument tree is now purged of detectors
     for(int rank=0; rank<nRank; ++rank)
       MPI_Send(detectors[rank], componentIndices[rank], rank);
     
@@ -241,6 +292,7 @@ m_paths = m_pathFactory.create(m_instrumentTree);
     for(int rank=0; rank<nRank; ++rank)
       MPI_Recv(newDetectors[rank], newComponentIndices[rank], rank);
 
+    // This doesn't look right to me?
     addDetectors(newComponentIndices, newComponentIndices);
     ```
 
