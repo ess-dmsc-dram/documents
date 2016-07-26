@@ -187,7 +187,7 @@ m_paths = m_pathFactory.create(m_instrumentTree);
 - Split by **spectrum**, **not** by **detector**.
   - Otherwise things get very complicated if detectors for a given spectrum are scattered accross more than one MPI rank.
 - Must move detectors from one rank to another when detector grouping into spectra changes.
-  - **Important**: The grouping into spectra can be different for every workspace, so we will also have instrument trees with different distributions to MPI ranks.
+  - **Important: The grouping into spectra can be different for every workspace, so we will also have instrument trees with different distributions to MPI ranks.**
   - Examples for algorithms that change the grouping of detectos into spectra and thus require moving detectors are: `GroupSpectra`, `SumSpectra`, `DiffractionFocussing`, and algorithms for azimuthal integration for SANS.
 - For loading instruments, communicating with other MPI ranks, and for redistributing detectors we need have a **mapping function**:
   - Based on the total number of MPI ranks (and optionally the total number of spectra) it returns a unique rank for a given spectrum index.
@@ -267,7 +267,32 @@ m_paths = m_pathFactory.create(m_instrumentTree);
       
     // 5)
     // Build new instrument based on 'spectrumData'
-    // TODO
+   
+    /* Philosphy - we should avoid mixing object creation with the objects themselves. This will quickly get out of hand and 
+       make things impossible to test.
+    */
+    
+    // At the top level (excluding the workspace), you want to do something like this:
+    // Spectrum Info handles the creation. This means we can leave SpectrumInfo completely unchanged. 
+    SpectrumInfoFactory spectrumInfoFactory(detectorInfoFactory);
+    // SpectrumInfoFactory handles calling DetectorInfo factory etc and returns our valid SpectrumInfo
+    SpectrumInfo spectrumInfoOnRank = spectrumInfoFactory.create(targetPartitioning, rank);
+    
+    // SpectrumInfoFactory::create calls DetectorInfoFactory::create. Again this leaves DetectorInfo unchanged.
+    SpectrumInfo SpectrumInfoFactory::create(const Partitioning & targetPartitioning, int rank) {
+     // Use target partitioning to determine what Spectrum are required and ONLY make those.
+     auto detectorInfo m_detectorInfo->create(targetPartitioning, rank);  
+     return SpectrumInfo(std::move(detectorInfo));
+    }
+    
+    // DetectorInfoFactory::create. calls InstrumentTreeFactory::create. This leaves InstrumentTree unchanged.
+    DetectorInfoFactory DetectorInfoFactory::create(const Partitioning & targetPartitioning, int rank) {
+      
+     auto instrumentTree m_instrumentTreeFactory->create(targetPartitioning, rank);  
+     return detectorInfo(std::move(instrumentTree));
+    
+    }
+    
     ```
     
     (leaving in the old description for comparison)
