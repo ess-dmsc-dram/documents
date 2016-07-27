@@ -254,6 +254,7 @@ m_paths = m_pathFactory.create(m_instrumentTree);
     // 3)
     // Send partitioned data
     for(int rank=0; rank<targetPartitioning.numberOfPartitions(); ++rank)
+      // Only spectrum and data information relevant to the destination rank is sent.
       MPI_Send(spectrumAndDetectorData[rank], rank);
       
     // 4)
@@ -276,19 +277,19 @@ m_paths = m_pathFactory.create(m_instrumentTree);
     // Spectrum Info handles the creation. This means we can leave SpectrumInfo completely unchanged. 
     SpectrumInfoFactory spectrumInfoFactory(detectorInfoFactory);
     // SpectrumInfoFactory handles calling DetectorInfo factory etc and returns our valid SpectrumInfo
-    SpectrumInfo spectrumInfoOnRank = spectrumInfoFactory.create(targetPartitioning, rank);
+    SpectrumInfo spectrumInfoOnRank = spectrumInfoFactory.create(sent_data_buffer);
     
     // SpectrumInfoFactory::create calls DetectorInfoFactory::create. Again this leaves DetectorInfo unchanged.
-    SpectrumInfo SpectrumInfoFactory::create(const Partitioning & targetPartitioning, int rank) {
+    SpectrumInfo SpectrumInfoFactory::create(...) {
      // Use target partitioning to determine what Spectrum are required and ONLY make those.
-     auto detectorInfo m_detectorInfo->create(targetPartitioning, rank);  
+     auto detectorInfo m_detectorInfoFactory->create(...);  
      return SpectrumInfo(std::move(detectorInfo));
     }
     
     // DetectorInfoFactory::create. calls InstrumentTreeFactory::create. This leaves InstrumentTree unchanged.
-    DetectorInfoFactory DetectorInfoFactory::create(const Partitioning & targetPartitioning, int rank) {
+    DetectorInfoFactory DetectorInfoFactory::create(...) {
       
-     auto instrumentTree m_instrumentTreeFactory->create(targetPartitioning, rank);  
+     auto instrumentTree m_instrumentTreeFactory->create(...);  
      return detectorInfo(std::move(instrumentTree));
     
     }
