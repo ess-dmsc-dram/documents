@@ -44,8 +44,8 @@
 
 - Module [pymodbus](https://pymodbus.readthedocs.io)
 - Function-codes described above are modeled as Request/Respone objects:
-
+```
     request = SomeModbusRequest(...)
     response = modbus_client.execute(request)
-
+```
 - Can also function as a TCP server, useful for device simulators
