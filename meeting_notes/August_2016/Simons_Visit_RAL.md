@@ -11,3 +11,8 @@
  - Planning the remainder of the Histogram Rollout. Algorithms is more than halfway complete but I may lose Dimitar very soon.
 	- We can discuss timelines and when we hope to have the whole rollout complete.
  
+## Indexing
+
+- Go through design worked out so far
+- Discuss a series of small or medium sized roadblocks
+- Workspace creation is closely related to setting the `IndexTranslator`. This would be a good opportunity for creating a sensible `WorkspaceFactory`. Discuss details.
