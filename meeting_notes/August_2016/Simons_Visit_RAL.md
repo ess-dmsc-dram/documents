@@ -16,3 +16,16 @@
 - Go through design worked out so far
 - Discuss a series of small or medium sized roadblocks
 - Workspace creation is closely related to setting the `IndexTranslator`. This would be a good opportunity for creating a sensible `WorkspaceFactory`. Discuss details.
+- 
+## Instrument 2.0
+
+Make progress with unimplemented [features](https://github.com/DMSC-Instrument-Data/documents/blob/master/meeting_notes/April_2016/InstrumentPrototype/README.md#step-scans)
+
+**High Priority**
+- Rotations, Required for write performance as well as scanning. How are we going to do rotations?
+- Scanning Instrument, currently planned but not implemented
+- Continuous Scans
+
+**Lower Priority**
+- Serialization (already underway)
+- MPI (already underway little to be gained at this point. Dependent on serialization.)
