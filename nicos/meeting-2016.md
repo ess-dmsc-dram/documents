@@ -57,3 +57,11 @@ Current suggestion:
   - A small tutorial adding a new device might be useful (all steps from deciding where to put code to code review)
   - How to add 'views'/'synoptics' like the TAS test instrument over new setups.
   - Automated testing/Build server support
+  - Understanding user interface design concepts
+  
+### General topics for discussion
+  - Configuration management (tendency to centralize this at ESS, overlap with ICS department)
+  - Alternative protocol choices (less Python specific)
+  - Deployment model
+  - Data interface (2D detector data, live streaming)
+  - NeXus file writing
