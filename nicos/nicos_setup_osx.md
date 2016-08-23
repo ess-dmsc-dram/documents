@@ -74,7 +74,8 @@ pip install Pillow
 ./bin/nicos-demo
 ```
 1. Install [gr](http://gr-framework.org/)
-```git clone https://github.com/jheinen/gr
+```bash
+git clone https://github.com/jheinen/gr
 cd gr
 python setup.py build_ext [--static-extras] install
 ```
