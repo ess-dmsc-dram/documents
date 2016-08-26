@@ -1,7 +1,5 @@
 # Plankton Communication Layer Design
 
-[TOC]
-
 ## Motivation
 Plankton has been successfully used to implement detailed device simulations using its cycle-driven, state-machine-based approach. However, while implementing the first few simulators, it has become clear that the communication layer is not flexible enough to support all desired use cases.
 
