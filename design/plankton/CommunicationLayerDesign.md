@@ -45,7 +45,11 @@ Overview:
 * There is no general concrete `Adapter` for any protocol. 
 * The process loop is kicked off by the `Environment`
 
-Example Adapters:
+#### Adapters
+
+The problem with the current implementation is that the `Adapter` concept is too general and the `Binder` mechanism is too limited (1:1) to make linkup to a `Device` powerful or flexible enough.
+
+The `Adapters` in this design are per-protocol & per-device. So they can encapsulate all the logic necessary to drive the specific device that they wrap. 
 
 ```python
 class StreamAdapterLinkum95(StreamAdapter):
@@ -60,6 +64,10 @@ class EPICSAdapterLinkum95(EPICSAdapter):
             raise ValueError("EPICSAdapterLinkum95 only wraps the SimulatedLinkamT95 device")
         self._device = linkum95_device                     
 ```
+
+Adapters are device owners.
+
+#### Environment & Timing Loop
 
 The design separates the timing loop from the `Adapter`. The while loop is built into an `Environment`, of which there is just one per simulation. We would like to be able to make updates to the `Environment` without having ot restart the simulation or renew the adapters. One possible implementation of the `Environment` might look like this:
 
@@ -98,7 +106,11 @@ class Environment(object):
             # ....
 ```
 
-I think this would enable us to have a separate set of `EnvironmentAdapters`, but I don't yet have a good design for this yet.
+#### Environment Updates
+
+The separation of the runnable parts of the simulation (now in the `Environment`) from the `Device` and the `Adapter` parts should make updates which affect only the `Environment` easier.
+
+I yet need to think on some kind of `EnvironmentAdapters`.
 
 #### Author Comments
 
