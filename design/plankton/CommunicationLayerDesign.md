@@ -36,13 +36,88 @@ The IBEX team at ISIS, for example, have expressed interest in using Plankton. N
 
 ## Design Options
 
-### Option A
+### Adapter-Binder Approach
 
-Detail design option A here.
+Overview:
+
+* `Adapters` are bespoke per `Device` as well as per `Protocol`.
+* There is no separate binding.
+* There is no general concrete `Adapter` for any protocol. 
+* The process loop is kicked off by the `Environment`
+
+Example Adapters:
+
+```python
+class StreamAdapterLinkum95(StreamAdapter):
+    def __init__(self, linkum95_device):
+        if not isinstance(linkum95, SimulatedLinkamT95):
+            raise ValueError("StreamAdapterLinkum95 only wraps the SimulatedLinkamT95 device") 
+        self._device = linkum95_device
+            
+class EPICSAdapterLinkum95(EPICSAdapter):
+    def __init__(self, linkum95_device):
+        if not isinstance(linkum95, SimulatedLinkamT95):
+            raise ValueError("EPICSAdapterLinkum95 only wraps the SimulatedLinkamT95 device")
+        self._device = linkum95_device                     
+```
+
+The design separates the timing loop from the `Adapter`. The while loop is built into an `Environment`, of which there is just one per simulation. We would like to be able to make updates to the `Environment` without having ot restart the simulation or renew the adapters. One possible implementation of the `Environment` might look like this:
+
+```python
+
+class Environment(object):
+
+    def __init__(self, adapter):
+        self._adapter = adapter # adapter wraps device (see above)
+        self._count = 0
+        self._timer = 0.0
+        self._delta = 0.0
+        self._user_delta = None
+        
+    def _delta(self):
+        if self._user_delta:
+            return self._user_delta
+        else:
+            return (datetime.now() - start).total_seconds()
+            
+    def setUserDelta(self, delta):
+        self._user_delta = delta
+
+    def run(self):
+
+        while True:
+            start = datetime.now()
+
+            
+            adapter.process(delta) # stream adapters would call asyncore.loop(0.1, count=1) as part of this
+
+            
+            count += 1
+            timer += self._delta()
+            self._delta = self._delta()
+            # ....
+```
+
+I think this would enable us to have a separate set of `EnvironmentAdapters`, but I don't yet have a good design for this yet.
 
 #### Author Comments
 
-The author may comment on any benefits or drawbacks in this section.
+I believe this design will satisfy all the listed requirements. But I would be happy to answer questions against any one of the listed requirements and expand my design accordingly.
+
+**Benefits**
+
+* The `Adapter` is completely responsible for binding a device specific input protocol to the relevant device. Protocols are designed for devices, and this approach recognises that. 
+* There is **no** separate binding layer. The bindings responsibility is part of the `Adapter` this allow for complex binding behaviour to be modelled.
+* The Adapter can be tested independently of the `Device`. The `Device` can be mocked for these testing purposes.
+* The `Device` is not aware of the `Adapter`. `Devices` can be tested independently of the `Adapter`
+* The `Environment` can be updated on a running device.
+
+**Drawbacks**
+
+* The design lacks a good way to enforce that a given device-adapter class uses any shared-code.
+* Can we implement `EnvironmentAdapters` to run on the same thread as the rest of the application? (I think the answer is probably yes). If not locking may become a problem.
+
+
 
 ### Option B
 
