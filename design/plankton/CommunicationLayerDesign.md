@@ -88,7 +88,7 @@ class Environment(object):
         else:
             return (datetime.now() - start).total_seconds()
             
-    def setUserDelta(self, delta):
+    def set_user_delta(self, delta):
         self._user_delta = delta
 
     def run(self):
@@ -97,7 +97,7 @@ class Environment(object):
             start = datetime.now()
 
             
-            adapter.process(delta) # stream adapters would call asyncore.loop(0.1, count=1) as part of this
+            self._adapter.process(delta) # stream adapters would call asyncore.loop(0.1, count=1) as part of this
 
             
             count += 1
@@ -110,7 +110,42 @@ class Environment(object):
 
 The separation of the runnable parts of the simulation (now in the `Environment`) from the `Device` and the `Adapter` parts should make updates which affect only the `Environment` easier.
 
-I yet need to think on some kind of `EnvironmentAdapters`.
+Here's one possibility I've been considering:
+
+`EnvironmentAdapter` sees `Environment` 
+
+```python 
+    class Environment(object):
+
+    def __init__(self, adapter, environ_adapter):
+        self._environ_adapter = environ_adapter
+        self._environ_adapter.set_adaptee(self)
+        self._adapter = adapter
+
+    def run(self):
+
+        while True:
+            # Everything still driven from a central processing loop.
+            self._environment_adapter.process()
+            
+            self._adapter.process(delta)
+
+```
+
+```python
+   class StreamEnvironmentAdapter(object):
+
+    def set_adaptee(self, environment):
+        self._environment = environment
+        
+    
+    def process(self):
+        asyncore.loop(0.1, count=1)
+        # ...
+        self._environment.set_user_delta(user_value)
+        
+```
+
 
 #### Author Comments
 
