@@ -41,6 +41,7 @@ The IBEX team at ISIS, for example, have expressed interest in using Plankton. N
 Overview:
 
 * `Adapters` are bespoke per `Device` as well as per `Protocol`.
+* We term the `Hardware` as per the manufacturer specification to be `Device` + `Adapter`.
 * There is no separate binding.
 * There is no general concrete `Adapter` for any protocol. 
 * The process loop is kicked off by the `Environment`
@@ -65,7 +66,7 @@ class EPICSAdapterLinkum95(EPICSAdapter):
         self._device = linkum95_device                     
 ```
 
-Adapters are device owners.
+Adapters are device owners. In the context of the current `linkum95`, the binary flags which are critical to this device would be moved into the associated `StreamAdapterLinkum95`. The state-machine parts of the `Device` are therefore essentially free of the `Hardware` interface. See next section for new-users and external contributions and how we intend to make this separation optional.
 
 #### The Device-Adapter Types
 
