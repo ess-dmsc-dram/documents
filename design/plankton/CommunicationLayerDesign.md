@@ -170,6 +170,7 @@ Here's one possibility I've been considering:
         
 ```
 
+After discussion with Michael Wedel, I am now strongly leaning towards providing a simple single protocol for the `Environment Control`. While `Adapter` flexibility and variation is vital in order to support different device types. the `Environment` is internal to plankton and we should publish and control a single mechanism for this. Michael Wedel has suggested JSON over zeromq.
 
 #### Author Comments
 
