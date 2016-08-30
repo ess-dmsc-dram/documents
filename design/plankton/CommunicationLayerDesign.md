@@ -67,6 +67,30 @@ class EPICSAdapterLinkum95(EPICSAdapter):
 
 Adapters are device owners.
 
+#### The Device-Adapter Types
+
+The system should address the needs of the instrument-data group as a priority. That is to implement robust simulators meeting testable and maintainable internal standards. For this device and adapter separation is vital. In this mode of operation the `Device` represents the state-machine independent of the `Adapter` and the `Adapter` turns the `Device` into the `Hardware-Device` which both behaves and communicates as per the real hardware as specified by the manufacturer. For internally developed devices we would expect to see **three factor testing**:
+
+1. Testing of the state-machine `Device`
+2. Testing of the `Adapter` with a mocked `Device`
+3. Integration tests of the entire `Hardware` (`Device` + `Adapter`) against the hardware specifications.
+
+However, we also have a requirement:
+
+```
+The system should minimize effort and burden of knowledge for users seeking to implement simulators
+```
+
+Users are likely to implement a device top-down. That is to say that they will start with the device specification, build the adapter an think about the state-machine from there. In this case, the separation of `Adapter` from `Device` becomes a burden and makes things harder for device implementors. The approach here is to provide support for a single combination class, which front facing documentation should heavily promote for new users:
+
+```python
+class SimulatedLinkum95Hardware(StreamAdapter, Device):
+    pass
+```
+The plankton framework will handle registration of such devices. If users wanted to promote such devices to be distributed with the framework, they could request to do so and it should be possible for us to make the conversion. **We would only require that point 3 of the three factor testing (above) had been provided.**
+
+
+
 #### Environment & Timing Loop
 
 The design separates the timing loop from the `Adapter`. The while loop is built into an `Environment`, of which there is just one per simulation. We would like to be able to make updates to the `Environment` without having ot restart the simulation or renew the adapters. One possible implementation of the `Environment` might look like this:
