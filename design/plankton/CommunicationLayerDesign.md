@@ -190,7 +190,21 @@ I believe this design will satisfy all the listed requirements. But I would be h
 * The design lacks a good way to enforce that a given device-adapter class uses any shared-code.
 * Can we implement `EnvironmentAdapters` to run on the same thread as the rest of the application? (I think the answer is probably yes). If not locking may become a problem.
 
+#### New package structure
 
+With the design explained above it becomes more straight forward to specify a package structure that is suitable for distribution (e.g. as a package in PyPI). What we could aim for is a package that has several modules:
+
+* `core`: Contains the state machine and base classes for different adapters, as well as some behavior that is useful for devices (e.g. "approach a value" stuff discussed in [#81](https://github.com/DMSC-Instrument-Data/plankton/issues/81)). These could be in sub-modules/packages `statemachine`, `behavior`, `adapters`, `utilities`.
+* `devices`: These would contain one sub-module per device, at the moment `chopper` and `linkam_t95`, which in turn contain the device implementation as well as the adapter(s) associated with that device. The setups should also be in a sub-module of the device.
+* `devices_contrib` (maybe there is a better name?): This is where external developers would add their devices to begin with. As @owenarnold wrote above, later refactoring done by us (or experienced developers) would move the device into the `devices` package. There is no strict need to have an entire directory per device, it could be a single Python file to begin with.
+* `simulation`: This would contain the current startup script and possibly a "server mode simulation runner" which is controllable via the protocol described above.
+* `tests`: Tests for all the stuff above. Contributors would put their tests into `tests/devices_contrib`. This would probably not be part of the PyPI-package.
+
+We could then think about providing a PyPI-package, where users can just do `pip install plankton` and use the core parts (statemachine etc.) for other stuff simply via `from plankton.core import statemachine` or `from plankton.devices import chopper` to write some device related script.
+
+Furthermore the `setup.py`-file can be configured so that the startup script (both the current one and the potential new one for a daemon) are installed into the system's path.
+
+The package building and publishing can probably be done via travis as well, but that needs to be verified.
 
 ### Option B
 
