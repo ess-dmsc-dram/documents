@@ -247,15 +247,104 @@ Furthermore the `setup.py`-file can be configured so that the startup script (bo
 
 The package building and publishing can probably be done via travis as well, but that needs to be verified.
 
-### Option B
 
-Detail design option B here.
+#### Example Adapter Code
 
-#### Author Comments
-The author may comment on any benefits or drawbacks in this section.
+This section provides a code example that shows how this design might be implemented, tracing from adapter to device class.
 
-## Recommended Option
-To be completed after design options evaluated by all parties.
+In this code, terminology is as follows:
+- Adapter: Base class that implements low level protocol handling and communication (TCP, EPICS, etc).
+- Interface: A device's high level interface on a protocol, and maps it to python methods (`'T'` -> `getStatus()`). Inherits from Adapter.
+- Device: Sets up device `StateMachine` and contains device attributes (formerly contained in Context).
+
+```python
+#############################################################
+# plankton/adapters/stream.py
+#------------------------------------------------------------
+
+class StreamHandler(asynchat.async_chat):
+    # Mostly same as currently in stream.py
+    # Handles a specific tcp connect
+    # Created by StreamServer
+    # Calls StreamAdapter.handleCommand from self.found_terminator
+    pass
+
+class StreamServer(asyncore.dispatcher):
+    # Same as currently in stream.py
+    # Listens on port XYZ for incoming connections
+    # Still created by StreamAdapter?
+    pass
+
+class StreamAdapter(Adapter):
+    # Very different from current in stream.py
+    # Main loop / run method moved to environment
+    
+    # All Adapters have a process, this one just gives asyncore some time to
+    # handle its connections. Perhaps the only thing Adapters have in common?
+    # NOTE: Parameter is not dt, but how long we should spend here at most.
+    #       This is important now that we want to provide dt/cycle control.
+    def process(self, how_long=0.1):
+        # Could add some code to ensure we spend a full how_long worth of time
+        # here (rather than returning early if a connection is handled).
+        asyncore.loop(how_long, count=1)
+    
+    # Register command handlers, called by decorators below
+    def registerCommand(self, func, regex):
+        # Add regex -> func mapping to some internal dict or the like
+        pass
+    
+    # Called by StreamHandler when new command arrives
+    def handleCommand(self, command):
+        # Match command against internal dict of regex -> func
+        # Call func (arg contents/number depend on regex capture groups)
+        # return back to StreamHandler (which sends return value over wire)
+        return func(*args)  # calls, e.g.: setRate('2000')
+        
+    # @stream_command and @stream_default_command decorators defined here?
+
+
+#############################################################
+# plankton/devices/linkam_t95/interfaces/stream.py
+#------------------------------------------------------------
+
+class LinkamT95StreamInterface(StreamAdapter):
+    def __init__(self, device):
+        # Tell StreamAdapter what the in/out line terminators are
+        super(StreamAdapter, self).__init__('\r', '\r')
+        self._device = device
+        
+    @stream_command('T')
+    def getStatus(self):
+        # Pretty much exactly like current getStatus in SimulatedLinkamT95, 
+        # except accesses information it needs via self._device
+        return ''.join(chr(c) for c in Tarray) 
+        
+    @stream_command('R1([0-9]+)')
+    def setRate(self, rate):
+        # Regex capture groups form arguments
+        return ''
+    
+    # ... more stream_commands here
+    
+    @stream_command_default
+    def handleError(self, stuff_that_didnt_match):
+        # Called when none of the stream_commands matched, in case we want 
+        # to handle errors... T95 happens to just ignore this quietly
+        pass
+        
+    
+class LinkamT95Device(CanProcessComposite):
+    # This just creates and sets up a StateMachine 
+    # Contains device methods, properties, attributes (previously Context)
+    # No longer required to follow hardware interface
+    pass
+
+```
+
+We'll have to work out how the Hardware combo class will work out. Particularly, since both the Device and Interface have a `process` method. 
+
+Perhaps some simple intermediate classes class `Interface`, `Device` and `Hardware` would help. Might be good for readability as well.
+
 
 ## Approvals
 To be completed after recommended option has been reviewed by all parties.
