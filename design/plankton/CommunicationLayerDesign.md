@@ -343,9 +343,13 @@ class LinkamT95Device(CanProcessComposite):
 
 We'll have to work out how the Hardware combo class will work out. Particularly, since both the Device and Interface have a `process` method. 
 
-Perhaps some simple intermediate classes class `Interface`, `Device` and `Hardware` would help. Might be good for readability as well.
+Perhaps some simple intermediate classes `Interface`, `Device` and `Hardware` would help. Might be good for readability as well.
 
 
 ## Approvals
 To be completed after recommended option has been reviewed by all parties.
 
+## Decision
+After thorough discussion of the suggestion, including aspects such as preserving the option to have different setups, controlling different aspects of the environment and the simulated device through an RPC-type approach, all parties were satisfied with the presented design.
+
+The plan is to implement the changes incrementally and finish with all modifications by then end of the month, after which a version 1.0 tag will be added to the git repository.
