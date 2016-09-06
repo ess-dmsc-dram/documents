@@ -347,7 +347,14 @@ Perhaps some simple intermediate classes `Interface`, `Device` and `Hardware` wo
 
 
 ## Approvals
-To be completed after recommended option has been reviewed by all parties.
+
+| Reviewer        |  Review Date          |
+| ------------- |:-------------:| 
+| Owen Arnold     | 6th September 2016 | 
+| Michael Hart      | 6th September 2016       | 
+| Michael Wedel | 6th September 2016      |  
+
+The high-level design was approved by all parties 6th September 2016. As part of a 2 hour Skype meeting with the listed team above present. We also had input from Freddie Akeroyd.
 
 ## Decision
 After thorough discussion of the suggestion, including aspects such as preserving the option to have different setups, controlling different aspects of the environment and the simulated device through an RPC-type approach, all parties were satisfied with the presented design.
