@@ -92,8 +92,7 @@ The plankton framework will handle registration of such devices. If users wanted
 
 #### Device and Low-Level Design and Testing
 
-
-For example, The Linkum T95 returns a hexadecimal temperature status when probed via a TCP 'T'. That's what the data sheet says. That's unambiguous. **Any design must support this ability and we should test at this level**. We should treat testing at this level as *system-testing* or *integration-testing* of the device. For the remainder of this section I'll call this the `Specified-Device`. I keep this separate from the `Hardware-Device` because my `Specified-Device` might not include the TCP communication layer. For example in the current LinkumT95 setup, there is a `getStatus()` method, and bindings provide the mapping from that to the `T` status command.
+For example, The Linkum T95 returns a hexadecimal temperature status when probed via a TCP 'T'. That's what the data sheet says. That's unambiguous. **Any design must support this ability and we should test at this level**. We should treat testing at this level as *system-testing* or *integration-testing* of the device. For the remainder of this section I'll call this the `Adapter-Interface`. 
 
 However, the specification does not specify that there is a state-machine. We use a state-machine to provide a good model of the device behaviour.  For the remainder of this section I'll call this my `State-Machine-Device` which would encompass the `Context` the `OrderedDict` state-machine specification along with transition functions.
 
@@ -102,35 +101,10 @@ Here is why I (Owen) think this split is important.
 Premise: Fundamentally "TESTING IS THE PROCESS OF EXECUTING A PROGRAM WITH THE INTENT OF FINDING ERRORS" *G.J Myers, The Art of Software Testing, Wiley, 1979*
 
 1. My state-machine realisation can be sufficiently complex that I want to test that independently from what the specified interface promises. This is white-box testing of my state-machine device. The chopper is quite complex, but Plankton is powerful enough to do state-based simulations of much greater complexity than the chopper, and we should make the framework suitable for that for our internal device creations.
-1. The `Specified-Device` does not promise to provide sufficient hooks for me to test my internal implementation of my state machine. The interfaces are different. The device manufactures did not know that I intended to create a state machine simulator, and their interface is different to the one that I want for my state machine.
-1. The `Specified-Device` interface includes conversions that are not fundamental to my state-machine and my state-machine does not rely on those conversions. For example, the `Specified-Device` returns a temperature as `32` degrees as `0x020`.
+1. The `Adapter-Interface` does not promise to provide sufficient hooks for me to test my internal implementation of my state machine. The interfaces are different. The device manufactures did not know that I intended to create a state machine simulator, and their interface is different to the one that I want for my state machine.
+1. The `Adapter-Interface` interface includes conversions that are not fundamental to my state-machine and my state-machine does not rely on those conversions. For example, the `Adapter-Interface` returns a temperature as `32` degrees as `0x020`.
     1. I want to be able to verify that the device is processing say a temperature limit set `L1` to the correct temperature independently of what the `State-Machine-Device` then does with it. I want failures to easily indicate where problems are in the code base (see premise above). Are they related to the state-machine or the parsing of inputs?
     1. I want to have readable tests for my `State-Machine-Device` a set/return `0x020` is not incredibly readable at the unit test level (although it is needed at the system-test level)
-
-    
-I would then say as part of my proposal that the low-level design (as created by the Plankton team) of stateful devices might better look like this.
-
-```python
-
-class LinkumT95()
-
-   def __init__(self, linkum_t95_machine):
-       if not linkum_t95_machine:
-           self._linkum_t95_machine = LinkumT95Machine()
-       else:
-           self._linkum_t95_machine = linkum_t95_machine
-    
-   def getStatus():
-       temp = self._linkum_t95_machine.getTemp() # Get temp as float
-       # convert this into a hex 
-       # convert this into a hex character array
-       return hex_char_arry
-   
-```
-This will give a better ability to perform the granular testing at the level that we want. 
-
- 
-
 
 
 #### Environment & Timing Loop
@@ -350,11 +324,11 @@ Perhaps some simple intermediate classes `Interface`, `Device` and `Hardware` wo
 
 | Reviewer        |  Review Date          |
 | ------------- |:-------------:| 
-| Owen Arnold     | 6th September 2016 | 
-| Michael Hart      | 6th September 2016       | 
-| Michael Wedel | 6th September 2016      |  
+| Owen Arnold     | 5th September 2016 | 
+| Michael Hart      | 5th September 2016       | 
+| Michael Wedel | 5th September 2016      |  
 
-The high-level design was approved by all parties 6th September 2016. As part of a 2 hour Skype meeting with the listed team above present. We also had input from Freddie Akeroyd.
+The high-level design was approved by all parties 5th September 2016. As part of a 2 hour Skype meeting with the listed team above present. We also had input from Freddie Akeroyd.
 
 ## Decision
 After thorough discussion of the suggestion, including aspects such as preserving the option to have different setups, controlling different aspects of the environment and the simulated device through an RPC-type approach, all parties were satisfied with the presented design.
