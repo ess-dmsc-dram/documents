@@ -12,7 +12,7 @@ Over the last 6-months, the ESS Instrument Data Group have been working on a num
 
 ## Problem
 
-Our experience of this large-scale refactoring over the last 6-12 months is that rollout of changes across the framework is extremely time consuming. A major bottleneck is the approximate 800 Algorithms which need to be individually treated and updated following these changes. To compound this, the DMSC Instrument Data group is facing financial cuts that reduce the staffing and the capacity to make these changes will be reduced.
+Our experience (with evidence above) of this large-scale refactoring over the last 6-12 months is that rollout of changes across the framework is extremely time consuming. A major bottleneck is the approximate 800 Algorithms which need to be individually treated and updated following these changes. To compound this, the DMSC Instrument Data group is facing financial cuts that reduce the staffing and the capacity to make these changes will be reduced.
 
 **We need to reduce the large inertia to applying core changes in Mantid as a result of a very large codebase.** This will otherwise swallow the DMSC mantid effort.
 
