@@ -8,7 +8,7 @@ Over the last 6-months, the ESS Instrument Data Group have been working on a num
 * `SpectrumInfo/GeometryInfo` - A better UI and caching layer for `Algorithm` authors, which provides improvements in both clarity and raw access performance. **Released as part of 3.8 Mantid**
 * `Component` creation optimisation. Giving faster Instrument access by 30%. **Released as part of 3.7 Mantid**
 * `IndexInfo` consolidation of indexing operations. Critical to scalable distributed data reduction. **Released as part of 3.7 Mantid**
-* `Instrument 2.0` - An ongoing super-prototype development stream. which offers very much faster read performance, lower memory overheads, and greater potential to support complex experiments than Mantid currently has.
+* `Instrument 2.0` - An ongoing [super-prototype](https://github.com/DMSC-Instrument-Data/instrument-prototype) development stream. which offers very much faster read performance, lower memory overheads, and greater potential to support complex experiments than Mantid currently has.
 
 
 ## Problem
@@ -43,7 +43,7 @@ New functionality could be implemented in new modules, which in turn could be us
 There is a series of problems:
 
 - A considerable number of our changes result in a complete rework of the underlying data structures.
-  Instrument-2.0 is a key example for this and similar issues might arise with the workspace concept.
+  [Instrument-2.0](https://github.com/DMSC-Instrument-Data/instrument-prototype) is a key example for this and similar issues might arise with the workspace concept.
   Since the current implementation of, e.g., the instrument, does not provide a good abstraction it is not possible to change the underlying data structures without breaking changes in the interface.
   It is thus difficult to provide a legacy interface and doing so might require some additional development effort.
 - Guarantees and invariants of new functionality in a new module will be broken if access via a legacy interface is possible.
@@ -70,3 +70,12 @@ More concretely:
 The (current) big unknown with this approach is how we can tell if we are getting anywhere and how new functionality can eventually be combined with existing functionality.
 It may turn out that is is never possible, i.e., existing algorithms might be dropped completely and be replaced by scripts that use the new Sci-py styled libraries at some point in the future.
 But the implication is that we need to be certain that we will be capable of providing 100% of the required functionality using only the Sci-py styled libraries.
+
+### Dediciated Cross-facility Core Effort
+
+At operating facilities, the emphasis for many years has been on framework use rather than framework development. The delivery model in the Mantid program has been very successful in engaging users and ensuring that day-to-day issues are prioritised and fixed. However, this environment does not always foster the best practices when it comes to making core fixes, which may be seen as wasteful or uncessary to those who comission the development. One approach would be to re-address the balance of framework fix to framework utilisation in each development cycle. One way to ensure that developers have an increased amount of dedicated time for framework fixes may be to have members of the development team at each collaborating facility permanently responsible for the state of the Mantid framework, and not for the deliverables in a particular technique area.
+
+* This would require buy-in from all facilities.
+* The effort will help ensure the longevity of Mantid. However, it may look as though no 'useful' technique specific work is being done. * There is a sizeable associated cost.
+* In the short term there will be a reduction in the amount of work that can be done in terms of feature additions. This has to be understood.
+
