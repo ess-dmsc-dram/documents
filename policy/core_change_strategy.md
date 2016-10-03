@@ -10,6 +10,7 @@ Over the last 6-months, the ESS Instrument Data Group have been working on a num
 * `IndexInfo` consolidation of indexing operations. Critical to scalable distributed data reduction. **Released as part of 3.7 Mantid**
 * `Instrument 2.0` - An ongoing super-prototype development stream. which offers very much faster read performance, lower memory overheads, and greater potential to support complex experiments than Mantid currently has.
 
+
 ## Problem
 
 Our experience (with evidence above) of this large-scale refactoring over the last 6-12 months is that rollout of changes across the framework is extremely time consuming. A major bottleneck is the approximate 800 Algorithms which need to be individually treated and updated following these changes. To compound this, the DMSC Instrument Data group is facing financial cuts that reduce the staffing and the capacity to make these changes will be reduced.
@@ -22,12 +23,50 @@ Our experience (with evidence above) of this large-scale refactoring over the la
 * We are looking at a permanent way to significantly reduce overheads for changes of this type. Temporary allocation of resources does not provide an adequate solution.
 * The DMSC has successfully been working alongside ISIS, ILL and SNS partners on a shared codebase with a common deployment schedule and strategy. The level of cooperation between facilities has been exemplary. A wholesale forking the Mantid codebase would offer a quick fix, but would be very unwise in nearly all other respects. This approach should be ruled out.
 
+
 ## Proposed Strategies
 
 ### Remove Dead Algorithms
-TODO
+
+Usage tracking has been added to algorithms about half a year ago (end of Mantid version 3.5).
+According to statistics, in the order of 10% of all algorithms can be considered dead.
+- Removing those algorithms could potentially reduce the rollout effort by a similar amount.
+- On its own, a 10% reduction of rollout effort is not sufficient.
+- Removing algorithms is met with resistance from other facilities and would not take immediate effect:
+  Following a two-step approach of 1.) deprecation and 2.) removal this would take two releases, that is eight month from the time of writing (beginning of a release), which further limits the benefits.
+
+### Long-term support of legacy interfaces
+
+If the old interfaces were kept alive, rollout of new interfaces and functionality to the full framework would not be a necessity.
+New functionality could be implemented in new modules, which in turn could be used in a small set of core algorithms that we choose to support.
+
+There is a series of problems:
+
+- A considerable number of our changes result in a complete rework of the underlying data structures.
+  Instrument-2.0 is a key example for this and similar issues might arise with the workspace concept.
+  Since the current implementation of, e.g., the instrument, does not provide a good abstraction it is not possible to change the underlying data structures without breaking changes in the interface.
+  It is thus difficult to provide a legacy interface and doing so might require some additional development effort.
+- Guarantees and invariants of new functionality in a new module will be broken if access via a legacy interface is possible.
+- Currently, there are one or two ways to do the same thing, e.g., determining if a spectrum is a monitor, if we add a new interface without removing the old one there will be three.
+- Maintaining a legacy interface will impose some limitations on the new design.
 
 ### Sci-py approach
-The SNS 5-year plan as described to the [PMB](https://github.com/mantidproject/documents/blob/master/Project-Management/PMB/Minutes/PMBMinutes-2016-01-22.docx) states: **"the long-term plan for Mantid includes evolving Mantid to scipy-styled package"**. TODO ecosystem approach ..
+The SNS 5-year plan as described to the [PMB](https://github.com/mantidproject/documents/blob/master/Project-Management/PMB/Minutes/PMBMinutes-2016-01-22.docx) states: **"the long-term plan for Mantid includes evolving Mantid to scipy-styled package"**.
 
+Depending on the interpretation, this can be done be providing a series of small, well-contained, low- to medium-level libraries.
+High-level functionality would be part of user scripts and not part of the Mantid core framework.
 
+The key issue here is how this can be reconciled with (the development of) the current Mantid framework.
+New modules can be built as part of the Mantid framework, but we would *not* do a rollout to existing algorithms.
+More concretely:
+
+- Instrument-2.0 gets implemented as a stand-alone Mantid library, i.e., without dependencies on the other Mantid modules, in parallel to the existing instrument code.
+- We do *not* use it anywhere but simply ignore code in existing algorithms, apart from using them as a guideline for required functionality.
+- Similarly, we would continue adding more and more small libraries.
+- Workspaces are a key concept of Mantid, but in their current form they also represent one of the key issues of the framework.
+  New libraries would probably be severely hindered by making them compatible with the current workspace infrastructure.
+  Instead the libraries should work at a lower level, and eventually a replacement for workspaces could be provided.
+
+The (current) big unknown with this approach is how we can tell if we are getting anywhere and how new functionality can eventually be combined with existing functionality.
+It may turn out that is is never possible, i.e., existing algorithms might be dropped completely and be replaced by scripts that use the new Sci-py styled libraries at some point in the future.
+But the implication is that we need to be certain that we will be capable of providing 100% of the required functionality using only the Sci-py styled libraries.
