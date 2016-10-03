@@ -53,7 +53,7 @@ There is a series of problems:
 ### Sci-py approach
 The SNS 5-year plan as described to the [PMB](https://github.com/mantidproject/documents/blob/master/Project-Management/PMB/Minutes/PMBMinutes-2016-01-22.docx) states: **"the long-term plan for Mantid includes evolving Mantid to scipy-styled package"**.
 
-Depending on the interpretation, this can be done be providing a series of small, well-contained, low- to medium-level libraries.
+Depending on the interpretation, this can be done by providing a series of small, well-contained, low- to medium-level libraries.
 High-level functionality would be part of user scripts and not part of the Mantid core framework.
 
 The key issue here is how this can be reconciled with (the development of) the current Mantid framework.
