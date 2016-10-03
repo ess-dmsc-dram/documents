@@ -29,7 +29,7 @@ Our experience (with evidence above) of this large-scale refactoring over the la
 ### Remove Dead Algorithms
 
 Usage tracking has been added to algorithms about half a year ago (end of Mantid version 3.5).
-According to statistics, in the order of 10% of all algorithms can be considered dead.
+According to [statistics](algorithm-usage-summary.txt), in the order of 10% of all algorithms can be considered dead (not all of the apparent zero-use algorithms are really unused due to incomplete statistics, but in turn some of the algorithms used only a handful of times are actually unused, if we take into account misclicks and inadvertently activated tracking when running tests).
 - Removing those algorithms could potentially reduce the rollout effort by a similar amount.
 - On its own, a 10% reduction of rollout effort is not sufficient.
 - Removing algorithms is met with resistance from other facilities and would not take immediate effect:
