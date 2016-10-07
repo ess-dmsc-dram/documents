@@ -26,7 +26,7 @@ Our experience (with evidence above) of this large-scale refactoring over the la
 
 ## Proposed Strategies
 
-### Remove Dead Algorithms
+### 1. Remove Dead Algorithms
 
 Usage tracking has been added to algorithms about half a year ago (end of Mantid version 3.5).
 According to [statistics](algorithm-usage-summary.txt), in the order of 10% of all algorithms can be considered dead (not all of the apparent zero-use algorithms are really unused due to incomplete statistics, but in turn some of the algorithms used only a handful of times are actually unused, if we take into account misclicks and inadvertently activated tracking when running tests).
@@ -35,10 +35,10 @@ According to [statistics](algorithm-usage-summary.txt), in the order of 10% of a
 - Removing algorithms is met with resistance from other facilities and would not take immediate effect:
   Following a two-step approach of 1.) deprecation and 2.) removal this would take two releases, that is eight month from the time of writing (beginning of a release), which further limits the benefits.
 
-### Long-term support of legacy interfaces
+### 2. Long-term support of legacy interfaces
 
 If the old interfaces were kept alive, rollout of new interfaces and functionality to the full framework would not be a necessity.
-New functionality could be implemented in new modules, which in turn could be used in a small set of core algorithms that we choose to support.
+New functionality could be implemented in new modules, which in turn could be used in a small set of core algorithms that we choose to support. In this option we do not deprecate old interfaces, we work around them instead.
 
 There is a series of problems:
 
@@ -49,12 +49,13 @@ There is a series of problems:
 - Guarantees and invariants of new functionality in a new module will be broken if access via a legacy interface is possible.
 - Currently, there are one or two ways to do the same thing, e.g., determining if a spectrum is a monitor, if we add a new interface without removing the old one there will be three.
 - Maintaining a legacy interface will impose some limitations on the new design.
+- Maintaining legacy interfaces will be expensive because of it's size and the potential for holes. We may never reduce the size of the code base.
 
-### Sci-py approach
+### 3. Sci-py approach
 The SNS 5-year plan as described to the [PMB](https://github.com/mantidproject/documents/blob/master/Project-Management/PMB/Minutes/PMBMinutes-2016-01-22.docx) states: **"the long-term plan for Mantid includes evolving Mantid to scipy-styled package"**.
 
 Depending on the interpretation, this can be done by providing a series of small, well-contained, low- to medium-level libraries.
-High-level functionality would be part of user scripts and not part of the Mantid core framework.
+High-level functionality would be part of user scripts and not part of the Mantid core framework. The intention here is to leverage the package separtion to choose to focus refactoring effort on "core" packages and not on all "outter" packages.
 
 The key issue here is how this can be reconciled with (the development of) the current Mantid framework.
 New modules can be built as part of the Mantid framework, but we would *not* do a rollout to existing algorithms.
@@ -71,11 +72,14 @@ The (current) big unknown with this approach is how we can tell if we are gettin
 It may turn out that is is never possible, i.e., existing algorithms might be dropped completely and be replaced by scripts that use the new Sci-py styled libraries at some point in the future.
 But the implication is that we need to be certain that we will be capable of providing 100% of the required functionality using only the Sci-py styled libraries.
 
-### Dediciated Cross-facility Core Effort
+### 4. Dediciated Cross-facility Core Effort
 
 At operating facilities, the emphasis for many years has been on framework use rather than framework development. The delivery model in the Mantid program has been very successful in engaging users and ensuring that day-to-day issues are prioritised and fixed. However, this environment does not always foster the best practices when it comes to making core fixes, which may be seen as wasteful or uncessary to those who comission the development. One approach would be to re-address the balance of framework fix to framework utilisation in each development cycle. One way to ensure that developers have an increased amount of dedicated time for framework fixes may be to have members of the development team at each collaborating facility permanently responsible for the state of the Mantid framework, and not for the deliverables in a particular technique area.
 
 * This would require buy-in from all facilities.
 * The effort will help ensure the longevity of Mantid. However, it may look as though no 'useful' technique specific work is being done. * There is a sizeable associated cost.
-* In the short term there will be a reduction in the amount of work that can be done in terms of feature additions. This has to be understood.
+* In the short-term there will be a reduction in the amount of work that can be done in terms of feature additions in each release. This has to be understood.
+* More senior, experienced, decision making (TSC members ideally) are required. This is not a role for a more junior devloper.
+
+Ontop of the 2.5 FTE ESS Mantid team. **We suggest that every other collaborating facility (SNS and ISIS) would only have to provide a single FTE to the collaboration core effort**. Each member would have to be free from instrument specific responsiblities so that their effort can be focused on the core changes. As explained above a senior developer is required. With this level of effort we can continue to make the core improvements that the framework needs, and have been delivered over the last 9-months.
 
