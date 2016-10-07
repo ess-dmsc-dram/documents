@@ -8,7 +8,7 @@ Over the last 6-months, the ESS Instrument Data Group have been working on a num
 * `SpectrumInfo/GeometryInfo` - A better UI and caching layer for `Algorithm` authors, which provides improvements in both clarity and raw access performance. **Released as part of 3.8 Mantid**
 * `Component` creation optimisation. Giving faster Instrument access by 30%. **Released as part of 3.7 Mantid**
 * `IndexInfo` consolidation of indexing operations. Critical to scalable distributed data reduction. **Released as part of 3.7 Mantid**
-* `Instrument 2.0` - An ongoing [super-prototype](https://github.com/DMSC-Instrument-Data/instrument-prototype) development stream. which offers very much faster read performance, lower memory overheads, and greater potential to support complex experiments than Mantid currently has.
+* `Instrument 2.0` - An ongoing [large-scale-prototype](https://github.com/DMSC-Instrument-Data/instrument-prototype) development stream. which offers very much faster read performance, lower memory overheads, and greater potential to support complex experiments than Mantid currently has.
 
 
 ## Problem
