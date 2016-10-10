@@ -49,4 +49,4 @@ for setup and execution.
 
 ## 7 Philosophy
 
-Final deliverable dates are on very large timescales as far as usual software projects are concerned. Given the long timeline for ESS transition into operation, we must ensure that any software development is of a sustainable and maintainable quality that allows for a long software lifetime. Quality and stability should not be sacrificed for short-term solutions or for hasty additions of new features.
+Final deliverable dates are on very large timescales as far as usual software projects are concerned. Given the long timeline for ESS transition into operation, we must ensure that any software development is of a sustainable and maintainable quality that allows for a long software lifetime. Quality and stability should not be sacrificed for short-term solutions or for hasty additions of new features. All DMSC/Instrument-Data group projects will be run with the philosophy of building software capital for the DMSC.
