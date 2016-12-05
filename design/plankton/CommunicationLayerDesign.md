@@ -90,6 +90,63 @@ class SimulatedLinkum95Hardware(StreamAdapter, Device):
 ```
 The plankton framework will handle registration of such devices. If users wanted to promote such devices to be distributed with the framework, they could request to do so and it should be possible for us to make the conversion. **We would only require that point 3 of the three factor testing (above) had been provided.**
 
+**Addendum after implementing this**
+It turned during implementation out that allowing classes to inherit from both `Adapter` and `Device` clashes heavily with the requirement of splitting them up. After going through the process of defining ownership (`Adapter` owns `Device`) and responsibilities, a considerable amount of work is required to allow classes to inherit from `Adapter` and `CanProcess` at the same time. Accessing the device through `ControlServer`/`ControlClient` becomes very hard, because parts of the adapters can't be serialized (and shouldn't be exposed in general).
+
+The modifications to the two currently existing `Adapter`-classes however make it very simple to split up `Device` and `Adapter`. This is best explained by an example of a very simple device that just has one parameter that should be exposed via the stream adapter, so this code would live in `devices/example/__init__.py`:
+
+```python
+from adapters.stream import StreamAdapter, Cmd
+from core.processor import CanProcess
+
+class VerySimpleDevice(CanProcess):
+    param = 10
+    
+class VerySimpleAdapter(StreamAdapter):
+    commands = {
+        Cmd('get_param', '^P$'),
+        Cmd('set_param', '^P=(\d+)$'),
+    }
+    
+    in_terminator = '\r\n'
+    out_terminator = '\r\n'
+    
+    def get_param(self):
+        return self._device.param
+        
+    def set_param(self, new_param):
+        self._device.param = int(new_param)
+```
+
+It could also be implemented like this:
+
+```python
+from adapters.stream import StreamAdapter, Cmd
+from core.processor import CanProcess
+
+class VerySimpleDevice(CanProcess):
+    param = 10
+    
+    def get_param(self):
+        return self.param
+        
+    def set_param(self, new_param):
+        self.param = int(new_param)
+    
+class VerySimpleAdapter(StreamAdapter):
+    commands = {
+        Cmd('get_param', '^P$'),
+        Cmd('set_param', '^P=(\d+)$'),
+    }
+    
+    in_terminator = '\r\n'
+    out_terminator = '\r\n'
+```
+
+Basically it doesn't matter where the split happens, the `Adapter` can be trivial (as in the second case), specifying nothing more but the commands that the `StreamAdapter` should handle. In case of `EpicsAdapter` it's the same.
+
+If this is documented and accompanied by an example, implementing two classes instead of one (and still both in the same file) does not place a heavy burden on a device developer. So the main requirement that drove this design option is still fulfilled and other parts of the design stay clean (`Adapter` and `Device` well separated, ownership relations unambiguous).
+
 #### Device and Low-Level Design and Testing
 
 For example, The Linkum T95 returns a hexadecimal temperature status when probed via a TCP 'T'. That's what the data sheet says. That's unambiguous. **Any design must support this ability and we should test at this level**. We should treat testing at this level as *system-testing* or *integration-testing* of the device. For the remainder of this section I'll call this the `Adapter-Interface`. 
