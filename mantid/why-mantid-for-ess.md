@@ -9,6 +9,7 @@
 1. Well set-up continuous integration environment
 1. Several layers of automated testing for large parts of the code base (unit tests, system tests, "documentation" tests)
 1. Code-reviews
+1. Uses a modern version control system (Git)
 
 The amount of effort going into setup and running this infrastructure should not be underestimated.
 Setting up such a system on our own would eat up a major part of our effort.
