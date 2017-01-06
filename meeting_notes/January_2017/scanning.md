@@ -8,7 +8,7 @@ Simon Heybrock
 
 ## Main goal
 
-Find an adequate solution for maybe the maybe last big hurdle for scanning and storing positions in `DetectorInfo`:
+**Find an adequate solution for maybe the maybe last big hurdle for scanning and storing positions in `DetectorInfo`**
 
 A long series of hurdles and issues that we will face when moving position information from the old instrument into `DetectorInfo` have been overcome for the very similar case of masking (see https://github.com/mantidproject/mantid/pull/18318 and the list of linked issues). This will carry over 1:1 to position information with some additional effort for dealing with several parameters for rotations and positions.
 
