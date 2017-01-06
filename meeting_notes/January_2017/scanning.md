@@ -22,4 +22,6 @@ Potential solutions:
 
 - Store `DetectorInfo` in `Geometry::Instrument` instead of `ExperimentInfo`. Store a pointer to the `DetectorInfo` in `Geometry::Detector`?
 
+- Introduce `ComponentInfo`, so we can transfer positions of *all* components, not just those of detectors (see prototype)?
+
 ## Agenda
