@@ -2,8 +2,8 @@
 
 ## Attendees
 
-Owen Arnold
-Ian Bush
+Owen Arnold,
+Ian Bush,
 Simon Heybrock
 
 ## Main goal
