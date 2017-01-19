@@ -25,3 +25,5 @@ Potential solutions:
 - Introduce `ComponentInfo`, so we can transfer positions of *all* components, not just those of detectors (see prototype)?
 
 ## Agenda
+
+* Understand and find a better way to deal with `ExperimentInfo::mutableSpectrumInfo` [see here](https://github.com/mantidproject/mantid/pull/18460/files) description alongside implementation for that method.
