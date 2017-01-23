@@ -37,6 +37,11 @@ Potential solutions:
   - How much effort would it be to extract a new geometry module from the current one and port it to `Eigen`?
   - Is it possible to use `Eigen` only in `Beamline` and then do a conversion when dealing with other parts of Mantid (until everything is ported)? 
   - Python exports?
+- Gather information on parameters that we need to extract from the `ParameterMap`.
+- Figure out how to deal with remaining code that moves parent components (which will now require updating `DetectorInfo`).
+  - Can everything be refactored to to moves via `DetectorInfo`?
+  - Identify algorithms that do this. Are the all covered by the `ComponentHelper` or are there other cases?
+  - Is it possible to catch (all) such moves (similar to the attempt of accessing the `masked` parameter in the `ParameterMap` -- we throw an exception if this happens).
 
 ### General (if time permits)
 
