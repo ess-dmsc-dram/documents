@@ -43,7 +43,7 @@ Potential solutions:
   - Can everything be refactored to do moves via `DetectorInfo`?
   - Identify algorithms that do this. Are they all covered by the `ComponentHelper` or are there other cases?
   - Is it possible to catch (all) such moves (similar to the attempt of accessing the `masked` parameter in the `ParameterMap` -- we throw an exception if this happens).
-  - Does `ComponentPRoxy` and `LinkedTreeParser` from the prototype make this easier? https://github.com/DMSC-Instrument-Data/instrument-prototype/blob/master/cow_instrument/LinkedTreeParser.h
+  - Does `ComponentProxy` and `LinkedTreeParser` from the prototype make this easier? https://github.com/DMSC-Instrument-Data/instrument-prototype/blob/master/cow_instrument/LinkedTreeParser.h
 - Saving scanning workspaces (`SaveNexusProcessed`).
 
 ### General (if time permits)
