@@ -35,9 +35,8 @@ Potential solutions:
 - Discuss and decide on a strategy for geometry (positions, rotations, and shapes):
   - Use `Eigen`!?
   - How much effort would it be to extract a new geometry module from the current one and port it to `Eigen`?
+  - Is it possible to use `Eigen` only in `Beamline` and then do a conversion when dealing with other parts of Mantid (until everything is ported)? 
   - Python exports?
-  - Is it possible to use `Eigen` only in `Beamline` and then do a conversion when dealing with other parts of Mantid (until everything is ported)?
-
 
 ### General (if time permits)
 
