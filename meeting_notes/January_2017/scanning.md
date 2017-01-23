@@ -28,6 +28,7 @@ Potential solutions:
 
 ### Scanning
 
+- Discuss `SpectrumDefinition`, as added in https://github.com/mantidproject/mantid/pull/18460.
 - Supporting `IComponent::getPos()` (see description above):
   - Does the simplest solution work (pointer to `DetectorInfo` in `ParameterMap`, use base position of not available)?
   - Do we need `ComponentInfo`, or can that be added later?
