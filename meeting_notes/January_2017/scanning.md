@@ -29,9 +29,13 @@ Potential solutions:
 ### Scanning
 
 - Supporting `IComponent::getPos()` (see description above).
-  - Does the simplest solution work?
+  - Does the simplest solution work (pointer to `DetectorInfo` in `ParameterMap`, use base position of not available)?
   - Do we need `ComponentInfo`, or can that be added later?
-  - Try starting off with implementation to uncover issues that we may have overlooked.
+  - Try starting off with (draft) implementation to uncover issues that we may have overlooked.
+- Discuss and decide on a strategy for geometry (positions, rotations, and shapes):
+  - Use `Eigen`!?
+  - How much effort would it be to extract a new geometry module from the current one and port it to `Eigen`?
+
 
 ### General (if time permits)
 
