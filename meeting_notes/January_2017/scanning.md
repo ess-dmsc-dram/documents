@@ -42,6 +42,7 @@ Potential solutions:
   - Can everything be refactored to do moves via `DetectorInfo`?
   - Identify algorithms that do this. Are the all covered by the `ComponentHelper` or are there other cases?
   - Is it possible to catch (all) such moves (similar to the attempt of accessing the `masked` parameter in the `ParameterMap` -- we throw an exception if this happens).
+- Saving scanning workspaces (`SaveNexusProcessed`).
 
 ### General (if time permits)
 
