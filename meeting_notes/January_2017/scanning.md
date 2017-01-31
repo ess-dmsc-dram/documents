@@ -49,3 +49,7 @@ Potential solutions:
 ### General (if time permits)
 
 * Understand and find a better way to deal with `ExperimentInfo::mutableSpectrumInfo` [see here](https://github.com/mantidproject/mantid/pull/18460/files) description alongside implementation for that method.
+
+## Minutes
+
+- Override `IComponent::getPos` in `Detector`. Use positions from `DetectorInfo` cached in `ParameterMap` if available. Throw if scanning (will fail for `InstrumentView`).
