@@ -53,3 +53,4 @@ Potential solutions:
 ## Minutes
 
 - Override `IComponent::getPos` in `Detector`. Use positions from `DetectorInfo` cached in `ParameterMap` if available. Throw if scanning (will fail for `InstrumentView`).
+- `ExperimentInfo::setInstrument(...)`: add optional argument to pass `Beamline::DetectorInfo`. This would be used to set a `DetectorInfo` with scan information.
