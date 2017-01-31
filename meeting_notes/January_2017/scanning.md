@@ -54,3 +54,14 @@ Potential solutions:
 
 - Override `IComponent::getPos` in `Detector`. Use positions from `DetectorInfo` cached in `ParameterMap` if available. Throw if scanning (will fail for `InstrumentView`).
 - `ExperimentInfo::setInstrument(...)`: add optional argument to pass `Beamline::DetectorInfo`. This would be used to set a `DetectorInfo` with scan information.
+- `SpectrumDefinitions` will be set via `MatrixWorkspace::setIndexInfo`.
+- `Beamline::SpectrumInfo`:
+  ```cpp
+  Eigen::Vector3d SpectrumInfo::position(size_t) {
+    Eigen::Vector3d pos(0,0,0);
+    for ( const auto &index: spectrumDefinition) {
+       pos += m_detectorInfo.position(index); // index is std::pair<det,time>
+    }
+    return pos/spectrumDefinition.size();
+  }
+  ```
