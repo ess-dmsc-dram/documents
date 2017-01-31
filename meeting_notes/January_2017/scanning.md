@@ -56,6 +56,7 @@ Potential solutions:
 - `ExperimentInfo::setInstrument(...)`: add optional argument to pass `Beamline::DetectorInfo`. This would be used to set a `DetectorInfo` with scan information.
 - `SpectrumDefinitions` will be set via `MatrixWorkspace::setIndexInfo`.
 - `Beamline::SpectrumInfo`:
+
   ```cpp
   Eigen::Vector3d SpectrumInfo::position(size_t) {
     Eigen::Vector3d pos(0,0,0);
