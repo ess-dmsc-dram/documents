@@ -66,3 +66,8 @@ Potential solutions:
     return pos/spectrumDefinition.size();
   }
   ```
+  
+- `DetectorInfo::setPosition(const IComponent &comp)`:
+  - Use this for all movements (refactor where `ComponentHelper::moveComponent` is used).
+  - Use something similar to `Instrument::getDetectorsInBank` to obtain all affected detectors and update their positions based on the relative change of the parent position.
+  - Consequence: Moves will be more expensive, since `getDetectorsInBank` creates parameterized detectors and does dynamic casts (getting posisions will be cheaper in turn). Check with Anton if beam center finding is affacted by this.
