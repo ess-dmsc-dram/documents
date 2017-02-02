@@ -78,7 +78,12 @@ Potential solutions:
     Detector tmp(detector(index));
     // clear detector info pointer (or even pmap?) such that geometry calls on `tmp` will not fail.
     tmp.setDetectorInfo(nullptr);
-    tmp.setPos(position(index, time)); 
+    tmp.setPos(position(index, time));
+    // also set rotation and update position accordingly
     return tmp.solidAngle(observer);
   }
   ```
+ 
+- Roman:
+  - Following up on the example above for `solidAngle`: Adapt `InstrumentView` to support scanning instruments (consider using `DetectorInfo` as a first step).
+  - Get an overview of geometry related code in `Geometry` module. What is actively used (and by what) in Mantid? What parts would we need to extract?
