@@ -97,3 +97,12 @@ Potential solutions:
   - Good testcase might be `ConvertToDiffractionMDWorkspace.v1`
 
 - Creating a scanning `MatrixWorkspace` and converting it to and `MDWorkspace` might be cheaper than converting individual runs and using `MergeMD`.
+
+### Scanning of non-detector components
+
+- Cannot be visualized at the same time (would not make much sense anyway)
+- Put slider in `InstrumentView`?
+
+### Moving forward with Instrument-2.0 implementation
+
+- Consider adding things like `ComponentInfo` (as prototyped) to `Beamline`, even if not in immediate use.
