@@ -84,9 +84,12 @@ Potential solutions:
   }
   ```
  
-- Roman:
-  - Following up on the example above for `solidAngle`: Adapt `InstrumentView` to support scanning instruments (consider using `DetectorInfo` as a first step, without scanning and time index).
-  - Get an overview of geometry related code in `Geometry` module. What is actively used (and by what) in Mantid? What parts would we need to extract?
+### Roman
+- Following up on the example above for `solidAngle`:
+  - Adapt `InstrumentView` to support scanning instruments.
+  - Consider using `DetectorInfo` as a first step, without scanning and time index.
+  - Show all detector positions at the same time.
+- Get an overview of geometry related code in `Geometry` module. What is actively used (and by what) in Mantid? What parts would we need to extract?
   
 ### MDWorkspaces
 
