@@ -87,3 +87,13 @@ Potential solutions:
 - Roman:
   - Following up on the example above for `solidAngle`: Adapt `InstrumentView` to support scanning instruments (consider using `DetectorInfo` as a first step).
   - Get an overview of geometry related code in `Geometry` module. What is actively used (and by what) in Mantid? What parts would we need to extract?
+  
+### MDWorkspaces
+
+- Converting a scanning `MatrixWorkspace` to an `MDWorkspace`?
+
+  - Could split `ExperimentInfo`, map time index to run number
+  - Could add time index to `MDEvent`
+  - Good testcase might be `ConvertToDiffractionMDWorkspace.v1`
+
+- Creating a scanning `MatrixWorkspace` and converting it to and `MDWorkspace` might be cheaper than converting individual runs and using `MergeMD`.
