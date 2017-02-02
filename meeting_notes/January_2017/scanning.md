@@ -71,3 +71,14 @@ Potential solutions:
   - Use this for all movements (refactor where `ComponentHelper::moveComponent` is used).
   - Use something similar to `Instrument::getDetectorsInBank` to obtain all affected detectors and update their positions based on the relative change of the parent position.
   - Consequence: Moves will be more expensive, since `getDetectorsInBank` creates parameterized detectors and does dynamic casts (getting posisions will be cheaper in turn). Check with Anton if beam center finding is affacted by this.
+
+- Support for more complex Geometry operations for scanning instruments? Use wrapper classes in `API`, e.g.,
+  ```cpp
+  double API::DetectorInfo::solidAngle(size_t index, size_t time, const V3D &observer) {
+    Detector tmp(detector(index));
+    // clear detector info pointer (or even pmap?) such that geometry calls on `tmp` will not fail.
+    tmp.setDetectorInfo(nullptr);
+    tmp.setPos(position(index, time)); 
+    return tmp.solidAngle(observer);
+  }
+  ```
