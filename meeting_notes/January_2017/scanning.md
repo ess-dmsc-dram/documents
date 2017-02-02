@@ -52,7 +52,7 @@ Potential solutions:
 
 ## Minutes
 
-- Override `IComponent::getPos` in `Detector`. Use positions from `DetectorInfo` cached in `ParameterMap` if available. Throw if scanning (will fail for `InstrumentView`).
+- Override `IComponent::getPos` in `Detector`. Use positions from `DetectorInfo` cached in `ParameterMap` if available. Throws if scanning (will fail for `InstrumentView`), since access only with detector index (no time index).
 - `ExperimentInfo::setInstrument(...)`: add optional argument to pass `Beamline::DetectorInfo`. This would be used to set a `DetectorInfo` with scan information.
 - `SpectrumDefinitions` will be set via `MatrixWorkspace::setIndexInfo`.
 - `Beamline::SpectrumInfo`:
