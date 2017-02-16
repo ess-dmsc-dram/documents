@@ -20,7 +20,7 @@ Most of these documents are slightly outdated, e.g., naming of some classes.
   - Make it nicer than now (client code creates translation class, can specify desired behavior, such as accepting or refusing non-unique mappings fro detectors, etc.).
   - Support MPI internally.
   
-See [this branch]() for some updates for `IndexInfo` (work in progress, don't base work on this currently).
+See [this branch](https://github.com/mantidproject/mantid/tree/18522_translation_and_partitioning_classes) for some updates for `IndexInfo` (work in progress, don't base work on this currently).
   
 ## Index property
   
