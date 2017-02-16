@@ -1,5 +1,7 @@
 # Index property and related bits
 
+Notes for call between Lamar and Simon, 2017-02.16.
+
 ## Relevant links
 
 - [High level overview](https://github.com/mantidproject/documents/blob/master/Presentations/Review_Meetings/plans_indexing_changes.md)
@@ -23,7 +25,7 @@ See [this branch]() for some updates for `IndexInfo` (work in progress, don't ba
 ## Index property
   
   - See high level overview.
-  - Maybe having this as part of a workspace proerty would be best, then we can validate directly and algorithms to not need to take 3 steps to get indices, so instead of doing:
+  - Maybe having this as part of a workspace property would be best, then we can validate directly and algorithms to not need to take 3 steps to get indices, so instead of doing:
     
     ```python
     ws = getProperty(InputWorkspace)
