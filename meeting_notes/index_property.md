@@ -37,5 +37,5 @@ See [this branch](https://github.com/mantidproject/mantid/tree/18522_translation
     We could do simpler with a unified property:
     
     ```python
-    ws, indices = getProperty(InputWorkspace)
+    ws, indices = getProperty(InputWorkspace) # indices validated internally
     ```
