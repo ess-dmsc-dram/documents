@@ -10,6 +10,11 @@
 ## Core Indexing and MPI Work
 
 ### IndexInfo
+
+SH presented an overview of the proposed indexing mechanisms within Mantid:
+
+![Indexing Whiteboard Session](indexing.jpg)
+
 SH extended the functionality of the `IndexInfo` class to include translation and partitioning (MPI rank distribution). There
 have also been strongly typed replacements for `detid_t` and `specnum_t`. One of the major concerns with the new `IndexInfo` class was the interplay with the legacy `ISpectrum` interface. In particular, maintaining a valid list of spectrum numbers across ranks with multiple mechanisms for modifying spectra. `IndexInfo` has a policy which only allows the spectrum numbers to be updated using a global spectrum list `IndexInfo::setSpectrumNumbers(std::vector<SpectrumNumber> &&spectrumNumbers)`. Each rank will build a list by extracting only relevant spectra. On the other hand, `ISpectrum` allows modification of individual spectra within the rank. This could lead to a condition where the global spectrum list becomes invalid. If the state of the global list is invalidated for ever call to `ISpectrum::setSpectrumNumber(specnum_t spectrumNumber)`, expensive interprocess communication would be required to create a valid list of spectrum numbers within the lazy update mechanism of `IndexInfo`:
 
@@ -128,10 +133,9 @@ LM is to come up with design options and provide estimates on producing this wor
 
 ## Kafka Streaming
 
-LM had a brief discussion with Jon Taylor and SH about the work done so far on Kafka Streaming. Jon mentioned that filtering events should be done on a frame-by-frame basis before anything else happens with the event data. SH made suggestions about introducing a microservice which filters bad events and either re-streams the filtered event data (exits as a separate process), or conveys the filtered data directly to the accumulated workspace (exists as part of the listener). SH also expressed concerns that current data rates may be seriously reduced when dealing with event lists. The current Kafka stream uses a single event list for all events which may be producing unrealistic data rates. LM to discuss further with Matt Jones.
+LM had a brief discussion with Jon Taylor and SH about the work done so far on Kafka Streaming. Jon mentioned that filtering events should be done on a frame-by-frame basis before anything else happens with the event data. SH made suggestions about introducing a microservice which filters bad events and either re-streams the filtered event data (exists as a separate process), or conveys the filtered data directly to the accumulated workspace (exists as part of the listener). SH also expressed concerns that current data rates may be seriously reduced when dealing with event lists. The current Kafka stream uses a single event list for all events which may be producing unrealistic data rates. LM to discuss further with Matt Jones.
 
 ## Instrument View
 
 SH indicated that the performance of the instrument view may become a critical factor during the instrument commissioning phase at the ESS. LM to profile current performance for complex instrument geometries (> 10^6 pixels, Voxels, Rectangular Detectors, Tubes). After instrument workshops at ESS, the team needs to determine bottom line functionality required for the instrument view. SH and Jon Taylor believe users should not have to use paraview, there should be a simple implementation of thresholding which allows inspection of instrument layers. SH to discuss scanning in the instrument view with Owen and Roman.
-
 
