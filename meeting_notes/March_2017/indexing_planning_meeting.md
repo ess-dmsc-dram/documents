@@ -35,7 +35,7 @@ std::vector<Indexing::SpectrumNumber> allSpectrumNumbers; // indexed by GlobalSp
 m_indexInfo->setSpectrumNumbers(std::move(allSpectrumNumbers));
 ```
 
-For a (to be added) MPI build of Mantid, the decision was made to forbid legacy functionality for modifying the spectrum numbers in `ISpectrum` which obviates the need for interprocess communication.
+The decision was made to forbid legacy functionality for modifying the spectrum numbers in `ISpectra` which obviates the need for interprocess communication.
 
 SH has assigned the update PR to LM for review. This will provide the opportunity for LM to solidify understanding of the partitioning and translation mechanisms and suggest any improvements which may be required to the interface. 
 
@@ -74,8 +74,6 @@ LM to come up with final design and ensure this will be compatible with MPI. Ini
 ### Distributed file loading
 
 LM to investigate what would be required to allow parallel file loading using MPI. `LoadEventNexus` will be the case study for this investigation. LM will do initial profiling to determine if there is any discrepancy between maximum disk read spead and algorithm execution time. The initial thoughts on this are to use a single rank to load data and distribute on other ranks. The outcome of this work could also be extended to data streaming where adding events to `EventLists` could produce a major bottle neck. This is based on early tests performed by SH on the live streaming mechanism in Mantid. LM to discuss with Matt Jones.
-
-One approach can be found in this old unmerged pull request that provides a proof-of-concept MPI implementation: https://github.com/mantidproject/mantid/pull/14880. The implementation was picked for its simplicity and does not provide good performance.
  
 ## WorkspacePropertyWithIndex
 
@@ -139,3 +137,12 @@ LM had a brief discussion with Jon Taylor and SH about the work done so far on K
 
 SH indicated that the performance of the instrument view may become a critical factor during the instrument commissioning phase at the ESS. LM to profile current performance for complex instrument geometries (> 10^6 pixels, Voxels, Rectangular Detectors, Tubes). After instrument workshops at ESS, the team needs to determine bottom line functionality required for the instrument view. SH and Jon Taylor believe users should not have to use paraview, there should be a simple implementation of thresholding which allows inspection of instrument layers. SH to discuss scanning in the instrument view with Owen and Roman.
 
+## LM Priority List
+
+- Review `IndexInfo` PR
+- Look into IV profiling
+- Discuss Kafka streaming concerns with Matt Jones
+- Design and estimates for index property
+- Distributed file loading
+- MPI work with Simon
+- `MatrixWorkspace` mappings
