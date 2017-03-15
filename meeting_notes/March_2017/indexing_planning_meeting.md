@@ -30,7 +30,7 @@ std::vector<Indexing::SpectrumNumber> allSpectrumNumbers; // indexed by GlobalSp
 m_indexInfo->setSpectrumNumbers(std::move(allSpectrumNumbers));
 ```
 
-The decision was made to forbid legacy functionality for modifying the spectrum numbers in `ISpectra` which obviates the need for interprocess communication.
+For a (to be added) MPI build of Mantid, the decision was made to forbid legacy functionality for modifying the spectrum numbers in `ISpectrum` which obviates the need for interprocess communication.
 
 SH has assigned the update PR to LM for review. This will provide the opportunity for LM to solidify understanding of the partitioning and translation mechanisms and suggest any improvements which may be required to the interface. 
 
