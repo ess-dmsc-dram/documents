@@ -69,6 +69,8 @@ LM to come up with final design and ensure this will be compatible with MPI. Ini
 ### Distributed file loading
 
 LM to investigate what would be required to allow parallel file loading using MPI. `LoadEventNexus` will be the case study for this investigation. LM will do initial profiling to determine if there is any discrepancy between maximum disk read spead and algorithm execution time. The initial thoughts on this are to use a single rank to load data and distribute on other ranks. The outcome of this work could also be extended to data streaming where adding events to `EventLists` could produce a major bottle neck. This is based on early tests performed by SH on the live streaming mechanism in Mantid. LM to discuss with Matt Jones.
+
+One approach can be found in this old unmerged pull request that provides a proof-of-concept MPI implementation: https://github.com/mantidproject/mantid/pull/14880. The implementation was picked for its simplicity and does not provide good performance.
  
 ## WorkspacePropertyWithIndex
 
