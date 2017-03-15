@@ -13,7 +13,7 @@
 
 SH presented an overview of the proposed indexing mechanisms within Mantid:
 
-![Indexing Whiteboard Session](./indexing.jpg)
+![Indexing Whiteboard Session](indexing.JPG)
 
 SH extended the functionality of the `IndexInfo` class to include translation and partitioning (MPI rank distribution). There
 have also been strongly typed replacements for `detid_t` and `specnum_t`. One of the major concerns with the new `IndexInfo` class was the interplay with the legacy `ISpectrum` interface. In particular, maintaining a valid list of spectrum numbers across ranks with multiple mechanisms for modifying spectra. `IndexInfo` has a policy which only allows the spectrum numbers to be updated using a global spectrum list `IndexInfo::setSpectrumNumbers(std::vector<SpectrumNumber> &&spectrumNumbers)`. Each rank will build a list by extracting only relevant spectra. On the other hand, `ISpectrum` allows modification of individual spectra within the rank. This could lead to a condition where the global spectrum list becomes invalid. If the state of the global list is invalidated for ever call to `ISpectrum::setSpectrumNumber(specnum_t spectrumNumber)`, expensive interprocess communication would be required to create a valid list of spectrum numbers within the lazy update mechanism of `IndexInfo`:
