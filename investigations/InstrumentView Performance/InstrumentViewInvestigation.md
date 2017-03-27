@@ -7,7 +7,7 @@ Test was performed using a PC with the following specs:
 
 ### Qualitative Performance 
 
-Mantid and the instrument view seems happy with voxels up to ~200K. The instrument view interface becomes sluggish > 300K and is virtually unusable above ~600k. Switching between instrument representations e.g unwrapped to Full 3D stalls for at least 30 seconds. Pick functionality is still very responsive, however changing instrument orientation etc is extremely slow. 
+Mantid and the instrument view seems happy with voxels up to ~200K. The instrument view interface becomes sluggish > 300K and is virtually unusable above ~600k. Switching between instrument representations e.g unwrapped to Full 3D stalls for at least 15  seconds above 10^6^ detectors. Pick functionality is still very responsive, however changing instrument orientation etc is extremely slow. 
 
 ### CSPEC Geometry
 CSPEC Geometry is implemented using the naive approach of defining Cuboids for each voxel. There isn't currently another type which would facilitate faster loading.
@@ -18,7 +18,7 @@ The first graph below shows the time taken to load the instrument view as a func
 ![](ivloadtime.png)
 ![](memory_usage.png)
 
-#Switching Instrument Representation
+### Switching Instrument Representation
 
 The graph below shows how long it takes to switch from the Cylindrical Unwrapped view in the Instrument View to the Full 3D view. It is important to note that switching to the Side-by-Side view takes much longer. With the full CSPEC Geometry, I terminated mantid after waiting 6 minutes for the Side-by-Side representation to load. Again, this test was associated with empty workspaces.
 
