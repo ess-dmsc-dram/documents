@@ -16,6 +16,13 @@ Organisation
  - inclusion of ESS staff in general maintenance tasks (contributing effort for non ESS-related issues)
  - ensure knowledge of ESS instrument control "lives in NICOS" (documentation etc) (important for staff turnover)
     
+ESS specific developments
+-------------------------
+ - Similar to custom/frm2
+ - Should contain ESS specific generic setups/device types
+    * Example: EPICS motor record is totally generic, ESS motors will have some extensions (additional PVs)
+    * Pending final (single disk) chopper EPICS interface, integrate.
+
 
 EPICS
 -----
@@ -31,11 +38,12 @@ EPICS
 
 Integration with other DMSC infrastructure
 ------------------------------------------
- - Deployment strategy/implementation (mainly with DST group)
-    * compatibility of server components (daemon, cache, poller, ...) with Centos 7.1
+ - Deployment strategy/implementation (mainly with DST group, possibly ICS)
+    * compatibility of server components (daemon, cache, poller, ...) with Centos 7.1 (rpm packages, analoguous to deb)
     * automated server deployment & configuration (environment variables to select correct instrument
       on specific machine etc)
-    * compatibility of client components (mainly GUI) with Centos 7.1 and Mac OS X
+    * compatibility of client components (mainly GUI) with Centos 7.1 and Mac OS X (likely used by many ESS beamline scientists)
+    * installation of client and potentially server in EEE development environment (also Centos 7.1)
     * driven forward as part of LDPC (live data prototype collaboration)
 
  - Control & query the DM group's aggregator (what gets aggregated), file writing, ...
@@ -61,8 +69,10 @@ Integration with ICS infrastructure
 Instrument integration
 ----------------------
  - tool for driving forward all of the above
- - Setup for simple instrument (my suggestion is MAGIC - relatively little hardware)
- - Create simulated hardware (either NICOS or further down)
+ - Setup for simple instrument
+    * One possibility is MAGIC - relatively little hardware
+    * Another possibility could be using the AMOR simulation provided by PSI, also little hardware
+ - Create simulated hardware if necessary (either NICOS or further down)
  - Leave out data acquisition until interfaces are clear (see above)
  - Work with instrument team on setup, workflows, potentially UI
  - will help uncover open questions
