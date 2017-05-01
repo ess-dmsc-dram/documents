@@ -22,6 +22,12 @@ ESS specific developments
  - Should contain ESS specific generic setups/device types
     * Example: EPICS motor record is totally generic, ESS motors will have some extensions (additional PVs)
     * Pending final (single disk) chopper EPICS interface, integrate.
+ - Continue work on higher level multi-disk chopper systems
+    * Should be composed of single chopper disks
+    * Users should be able to set wavelength (-band) and resolution in some cases
+    * Wavelength frame multiplication (WFM)
+    * Should start simple with two-disk example from the meeting last year, then more complex cases
+    * Could think of doing math in separate module for re-use
 
 
 EPICS
