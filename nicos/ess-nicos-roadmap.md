@@ -52,6 +52,10 @@ Integration with other DMSC infrastructure
     * distribution of responsibility between NICOS/aggregator (filenames, ...)
     * potentially aggregate quantities derived by NICOS (wavelenghts, ...)
     * also driven forward in LDPC
+    
+ - Logging
+    * It should be possible to log directly into graylog, preferably using Jonas' python package
+    * As an intermediate solution there could be a logstash (or similar) instance to monitor logfiles
 
  - Integration with Mantid
     * InstrumentView-widget as first step for visualisation
