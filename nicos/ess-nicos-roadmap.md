@@ -13,7 +13,7 @@ Organisation
     * ESS ECP workshops every 6 month - interesting?
     * weekly/monthly? developer meetings - video conferencing?
     * frequency for face-to-face meetings? organize working in same place (code camp or similar) if time allows?
- - inclusion of ESS staff in general maintenance tasks (contributing effort for non ESS-related issues)
+ - inclusion of ESS staff in general maintenance and development tasks (contributing effort for non ESS-related issues)
  - ensure knowledge of ESS instrument control "lives in NICOS" (documentation etc) (important for staff turnover)
     
 ESS specific developments
