@@ -1,7 +1,7 @@
 ESS contributions to NICOS
 ==========================
 
-This is a work in progress document for a meeting with the NICOS developer team in late May/early June.
+This document is the discussion basis for a meeting with the NICOS developer team in late May/early June.
 
 Organisation
 ------------
