@@ -74,6 +74,7 @@ Integration with ICS infrastructure
  - relevance of EPICS time stamps for NICOS (potentially required in cache, etc)
  - "Engineering GUIs" where available - CSS launcher for certain devices depending on user rights
  - For now: Pure EPICS client with no further knowledge of architecture
+ - Question about client integration with jupyter notebooks
 
 
 Instrument integration
