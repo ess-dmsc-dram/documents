@@ -4,9 +4,7 @@
 
 What is required from event mode?
 - Filter?
-- Convert to histogram? 
-- At what point can Events be summed-out as Histograms?
-- more?
+- Anything else here, or histogram right away?
 - Is it required to hold a long history in memory, e.g., all events collected during the past 5 hours?
   - Runs take very long?
   - Need events for comparison of results during a long parameter sweep?
@@ -14,16 +12,14 @@ What is required from event mode?
 
 ## Instrument
 
-- What are the axis of motion for this instrument? 
-
 ### Detectors
 
 - New detector technology?
 - What needs to be changed in data reduction?
   - ConvertUnits taking into account 3D nature
   - more?
-- What is known about the detector characteristics. Efficiency, efficiency-loss, dead-time etc?
-- How might calibration need to be done?
+- Calibration?
+- Efficiency corrections?
 
 ### Monitors
 
@@ -40,8 +36,8 @@ What is required from event mode?
 
 What is required during bringup?
 
-- How will the instrument be calibrated. Standard samples that might be run (which impacts the data reduction requirements)
 - Day 0?
+- How will the instrument be calibrated? Standard samples that might be run (which impacts the data reduction requirements)
 - Later on?
 
 
