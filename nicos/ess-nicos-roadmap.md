@@ -45,7 +45,7 @@ EPICS
 Integration with other DMSC infrastructure
 ------------------------------------------
  - Deployment strategy/implementation (mainly with DST group, possibly ICS)
-    * compatibility of server components (daemon, cache, poller, ...) with Centos 7.1 (rpm packages, analoguous to deb)
+    * compatibility of server components (daemon, cache, poller, ...) with Centos 7.1 (rpm packages, analoguous to deb) (*prototype packages for nicos-pyctl, nicos-quickyaml and nicos have been built*)
     * automated server deployment & configuration (environment variables to select correct instrument
       on specific machine etc)
     * compatibility of client components (mainly GUI) with Centos 7.1 and Mac OS X (likely used by many ESS beamline scientists)
