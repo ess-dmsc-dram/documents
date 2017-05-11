@@ -1,122 +1,52 @@
-# Discussion Outline -- Instrument-Specific Data Reduction
+# Diffraction
+
+Meeting 2017-05-11
+- Werner Schweika
+- Simon Heybrock
+
+## Instrument View
+
+- Day 1: Does not need to present 3D detector volume, projection towards sample position onto 2D plane sufficient
+
 
 ## Event Mode
 
-What is required from event mode?
-- Filter?
-- Anything else here, or histogram right away?
-- Is it required to hold a long history in memory, e.g., all events collected during the past 5 hours?
-  - Runs take very long?
-  - Need events for comparison of results during a long parameter sweep?
+- Filtering
+- Single crystal extinction correction:
+  - I(h,k,l, lambda) and filter out data points in lambda that are influenced by absorption
+  - Could be 4D workspace Qx, Qy, Qz, lambda? Or can this simply be I(h,k,l, lambda)?
+  - It is not clear that we need events for this?
+  
+## Monitors
 
-
+- Event mode
+- Efficientcy 1e-5 to 1e-3 relative to incident of max. 1e9
+- Need time resolution, high-rate experiments typically short
+- Shortest time scale might be pulsed magnet (50 ms pulse, with time variation)
+  
 ## Instrument
 
-### Detectors
-
-- New detector technology?
-- What needs to be changed in data reduction?
-  - ConvertUnits taking into account 3D nature
-  - more?
-- Calibration?
-- Efficiency corrections?
-
-### Monitors
-
-- Event mode?
-
-### Other
-
-- Wavelength frame multiplication / pulse skipping, etc.?
-- Moving or otherwise time-dependent components?
-- Handled in same workspace or always separate?
-- Do we need some sort of merging (workspaces with different instrument configurations)?
-
-
-## Bringup (pre-operations)
-
-What is required during bringup?
-
-- Day 0?
-- How will the instrument be calibrated?
-  - Standard samples that might be run (larger than design "production" sample size -> more scattered neutrons)
-- Later on?
-
-
-Examples:
-
-- Instrument view (what features?)
-- Live reduction?
-- Python scripts sufficient?
-
-
-## Running the Experiments
-
-### General
-
-- Is there anything during a run that cannot be set up either automatically or before the run starts (interaction might be costly to implement if live reduction runs on a cluster)?
-- What "live" feedback is required during an experiment run?
-  - Instrument view with raw data?
-  - 0D, 1D, 2D, 3D data (plots)?
-
-### Integration with Experiment Control Software
-
-- Anything special required?
-
-
-## Algorithms
-
-- Computational hotspots (mathematically expensive)?
-- Rough overview of required algorithms (existing now in Mantid)?
-- What new algorithms would be required?
-
+- No moving detectors, apart from NMX
+- Map 3D detectors to 2D, but *not* onto binning "defined" by the surface voxels, need finer resolution
+- 3D detectors aligned such that effictive resolution mapped to 2D is smaller than pixel size
+  - For powder diffraction, as far as I understand, we simply do not map onto 2D -- just use existing diffraction focussing algorithm?
+  - For single crystal, where is this relevant? Just go into MDWorkspace?
 
 ## MDWorkspace
 
-- Required for basic data reduction?
-- Required for more advanced or later stages of reduction (analysis)?
+- Heavily used for single crystal.
 
+## General
 
-## Files
+- Powder diffraction and single crystal instruments may be used for both techniques
+- Have a look at `qevis` by Florian Rhiem (visualization of MD event data)
+- Marina is doing relevant work for POWGEN (projection, 2D Rietfeld) in Mantid
+ 
+## Bringup:
 
-- Many small files or few large ones?
-  - Typical sizes and counts?
-- Raw data vs. reduced data?
-- If many small ones, is reduction for each one independent?
-
-## Batch Reduction
-
-- How often will an experiment constitute a single sample run?
-- How can we identify special runs, such as transmission runs?
-- Typically how many runs could be required as part of an experiment?
-
-
-
-# Notes
-
-- Day 1:
-  - Instrument view does not need to present 3D detector volume
-  
-  ## Event Mode
-  
-  - 
-  - Single crystal - extinction correction I(h,k,l, lambda)
-  
-  Monitors: Event mode, 1e-5 to 1e-3 (relative incident 1e9)
-  
-  - Pulsed magnet < 50 ms (but rare)
-  
-  - map 3D detectors to 2D
-  - 3D detectors aligned such that effictive resolution mapped to 2D is smaller than pixel size (finer bins in Q!)
-  
-  - No moving detectors, apart from NMX
-  
-  - powder and single crystal instruments may be used for both
-  
-  Bringup:
-  - live instrument view
-  - python scripts
-  - live reduction:
-    - powder: 1D, 2D
-    - single crystal: Q-space display, HKL lists, does not need to be live (Florian Rhiem, `qevis`)
+- Live instrument view
+- Python scripts
+- Live reduction:
+  - Powder: 1D and 2D live view
+  - Single crystal: Q-space display and HKL lists do not need to be live (Florian Rhiem, `qevis`)
     
