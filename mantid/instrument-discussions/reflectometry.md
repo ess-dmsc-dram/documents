@@ -26,7 +26,7 @@ Meeting 2017-05-11
 - later GISANS and off-specular (manual cuts)
 - no MD data
 
-- ISIS reflectometry is a good start
+- ISIS reflectometry is a good start (INTER -> FREIA, POLREF -> ESTIA?)
   - but scripts should be accessible
 
 - measure until curve does not change anymore
@@ -37,6 +37,7 @@ Meeting 2017-05-11
   
 - polarization, flipped per pulse, must go into separate workspaces
 
+- filter logs to find data?
 
 Monitors:
 - long experiment: time normalized from detector
