@@ -4,6 +4,16 @@ Meeting 2017-05-11
 - Hanna Wacklin
 - Simon Heybrock
 
+## General
+
+- ISIS reflectometry is a good start
+  - INTER -> FREIA
+  - maybe POLREF -> ESTIA?
+  - scripts should be accessible
+- Cannot think of immidiate application/requirement for MDWorkspaces
+- File handling can be only partially automated?
+- Finding files and data in log files?
+
 ## Time dependence in experiments / Event Mode
 
 - Quickly alternate between samples (ABCABCABCAB...)
@@ -35,22 +45,6 @@ Meeting 2017-05-11
 - Instrument view
 - 1D or 2D live data (angle, TOF)
 
-
-- later 1D live
-- later GISANS and off-specular (manual cuts)
-- no MD data
-
-- ISIS reflectometry is a good start (INTER -> FREIA, POLREF -> ESTIA?)
-  - but scripts should be accessible
-
-- measure until curve does not change anymore
-
-
-  
-
-
-- filter logs to find data?
-
 ## Monitors:
 
 - Long experiment: time normalized from detector
@@ -63,3 +57,6 @@ Meeting 2017-05-11
 
 - Detectors have depth, penetration depth is correlated to wavelength, might use that for corrections.
 - Grazing incidence SANS, off-specular
+- Integration with experiment control
+  - measure until curve does not change anymore
+  - detect errors, such as peak not where expected?
