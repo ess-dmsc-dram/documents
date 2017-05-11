@@ -4,10 +4,15 @@ Meeting 2017-05-11
 - Werner Schweika
 - Simon Heybrock
 
+## General
+
+- Powder diffraction and single crystal instruments may be used for both techniques
+- Have a look at `qevis` by Florian Rhiem (visualization of MD event data)
+- Marina is doing related relevant work for POWGEN (projection, 2D Rietfeld) in Mantid
+
 ## Instrument View
 
 - Day 1: Does not need to present 3D detector volume, projection towards sample position onto 2D plane sufficient
-
 
 ## Event Mode
 
@@ -36,12 +41,6 @@ Meeting 2017-05-11
 
 - Heavily used for single crystal.
 
-## General
-
-- Powder diffraction and single crystal instruments may be used for both techniques
-- Have a look at `qevis` by Florian Rhiem (visualization of MD event data)
-- Marina is doing relevant work for POWGEN (projection, 2D Rietfeld) in Mantid
- 
 ## Bringup:
 
 - Live instrument view
