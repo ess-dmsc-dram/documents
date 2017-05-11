@@ -18,13 +18,35 @@ Meeting 2017-05-11
 
 - wavelength-frame multiplication -> better resolution
   - no overlap in TOF -> overlap in lambda (convert separately then merge)
+  
+- instrument view live
+- angle vs TOF live
+
+- later 1D live
+- later GISANS and off-specular (manual cuts)
+- no MD data
+
+- ISIS reflectometry is a good start
+  - but scripts should be accessible
+
+- measure until curve does not change anymore
+
+- Gravity correction
+  - >20 Angstrom
+  - affects angle of incidence
+  
+- polarization, flipped per pulse, must go into separate workspaces
+
 
 Monitors:
 - long experiment: time normalized from detector
   - 4cm x mm -> hits strip of pixels 1e8 n/s/cm^2
   - simple normalization
 - per-pulse normalization (event mode, or time resolved histogram)
-  - 
+
+
+## Metadata
+- 
 
 ## Future
 
