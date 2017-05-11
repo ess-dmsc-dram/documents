@@ -8,7 +8,7 @@ Meeting 2017-05-11
 
 - Powder diffraction and single crystal instruments may be used for both techniques
 - Have a look at `qevis` by Florian Rhiem (visualization of MD event data)
-- Marina is doing related relevant work for POWGEN (projection, 2D Rietfeld) in Mantid
+- Marina is doing related relevant work for POWGEN (projection, 2D Rietveld) in Mantid
 
 ## Instrument View
 
@@ -25,7 +25,7 @@ Meeting 2017-05-11
 ## Monitors
 
 - Event mode
-- Efficientcy 1e-5 to 1e-3 relative to incident of max. 1e9
+- Efficiency 1e-5 to 1e-3 relative to incident of max. 1e9
 - Need time resolution, high-rate experiments typically short
 - Shortest time scale might be pulsed magnet (50 ms pulse, with time variation)
   
@@ -34,7 +34,7 @@ Meeting 2017-05-11
 - No moving detectors, apart from NMX
 - Map 3D detectors to 2D, but *not* onto binning "defined" by the surface voxels, need finer resolution
 - 3D detectors aligned such that effictive resolution mapped to 2D is smaller than pixel size
-  - For powder diffraction, as far as I understand, we simply do not map onto 2D -- just use existing diffraction focussing algorithm?
+  - For powder diffraction, as far as I understand, we simply do not map onto 2D -- just use existing diffraction focussing algorithms?
   - For single crystal, where is this relevant? Just go into MDWorkspace?
 
 ## MDWorkspace
@@ -47,5 +47,5 @@ Meeting 2017-05-11
 - Python scripts
 - Live reduction:
   - Powder: 1D and 2D live view
-  - Single crystal: Q-space display and HKL lists do not need to be live (Florian Rhiem, `qevis`)
+  - Single crystal: Q-space display and HKL lists do not need to be live
     
