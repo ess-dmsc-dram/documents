@@ -27,6 +27,7 @@ What is required from event mode?
 
 ### Other
 
+- Wavelength frame multiplication / pulse skipping, etc.?
 - Moving or otherwise time-dependent components?
 - Handled in same workspace or always separate?
 - Do we need some sort of merging (workspaces with different instrument configurations)?
@@ -37,7 +38,8 @@ What is required from event mode?
 What is required during bringup?
 
 - Day 0?
-- How will the instrument be calibrated? Standard samples that might be run (which impacts the data reduction requirements)
+- How will the instrument be calibrated?
+  - Standard samples that might be run (larger than design "production" sample size -> more scattered neutrons)
 - Later on?
 
 
