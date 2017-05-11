@@ -90,3 +90,33 @@ Examples:
 - How can we identify special runs, such as transmission runs?
 - Typically how many runs could be required as part of an experiment?
 
+
+
+# Notes
+
+- Day 1:
+  - Instrument view does not need to present 3D detector volume
+  
+  ## Event Mode
+  
+  - 
+  - Single crystal - extinction correction I(h,k,l, lambda)
+  
+  Monitors: Event mode, 1e-5 to 1e-3 (relative incident 1e9)
+  
+  - Pulsed magnet < 50 ms (but rare)
+  
+  - map 3D detectors to 2D
+  - 3D detectors aligned such that effictive resolution mapped to 2D is smaller than pixel size (finer bins in Q!)
+  
+  - No moving detectors, apart from NMX
+  
+  - powder and single crystal instruments may be used for both
+  
+  Bringup:
+  - live instrument view
+  - python scripts
+  - live reduction:
+    - powder: 1D, 2D
+    - single crystal: Q-space display, HKL lists, does not need to be live (Florian Rhiem, `qevis`)
+    
