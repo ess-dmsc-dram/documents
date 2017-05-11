@@ -4,23 +4,37 @@ Meeting 2017-05-11
 - Hanna Wacklin
 - Simon Heybrock
 
+## Time dependence in experiments / Event Mode
 
-- Coherent summing (along constant Q instead of theta), ILL Robert Cubitt
+- Quickly alternate between samples (ABCABCABCAB...)
+  - Data must go into separate files and workspaces
+- Stroboscopic measurements -> feasible statistics for fast processes
+  - Parameter varies very quickly, repeatedly goes through same cycle
+  - Combine events from different cycles that have the same value of parameter
+  - Probably event mode gives us this feature automatically, if filter can deal with the rate and memory lets us accumulate long enough?
+- Polarization, flipped, e.g., per pulse, must go into separate workspaces
+
+## Other
+
+- Coherent summing (along constant Q instead of theta)
+  - Either curved sample, or less collimation in beam
   - More compute intense
+  - Done at ILL by Robert Cubitt
   
-- Vary 1D binning during live reduction
+## Instrument
 
-- Alternate between samples, must sort events into separate workspaces -> live listener must support this
-
-- Stroboscopic measurements -- very fast processing -> event filtering
-
-- detectors are 2D (has depth, but TOF correction done internally in detector?)
-
-- wavelength-frame multiplication -> better resolution
+- Detectors are 2D (has depth, but TOF correction done internally in detector?)
+- 7x wavelength-frame multiplication at FREIA -> better resolution
   - no overlap in TOF -> overlap in lambda (convert separately then merge)
+- Gravity correction
+  - relevant of above 20 Å
+  - affects angle of incidence
   
-- instrument view live
-- angle vs TOF live
+## Live
+  
+- Instrument view
+- 1D or 2D live data (angle, TOF)
+
 
 - later 1D live
 - later GISANS and off-specular (manual cuts)
@@ -31,24 +45,21 @@ Meeting 2017-05-11
 
 - measure until curve does not change anymore
 
-- Gravity correction
-  - >20 Angstrom
-  - affects angle of incidence
+
   
-- polarization, flipped per pulse, must go into separate workspaces
+
 
 - filter logs to find data?
 
-Monitors:
-- long experiment: time normalized from detector
-  - 4cm x mm -> hits strip of pixels 1e8 n/s/cm^2
-  - simple normalization
-- per-pulse normalization (event mode, or time resolved histogram)
+## Monitors:
 
-
-## Metadata
-- 
+- Long experiment: time normalized from detector
+  - 4cm x mm at sample, then spreads out more -> hits strip of pixels, yielding of the order of 1e8 n/s/cm^2
+  - used for simple normalization
+- Per-pulse normalization required
+  - Event mode, or time resolved histogram
 
 ## Future
 
-- penetration depth - > wavelength
+- Detectors have depth, penetration depth is correlated to wavelength, might use that for corrections.
+- Grazing incidence SANS, off-specular
