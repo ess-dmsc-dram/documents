@@ -27,18 +27,19 @@ Meeting 2017-05-11
 ## Other
 
 - Coherent summing (along constant Q instead of theta)
-  - Either curved sample, or less collimation in beam
+  - Either curved sample, or less collimation in beam (a bit like ESTIA high-intensity mode)
   - More compute intense
   - Done at ILL by Robert Cubitt
   
 ## Instrument
 
-- Detectors are 2D (has depth, but TOF correction done internally in detector?)
+- Detectors are 2D -- has depth, but TOF correction done internally in detector (or by event formation, might want to double check that)?
 - 7x wavelength-frame multiplication at FREIA -> better resolution
   - no overlap in TOF -> overlap in lambda (convert separately then merge)
 - Gravity correction
   - relevant of above 20 Å
   - affects angle of incidence
+- Fast slits -> different angles. Not handled differently from normal measurements at different angles, just faster.
   
 ## Live
   
