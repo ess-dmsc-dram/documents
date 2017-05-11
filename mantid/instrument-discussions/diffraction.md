@@ -27,7 +27,7 @@ Meeting 2017-05-11
 - Event mode
 - Efficiency 1e-5 to 1e-3 relative to incident of max. 1e9
 - Need time resolution, high-rate experiments typically short
-- Shortest time scale might be pulsed magnet (50 ms pulse, with time variation)
+- Shortest time scale might be pulsed magnet (50 ms pulse, with time variation, but very long breaks, i.e., low overall neutron count?)
   
 ## Instrument
 
@@ -46,7 +46,7 @@ Meeting 2017-05-11
 - Live instrument view
 - Python scripts
 - Live reduction:
-  - Powder: 1D and 2D live view
+  - Powder diffraction: 1D and 2D live view
   - Single crystal: Q-space display and HKL lists do not need to be live
     
 ## Future
