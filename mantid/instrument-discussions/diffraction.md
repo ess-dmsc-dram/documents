@@ -49,3 +49,6 @@ Meeting 2017-05-11
   - Powder: 1D and 2D live view
   - Single crystal: Q-space display and HKL lists do not need to be live
     
+## Future
+
+- Filter out scattering from anything but the sample, using trajectories seen in 3D detectors
