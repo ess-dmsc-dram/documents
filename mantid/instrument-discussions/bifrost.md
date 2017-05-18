@@ -1,10 +1,41 @@
-- user mid 2023 (among first 8)
-- hot comms 2022
+# Bifrost
 
-a4 = tank rotation -> continuous scan
-a3 = sample scan
+Meeting 2017-05-18
 
-stroboscopic measurements
+- Rasmus Toft-Petersen
+- Simon Heybrock
+
+## General
+
+- User mid 2023 (among first 8 instruments)
+- Hot commissioning 2022
+
+- normalization for detectors and for analysis (actually combined)
+
+## Instrument
+
+### Scans
+
+- A4 = tank rotation (might be continuous scan but should be possible to approximate with step scan)
+- A3 = sample scan
+
+### Monitors
+
+- scans -> need time resolved monitors
+- no single shot, monitors integrated over intervals of seconds to minutes
+- details still open
+
+### Beam path
+
+- path component approximation as prototyped for Mantid Instrument-2.0 should be fine
+- current "fudging" should also be sufficient
+- L1 might be wavelength dependent (will be simulated soon)!
+
+## Event mode
+
+- stroboscopic measurements
+
+## MDWorkspace
 
 S(Q,\omega) -> actually S(Q_1, Q_2, \omega) (absolutely essential from day 1 of hot commissioning)
   -> check what SofQw does in Mantid
@@ -12,34 +43,18 @@ time scale seconds to minutes
 
 up to 5 GigaBins
 
-## Monitors
 
-- scans -> need time resolved monitors
-- no single shot, monitors integrated over intervals of seconds-minutes
-- details still open
-
-## Non-straight beam path
-
-- path component approx. should be fine
-- current fudging also
-
-- L1 might be wavelength dependent (will be simulated soon)!
-
-
-- normalization for detectors and for analysis (actually combined)
 
 ## "Continuous angle multiple analsysis"
 
-- not via choppers
-- several different analysis in series -> different wavelength band
-- might be analyzed separately (neither MatrixWorkspace nor MDWorkspace)
-
-
-- for live mode, it might be sufficient to reduce data only from a single arc
+- no RRM via choppers (unlike other spectrometers at ESS)
+- several different analyzers in series -> different E_f
+- might be analyzed separately, but would alo need to be able to do comparisons, etc.
+- for live mode, it might be sufficient to reduce data only from a single analyzer arc, in case that is necessary for performance
 
 ## InstrumentView
 
-- 5000 pixels -> no issue
+- 5000 pixels -> no performance issue with current implementation
 
 ## Sample alignment / Calibration
 
