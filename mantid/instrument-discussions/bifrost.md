@@ -62,3 +62,8 @@ up to 5 GigaBins
   - might actually be 1e7 before calibration in early hot commissioning (might use attenuator)
 
 - will look into what is needed as toolbox for alignment and calibration
+
+
+- Spurions
+  - need masking
+  - masking in (Q,\omega)? (at least compare there?) -> get detector space / time bins
