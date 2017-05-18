@@ -40,8 +40,8 @@ Meeting 2017-05-18
 S(Q,\omega) -> actually S(Q_1, Q_2, \omega)
 - absolutely essential from day 1 of hot commissioning
   -> check what SofQw(MatrixWorkspace) does in Mantid - is that just |Q|?
-- up to 5 Giga bins (uniforma binning)
-- need to see results within time scale seconds to minutes
+- up to 5 Giga bins (uniform binning)
+- need to see results within time scale of (seconds to) minutes
 
 ## "Continuous angle multiple analsysis"
 
