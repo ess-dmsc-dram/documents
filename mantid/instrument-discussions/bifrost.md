@@ -39,15 +39,16 @@ up to 5 GigaBins
 
 ## InstrumentView
 
-- 
+- 5000 pixels -> no issue
 
-## Sample alignment
+## Sample alignment / Calibration
 
 - Group all pixels (3 tubes, or just central) hit by same analyzer
 - Plot I(\lambda, A3) -> sample alignment
 - might be possible to do this offline, if done in short intervals (few minutes)
 
-- close slits until bragg peak goes darker (reduce background), should be automatizable
+- white beam, close slits until bragg peak goes darker (reduce background), should be automatizable
+  - using attenuation to reduce flux
 
 - vanadium runs -> normalization file (monthly basis)
 
@@ -55,3 +56,9 @@ up to 5 GigaBins
 - detector safety system: bragg peak too strong -> detector will ramp down voltage -> disables detector
   - mask detectors
   - notify user in NICOS?
+
+
+- worst case 1e6 counts/s, mostly 10x
+  - might actually be 1e7 before calibration in early hot commissioning (might use attenuator)
+
+- will look into what is needed as toolbox for alignment and calibration
