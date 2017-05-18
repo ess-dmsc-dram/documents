@@ -18,7 +18,7 @@ up to 5 GigaBins
 - no single shot, monitors integrated over intervals of seconds-minutes
 - details still open
 
-## Non-straigh beam path
+## Non-straight beam path
 
 - path component approx. should be fine
 - current fudging also
@@ -27,3 +27,31 @@ up to 5 GigaBins
 
 
 - normalization for detectors and for analysis (actually combined)
+
+## "Continuous angle multiple analsysis"
+
+- not via choppers
+- several different analysis in series -> different wavelength band
+- might be analyzed separately (neither MatrixWorkspace nor MDWorkspace)
+
+
+- for live mode, it might be sufficient to reduce data only from a single arc
+
+## InstrumentView
+
+- 
+
+## Sample alignment
+
+- Group all pixels (3 tubes, or just central) hit by same analyzer
+- Plot I(\lambda, A3) -> sample alignment
+- might be possible to do this offline, if done in short intervals (few minutes)
+
+- close slits until bragg peak goes darker (reduce background), should be automatizable
+
+- vanadium runs -> normalization file (monthly basis)
+
+
+- detector safety system: bragg peak too strong -> detector will ramp down voltage -> disables detector
+  - mask detectors
+  - notify user in NICOS?
