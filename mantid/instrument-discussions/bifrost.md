@@ -9,8 +9,8 @@ Meeting 2017-05-18
 
 - User mid 2023 (among first 8 instruments)
 - Hot commissioning 2022
-- worst case 1e6 counts/s, mostly 10x
-  - might actually be 1e7 before calibration in early hot commissioning (might use attenuator)
+- worst case 1e6 counts/s, mostly 10x lower than that
+  - might actually be 1e7 before calibration in early hot commissioning, but could probably use attenuator
 
 ## Instrument
 
@@ -47,7 +47,7 @@ S(Q,\omega) -> actually S(Q_1, Q_2, \omega)
 
 - no RRM via choppers (unlike other spectrometers at ESS)
 - several different analyzers in series -> different E_f
-- might be analyzed separately, but would alo need to be able to do comparisons, etc.
+- could mostly be analyzed separately, but would alo need to be able to do comparisons, etc.
 - for live mode, it might be sufficient to reduce data only from a single analyzer arc, in case that is necessary for performance
 
 ## InstrumentView
