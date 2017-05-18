@@ -9,8 +9,8 @@ Meeting 2017-05-18
 
 - User mid 2023 (among first 8 instruments)
 - Hot commissioning 2022
-
-- normalization for detectors and for analysis (actually combined)
+- worst case 1e6 counts/s, mostly 10x
+  - might actually be 1e7 before calibration in early hot commissioning (might use attenuator)
 
 ## Instrument
 
@@ -37,13 +37,11 @@ Meeting 2017-05-18
 
 ## MDWorkspace
 
-S(Q,\omega) -> actually S(Q_1, Q_2, \omega) (absolutely essential from day 1 of hot commissioning)
-  -> check what SofQw does in Mantid
-time scale seconds to minutes
-
-up to 5 GigaBins
-
-
+S(Q,\omega) -> actually S(Q_1, Q_2, \omega)
+- absolutely essential from day 1 of hot commissioning
+  -> check what SofQw(MatrixWorkspace) does in Mantid - is that just |Q|?
+- up to 5 Giga bins (uniforma binning)
+- need to see results within time scale seconds to minutes
 
 ## "Continuous angle multiple analsysis"
 
@@ -56,29 +54,19 @@ up to 5 GigaBins
 
 - 5000 pixels -> no performance issue with current implementation
 
-## Sample alignment / Calibration
+## Calibration and sample alignment
 
 - Group all pixels (3 tubes, or just central) hit by same analyzer
 - Plot I(\lambda, A3) -> sample alignment
-- might be possible to do this offline, if done in short intervals (few minutes)
-
+- might be possible to do this "offline", if done in short intervals (few minutes) and provided that it is automizable
 - white beam, close slits until bragg peak goes darker (reduce background), should be automatizable
   - using attenuation to reduce flux
-
 - vanadium runs -> normalization file (monthly basis)
-
-
 - detector safety system: bragg peak too strong -> detector will ramp down voltage -> disables detector
-  - mask detectors
+  - mask detectors (automatically)
   - notify user in NICOS?
-
-
-- worst case 1e6 counts/s, mostly 10x
-  - might actually be 1e7 before calibration in early hot commissioning (might use attenuator)
-
-- will look into what is needed as toolbox for alignment and calibration
-
-
+- Rasmus will look into what is needed as toolbox for alignment and calibration
 - Spurions
   - need masking
-  - masking in (Q,\omega)? (at least compare there?) -> get detector space / time bins
+  - masking in (Q,\omega), does Mantid support that? Need to at least compare there -> get detector space / time bins for masking from (Q,\omega)
+- normalization for detectors and for analysis (actually combined)
