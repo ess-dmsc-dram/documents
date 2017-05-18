@@ -47,7 +47,7 @@ S(Q,\omega) -> actually S(Q_1, Q_2, \omega)
 
 - no RRM via choppers (unlike other spectrometers at ESS)
 - several different analyzers in series -> different E_f
-- could mostly be analyzed separately, but would alo need to be able to do comparisons, etc.
+- could mostly be analyzed separately, but would also need to be able to do comparisons, etc.
 - for live mode, it might be sufficient to reduce data only from a single analyzer arc, in case that is necessary for performance
 
 ## InstrumentView
