@@ -81,5 +81,35 @@ TODO
 ## PMB Approval and Comments
 ### Approval Date 
 ### Comments
+
+# 4 Distributed Data Reduction
+
+## Motivation
+
+In-situ data reduction, and increasingly large data sets require rapid processing at the Algorithm level. These factors are increasingly of concern to several facilities. The problems are particularly accute for Event mode processing.
+
+Section 9.1 of the [ORNL 5-year plan](https://github.com/mantidproject/documents/blob/master/Design/ORNL_Mantid_5yearplan.pdf) outlines a desire to apply Mantid in heterogeneous distributed computing environements. This is also a featured in Section 2.2.3 ESS data-reduction-report 2017. 
+
+For `MatrixWorkspaces`, a framework for this distributed approach is close to delivery. There is however a need to identify and port critical algorithms over to this way of working. Faclity specific algorithms are out of scope for this project.
+
+## Blocking Projects
+No other core projects block this 
+## Specialist Skills Required
+TODO
+## Resource and Profile Estimate
+TODO
+## Deliverables 
+TODO
+## Risks of Delaying:
+* Mantid will not be suitable for data rates produced by modern facilities
+* Piecemeal approaches will not yield the overall performance required
+* Attempting to solve framework performance problems at the last minute is risky at the operating facility level
+* Mantid uses a range of ad-hoc/un-coordinated approaches for distributed computing
+* The current knowledge of the framework level approaches is siloed to the ESS
+## PMB Approval and Comments
+### Approval Date 
+### Comments
+
+
   
 
