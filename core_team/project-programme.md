@@ -63,9 +63,9 @@ None
 ### Specialist Skills Required
 TODO
 ### Resource and Profile Estimate
-2-5 months at 1FTE to complete basic Beamline with performance optimisation
-2-6 months at 1FTE for non-straight beam paths
-3-12 months at 1FTE to eliminate Instrument 1.0
+* 2-5 months at 1FTE to complete basic Beamline with performance optimisation
+* 2-6 months at 1FTE for non-straight beam paths
+* 3-12 months at 1FTE to eliminate Instrument 1.0
 ### Deliverables 
 TODO
 ### Risks if Not Addressed
