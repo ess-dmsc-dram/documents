@@ -39,7 +39,7 @@ TODO
 TODO
 ### Deliverables 
 TODO
-### Risks of Delaying:
+### Risks if Not Addressed
 * Cost. Delaying involvement will cost more time and effort. See Motivation.
 * Correctness issues will remain. See Motivation.
 * Performance issues will remain. See Motivation.
@@ -63,13 +63,15 @@ None
 ### Specialist Skills Required
 TODO
 ### Resource and Profile Estimate
-TODO
+2-5 months at 1FTE to complete basic Beamline with performance optimisation
+2-6 months at 1FTE for non-straight beam paths
+3-12 months at 1FTE to eliminate Instrument 1.0
 ### Deliverables 
 TODO
-### Risks of Delaying:
+### Risks if Not Addressed
 * Knowledge sharing. Understanding of the Instrument 2.0 long-term design and current implementations is entirely within the ESS Mantid team.
 * Performance and memory requirements. `Instrument 1.0` is becoming an uncessary overhead. See Motivation.
-* Technical debt around Geometry/Instrument. No other contingency plans to resolve this.
+* Technical debt around legacy Geometry/Instrument. No other contingency plans to resolve this.
 ### PMB Approval and Comments
 #### Approval Date 
 #### Comments
@@ -78,7 +80,7 @@ TODO
 
 ### Motivation
 
-1. Visualisation at the instrument level has been requested by every instrument team engaed as part of the ESS/DMSC 2017 instrument-class coordination. The importance of visualisation prompted a deeper investigation and [report](https://github.com/DMSC-Instrument-Data/documents/blob/master/investigations/InstrumentView%20Performance/InstrumentViewInvestigation.md). That report advised that the `InstrumentView` had performance issues making it unsuable for instruments with over 600K detectors.
+1. Visualisation at the instrument level has been requested by every instrument team engaged as part of the ESS/DMSC 2017 instrument-class coordination. The importance of visualisation prompted a deeper investigation and [report](https://github.com/DMSC-Instrument-Data/documents/blob/master/investigations/InstrumentView%20Performance/InstrumentViewInvestigation.md). That report advised that the `InstrumentView` had performance issues making it unsuable for instruments with over 600K detectors.
 2. There is an increasing desire to use parts of Mantid imbedded in other applications. See Section 6.2 and 1.2 [ORNL 5-year plan](https://github.com/mantidproject/documents/blob/master/Design/ORNL_Mantid_5yearplan.pdf). The ORNL have already recognised that feed-back loops are critical aspects of these, and this has also observed this during Mantid/NICOS integration as part of the ESS direction.
 . Section 2.2.1 ESS data-reduction-report. 
 3. Usage statistics put the `InstrumentView` at the top of the list of Mantid's most used graphical interfaces.
@@ -90,12 +92,13 @@ Possibly project "Leverage Instrument 2.0" If Instrument reading is the major bl
 ### Specialist Skills Required
 TODO
 ### Resource and Profile Estimate
-TODO
+3-12 months for 1FTE based on ESS estimates.
 ### Deliverables 
 TODO
-### Risks of Delaying:
-* InstrumentView will be unusable for many ESS instruments such as CSPEC. Other facilities will be affected.
-* InstrumentView cannot be be used as part of close feedback loops, such as with experiment control programs as is
+### Risks if Not Addressed
+* InstrumentView will be unusable for many ESS instruments such as CSPEC. Other facilities anticipating building larger pixellated instruments will eventually be affected.
+* InstrumentView cannot be be used as part of close feedback loops, such as with experiment control programs.
+* Knowledge of the `InstrumentView` is currently limited to Roman Tolchenov
 ### PMB Approval and Comments
 #### Approval Date 
 #### Comments
@@ -115,12 +118,12 @@ No other core projects block this
 ### Specialist Skills Required
 TODO
 ### Resource and Profile Estimate
-TODO
+4-8 months for 1FTE based on ESS estimates
 ### Deliverables 
 TODO
-### Risks of Delaying:
+### Risks if Not Addressed
 * Mantid will not be suitable for data rates produced by modern facilities
-* Piecemeal approaches will not yield the overall performance required
+* Piecemeal approaches will not yield the overall performance required.
 * Attempting to solve framework performance problems at the last minute is risky at the operating facility level
 * Mantid uses a range of ad-hoc/un-coordinated approaches for distributed computing
 * The current knowledge of the framework level approaches is siloed to the ESS
@@ -141,10 +144,12 @@ Currently no distributed approach to working with `MDWorkpaces`. Many data redut
 ### Specialist Skills Required
 TODO
 ### Resource and Profile Estimate
-TODO
+6-36 months for 1FTE depending on complexity of solution by ESS estimates
 ### Deliverables 
 TODO
-### Risks of Delaying:
+### Risks if Not Addressed
+* There are between 6-36 months of estimated effort for this item. It cannot be simply retrofitted if required in short order.
+* For Direct Inelastic and SCD, MD processing is the rate determining step. Distributed data reduction for the 2D apsects will not obviate the need for this.
 ### PMB Approval and Comments
 #### Approval Date 
 #### Comments
@@ -160,7 +165,7 @@ TODO
 TODO
 ### Deliverables 
 TODO
-### Risks of Delaying:
+### Risks if Not Addressed
 ### PMB Approval and Comments
 #### Approval Date 
 #### Comments
@@ -177,7 +182,7 @@ TODO
 TODO
 ### Deliverables 
 TODO
-### Risks of Delaying:
+### Risks if Not Addressed
 ### PMB Approval and Comments
 #### Approval Date 
 #### Comments
