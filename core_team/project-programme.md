@@ -82,7 +82,7 @@ TODO
 ### Approval Date 
 ### Comments
 
-# 4 Distributed Data Reduction
+# 4 Distributed Data Reduction 2D
 
 ## Motivation
 
@@ -90,7 +90,7 @@ In-situ data reduction, and increasingly large data sets require rapid processin
 
 Section 9.1 of the [ORNL 5-year plan](https://github.com/mantidproject/documents/blob/master/Design/ORNL_Mantid_5yearplan.pdf) outlines a desire to apply Mantid in heterogeneous distributed computing environements. This is also a featured in Section 2.2.3 ESS data-reduction-report 2017. 
 
-For `MatrixWorkspaces`, a framework for this distributed approach is close to delivery. There is however a need to identify and port critical algorithms over to this way of working. Faclity specific algorithms are out of scope for this project.
+For `MatrixWorkspaces`, a coordinated, [framework level approach](https://github.com/mantidproject/documents/blob/master/Performance/mpi-based_data_reduction_-_different_approach.pdf) is close to delivery. There is however a need to identify and port critical algorithms over to this way of working. Faclity specific algorithms are out of scope for this project.
 
 ## Blocking Projects
 No other core projects block this 
@@ -111,5 +111,57 @@ TODO
 ### Comments
 
 
+# 5 Distributed Data Reduction MD
+
+## Motivation
+
+ESS data-reduction-report 2017. Correctness, portability and performance and [ORNL 5-year plan](https://github.com/mantidproject/documents/blob/master/Design/ORNL_Mantid_5yearplan.pdf) section 9.1.
+
+Currently no distributed approach to working with `MDWorkpaces`. Many data redution workflows will spend significant amounts of their total processing effort working with `MDWorkspaces`. There is a signficant conceptual challange here, particularly for `MDEventWorkspaces`
+
+## Blocking Projects
+## Specialist Skills Required
+TODO
+## Resource and Profile Estimate
+TODO
+## Deliverables 
+TODO
+## Risks of Delaying:
+## PMB Approval and Comments
+### Approval Date 
+### Comments
+
+# 6 MPI Visualisation non-md
+
+## Motivation
+Keeping up with fast event streams, may require distributed visualisation approaches.
+## Blocking Projects
+## Specialist Skills Required
+TODO
+## Resource and Profile Estimate
+TODO
+## Deliverables 
+TODO
+## Risks of Delaying:
+## PMB Approval and Comments
+### Approval Date 
+### Comments
+
+
+# 7 MPI Visualisation MD
+
+## Motivation
+[ORNL 5-year plan](https://github.com/mantidproject/documents/blob/master/Design/ORNL_Mantid_5yearplan.pdf) section 7.2. Section 2.2.9 ESS data-reduction-report 2017. 
+## Blocking Projects
+## Specialist Skills Required
+TODO
+## Resource and Profile Estimate
+TODO
+## Deliverables 
+TODO
+## Risks of Delaying:
+## PMB Approval and Comments
+### Approval Date 
+### Comments
   
 
