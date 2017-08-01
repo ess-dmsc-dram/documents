@@ -3,7 +3,17 @@
 This document summarises project proposals to form a programme of work for the [Core Mantid Developement Team(s)](https://github.com/mantidproject/documents/blob/master/Project-Management/PMB/Mantid%20core%20team%20proposal.docx).
 This document will be maintained and updated and prioritised as a [Mantid Technical Steering Committee](https://github.com/mantidproject/documents/tree/master/Project-Management/TechnicalSteeringCommittee) responsibility.
 
-# 1. Read/Write Standard NeXus Files
+# Core Programme
+
+1. [read write standard nexus files](#read-write-standard-nexus-files)
+1. [leverage beamline](#leverage-beamline)
+1. [instrument visualisation performance](#instrument-visualisation-performance)
+1. [distributed data reduction 2D](#distributed-data-reduction)
+1. [distributed data reduction MD](#distributed-data-reduction-md)
+1. [mpi visualisation non-md](mpi-visualisation-non-md)
+1. [mpi visualisation md](mpi-visualisation-md)
+
+## Read Write Standard NeXus Files
 
 ## Motivation
 The NeXus [format](http://www.nexusformat.org/) is a well estabilished and critical file format for neutron data. That standard is undergoing change, with an early proposal for Geometry layout expected by September 2017. The new format will replace the string-based Instrument Definition File. 
@@ -31,11 +41,11 @@ TODO
 ### Approval Date 
 ### Comments
 
-# 2. Leverage Instrument 2.0
+# Leverage Beamline
 
 ## Motivation
 
-The ESS and ISIS in-kind team has, thus far, provided 100% of the resourcing of the `Instrument 2.0` project. This has yielded more efficient and faster in-memory structures for all users, and core step-scanning changes required by the ILL. `Instrument 2.0` is explicitly described in the [SNS 5-year plan, section 4](https://github.com/mantidproject/documents/blob/master/Design/ORNL_Mantid_5yearplan.pdf)
+The ESS and ISIS in-kind team has, thus far, provided 100% of the resourcing of the `Instrument 2.0`/`Beamline` project. This has yielded more efficient and faster in-memory structures for all users, and core step-scanning changes required by the ILL. `Instrument 2.0` is explicitly described in the [SNS 5-year plan, section 4](https://github.com/mantidproject/documents/blob/master/Design/ORNL_Mantid_5yearplan.pdf)
 
 1. We currently wrap aspects of Instrument 1.0, and created Instrument 2.0 based on Instrument 1.0, which is highly inefficient. Killing Instrument 1.0 would not only reduce the size of the code base, but also vastly improve in-memory performance and load/save times. This would first require extending and leveraging Instrument 2.0 for things such as shape related operations.
 2. The ESS and ISIS in-kind team has extensively designed and prototyped features for Mantid, that are not a 1/1 replacement for `Instrument 1.0`, and will support new classes of real neutron instruments. These are described in Section 4.1.2 (Objectives) in the [SNS 5-year plan](https://github.com/mantidproject/documents/blob/master/Design/ORNL_Mantid_5yearplan.pdf) and include complex beam paths. Prototyping has signficantly de-risked these designs, and they are now ready to be put into production.
@@ -56,7 +66,7 @@ TODO
 ### Approval Date 
 ### Comments
 
-# 3. Instrument Visualisation Performance
+# Instrument Visualisation Performance
 
 ## Motivation
 
@@ -82,7 +92,7 @@ TODO
 ### Approval Date 
 ### Comments
 
-# 4 Distributed Data Reduction 2D
+# Distributed Data Reduction 
 
 ## Motivation
 
@@ -111,7 +121,7 @@ TODO
 ### Comments
 
 
-# 5 Distributed Data Reduction MD
+# Distributed Data Reduction MD
 
 ## Motivation
 
@@ -131,7 +141,7 @@ TODO
 ### Approval Date 
 ### Comments
 
-# 6 MPI Visualisation non-md
+# MPI Visualisation non-md
 
 ## Motivation
 Keeping up with fast event streams, may require distributed visualisation approaches.
@@ -148,7 +158,7 @@ TODO
 ### Comments
 
 
-# 7 MPI Visualisation MD
+# MPI Visualisation MD
 
 ## Motivation
 [ORNL 5-year plan](https://github.com/mantidproject/documents/blob/master/Design/ORNL_Mantid_5yearplan.pdf) section 7.2. Section 2.2.9 ESS data-reduction-report 2017. 
