@@ -15,7 +15,6 @@ Core team projects must align with the [core team](https://github.com/mantidproj
 
 1. [read write standard nexus files](#read-write-standard-nexus-files)
 1. [leverage beamline](#leverage-beamline)
-1. [instrument visualisation performance](#instrument-visualisation-performance)
 1. [distributed data reduction 2D](#distributed-data-reduction)
 1. [distributed data reduction MD](#distributed-data-reduction-md)
 1. [mpi visualisation non-md](mpi-visualisation-non-md)
@@ -76,35 +75,7 @@ TODO
 #### Approval Date 
 #### Comments
 
-## Instrument Visualisation Performance
-
-### Motivation
-
-1. Visualisation at the instrument level has been requested by every instrument team engaged as part of the ESS/DMSC 2017 instrument-class coordination. The importance of visualisation prompted a deeper investigation and [report](https://github.com/DMSC-Instrument-Data/documents/blob/master/investigations/InstrumentView%20Performance/InstrumentViewInvestigation.md). That report advised that the `InstrumentView` had performance issues making it unsuable for instruments with over 600K detectors.
-2. There is an increasing desire to use parts of Mantid imbedded in other applications. See Section 6.2 and 1.2 [ORNL 5-year plan](https://github.com/mantidproject/documents/blob/master/Design/ORNL_Mantid_5yearplan.pdf). The ORNL have already recognised that feed-back loops are critical aspects of these, and this has also observed this during Mantid/NICOS integration as part of the ESS direction.
-. Section 2.2.1 ESS data-reduction-report. 
-3. Usage statistics put the `InstrumentView` at the top of the list of Mantid's most used graphical interfaces.
-
-In 2016, Mantid obtained the ability to run the `InstrumentView` without `MantidPlot`, and a python interface was provided. There has already been high level performance investigation work conducted by the ESS. The ESS will also contribute a deeper investigation of the performance. 
-
-### Blocking Projects
-Possibly project "Leverage Instrument 2.0" If Instrument reading is the major blocker.  
-### Specialist Skills Required
-TODO
-### Resource and Profile Estimate
-3-12 months for 1FTE based on ESS estimates.
-### Deliverables 
-TODO
-### Risks if Not Addressed
-* InstrumentView will be unusable for many ESS instruments such as CSPEC. Other facilities anticipating building larger pixellated instruments will eventually be affected.
-* InstrumentView cannot be be used as part of close feedback loops, such as with experiment control programs.
-* Knowledge of the `InstrumentView` is currently limited to Roman Tolchenov
-### PMB Approval and Comments
-#### Approval Date 
-#### Comments
-
 ## Distributed Data Reduction 
-
 ### Motivation
 
 In-situ data reduction, and increasingly large data sets require rapid processing at the Algorithm level. These factors are increasingly of concern to several facilities. The problems are particularly accute for Event mode processing.
