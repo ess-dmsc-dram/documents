@@ -36,8 +36,6 @@ None
 TODO
 ### Resource and Profile Estimate
 TODO
-### Deliverables 
-TODO
 ### Risks if Not Addressed
 * Cost. Delaying involvement will cost more time and effort. See Motivation.
 * Correctness issues will remain. See Motivation.
@@ -65,8 +63,6 @@ TODO
 * 2-5 months at 1FTE to complete basic Beamline with performance optimisation
 * 2-6 months at 1FTE for non-straight beam paths
 * 3-12 months at 1FTE to eliminate Instrument 1.0
-### Deliverables 
-TODO
 ### Risks if Not Addressed
 * Knowledge sharing. Understanding of the Instrument 2.0 long-term design and current implementations is entirely within the ESS Mantid team.
 * Performance and memory requirements. `Instrument 1.0` is becoming an uncessary overhead. See Motivation.
@@ -111,8 +107,6 @@ Aspects of Beamline, particularly complex beam paths are relevant to this projec
 TODO
 ### Resource and Profile Estimate
 TODO
-### Deliverables 
-TODO
 ### Risks if Not Addressed
 TODO
 ### PMB Approval and Comments
@@ -127,8 +121,6 @@ No blockers
 ### Specialist Skills Required
 TODO
 ### Resource and Profile Estimate
-TODO
-### Deliverables 
 TODO
 ### Risks if Not Addressed
 * Continued accumulation of technical debt related to shoehorning of `MatrixWorkspace`
@@ -151,8 +143,6 @@ We reccommend that Workspace design is approach, first, particularly taking into
 TODO
 ### Resource and Profile Estimate
 6-36 months for 1FTE depending on complexity of solution by ESS estimates
-### Deliverables 
-TODO
 ### Risks if Not Addressed
 * There are between 6-36 months of estimated effort for this item. It cannot be simply retrofitted if required in short order.
 * For Direct Inelastic and SCD, MD processing is the rate determining step. Distributed data reduction for the 2D apsects will not obviate the need for this.
