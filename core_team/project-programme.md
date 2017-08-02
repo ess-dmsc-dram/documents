@@ -16,6 +16,8 @@ Core team projects must align with the [core team](https://github.com/mantidproj
 1. [read write standard nexus files](#read-write-standard-nexus-files)
 1. [leverage beamline](#leverage-beamline)
 1. [distributed data reduction 2D](#distributed-data-reduction)
+1. [units](#units)
+1. [workspaces](#workspaces)
 1. [distributed data reduction MD](#distributed-data-reduction-md)
 
 ## Read Write Standard NeXus Files
@@ -96,6 +98,42 @@ TODO
 * Attempting to solve framework performance problems at the last minute is risky at the operating facility level
 * Mantid uses a range of ad-hoc/un-coordinated approaches for distributed computing
 * The current knowledge of the framework level approaches is siloed to the ESS
+### PMB Approval and Comments
+#### Approval Date 
+#### Comments
+
+## Units
+### Motivation
+Described in section 4 [ORNL 5-year plan](https://github.com/mantidproject/documents/blob/master/Design/ORNL_Mantid_5yearplan.pdf)
+### Blocking Projects
+Aspects of Beamline, particularly complex beam paths are relevant to this project
+### Specialist Skills Required
+TODO
+### Resource and Profile Estimate
+TODO
+### Deliverables 
+TODO
+### Risks if Not Addressed
+TODO
+### PMB Approval and Comments
+#### Approval Date 
+#### Comments
+
+## Workspaces
+### Motivation
+Described in section 5 [ORNL 5-year plan](https://github.com/mantidproject/documents/blob/master/Design/ORNL_Mantid_5yearplan.pdf). Current data Structures no longer accurately reflect the science. Abuse of `MatrixWorkspace` as a base container in many areas of the codebase.
+### Blocking Projects
+No blockers
+### Specialist Skills Required
+TODO
+### Resource and Profile Estimate
+TODO
+### Deliverables 
+TODO
+### Risks if Not Addressed
+* Continued accumulation of technical debt related to shoehorning of `MatrixWorkspace`
+* Missing API correctness. Confusion imposed on users with current structures.
+* May prevent distributed data reduction for multidimensional data
 ### PMB Approval and Comments
 #### Approval Date 
 #### Comments
