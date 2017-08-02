@@ -86,8 +86,6 @@ No other core projects block this though Workspace design is of interest
 TODO
 ### Resource and Profile Estimate
 4-8 months for 1FTE based on ESS estimates
-### Deliverables 
-TODO
 ### Risks if Not Addressed
 * Mantid will not be suitable for data rates produced by modern facilities
 * Piecemeal approaches will not yield the overall performance required.
