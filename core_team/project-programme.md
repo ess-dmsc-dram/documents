@@ -17,8 +17,6 @@ Core team projects must align with the [core team](https://github.com/mantidproj
 1. [leverage beamline](#leverage-beamline)
 1. [distributed data reduction 2D](#distributed-data-reduction)
 1. [distributed data reduction MD](#distributed-data-reduction-md)
-1. [mpi visualisation non-md](mpi-visualisation-non-md)
-1. [mpi visualisation md](mpi-visualisation-md)
 
 ## Read Write Standard NeXus Files
 
@@ -102,9 +100,7 @@ TODO
 #### Approval Date 
 #### Comments
 
-
 ## Distributed Data Reduction MD
-
 ### Motivation
 
 ESS data-reduction-report 2017. Correctness, portability and performance and [ORNL 5-year plan](https://github.com/mantidproject/documents/blob/master/Design/ORNL_Mantid_5yearplan.pdf) section 9.1.
@@ -125,37 +121,5 @@ TODO
 #### Approval Date 
 #### Comments
 
-## MPI Visualisation non-md
-
-### Motivation
-Keeping up with fast event streams, may require distributed visualisation approaches.
-### Blocking Projects
-### Specialist Skills Required
-TODO
-### Resource and Profile Estimate
-TODO
-### Deliverables 
-TODO
-### Risks if Not Addressed
-### PMB Approval and Comments
-#### Approval Date 
-#### Comments
-
-
-## MPI Visualisation MD
-
-### Motivation
-[ORNL 5-year plan](https://github.com/mantidproject/documents/blob/master/Design/ORNL_Mantid_5yearplan.pdf) section 7.2. Section 2.2.9 ESS data-reduction-report 2017. 
-### Blocking Projects
-### Specialist Skills Required
-TODO
-### Resource and Profile Estimate
-TODO
-### Deliverables 
-TODO
-### Risks if Not Addressed
-### PMB Approval and Comments
-#### Approval Date 
-#### Comments
   
 
