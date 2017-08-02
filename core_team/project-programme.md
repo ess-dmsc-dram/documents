@@ -80,10 +80,10 @@ In-situ data reduction, and increasingly large data sets require rapid processin
 
 Section 9.1 of the [ORNL 5-year plan](https://github.com/mantidproject/documents/blob/master/Design/ORNL_Mantid_5yearplan.pdf) outlines a desire to apply Mantid in heterogeneous distributed computing environements. This is also a featured in Section 2.2.3 ESS data-reduction-report 2017. 
 
-For `MatrixWorkspaces`, a coordinated, [framework level approach](https://github.com/mantidproject/documents/blob/master/Performance/mpi-based_data_reduction_-_different_approach.pdf) is close to delivery. There is however a need to identify and port critical algorithms over to this way of working. Faclity specific algorithms are out of scope for this project.
+For `MatrixWorkspaces`, a coordinated, [framework level approach](https://github.com/mantidproject/documents/blob/master/Performance/mpi-based_data_reduction_-_different_approach.pdf) a first usable version is close to delivery. Not only is there is  a need to identify and correctly port a mimimal set of critical algorithms over to this way of working, we also need to ensure that the framework itself is well developed and supported, particularly during the initial rollout phases.
 
 ### Blocking Projects
-No other core projects block this 
+No other core projects block this though Workspace design is of interest
 ### Specialist Skills Required
 TODO
 ### Resource and Profile Estimate
@@ -108,6 +108,7 @@ ESS data-reduction-report 2017. Correctness, portability and performance and [OR
 Currently no distributed approach to working with `MDWorkpaces`. Many data redution workflows will spend significant amounts of their total processing effort working with `MDWorkspaces`. There is a signficant conceptual challange here, particularly for `MDEventWorkspaces`
 
 ### Blocking Projects
+We reccommend that Workspace design is approach, first, particularly taking into account of the [ORNL comment]((https://github.com/mantidproject/documents/blob/master/Design/ORNL_Mantid_5yearplan.pdf)) in section 5 regarding investigation of VTK type data structures.
 ### Specialist Skills Required
 TODO
 ### Resource and Profile Estimate
