@@ -13,12 +13,117 @@ Core team projects must align with the [core team](https://github.com/mantidproj
 
 # Core Programme
 
+1. [Histogram Library](#histogram-library)
+1. [Event Data Library](#event-data-library)
+1. [Crystallography Library](#crystallography-library)
+1. [Curve Fitting Library](#curve-fitting-library)
+1. [Metadata Library](#metadata-library)
+1. [Other Libraries](#other-libraries-for-_neutron-_physics-related-concepts)
+1. [Workspace-2.0](#workspace-2_0)
 1. [read write standard nexus files](#read-write-standard-nexus-files)
 1. [leverage beamline](#leverage-beamline)
 1. [distributed data reduction 2D](#distributed-data-reduction)
 1. [units](#units)
 1. [workspaces](#workspaces)
 1. [distributed data reduction MD](#distributed-data-reduction-md)
+
+## Histogram Library
+### Motivation
+A major part of data reduction is about histograms.
+Developers as well as users need a simple but fast and versatile way to store and manipulate histograms.
+The `HistogramData` library is a first step in that direction.
+It needs to be extended with more functionality and must be made fully accessible from Python.
+### Blocking Projects
+None
+### Specialist Skills Required
+### Resource and Profile Estimate
+### Risks if Not Addressed
+### PMB Approval and Comments
+#### Approval Date 
+#### Comments
+
+## Event Data Library
+Provide a twin library of the `HistogramData` library for low-level interaction with neutron event data.
+This would extract and possible extend a lot of functionality that is currently encapsulated in `EventList` and possible also the event representation of `MDEventWorkspace`.
+As usual, this should be fully functional with a complete Python interface.
+### Motivation
+### Blocking Projects
+None
+### Specialist Skills Required
+### Resource and Profile Estimate
+### Risks if Not Addressed
+### PMB Approval and Comments
+#### Approval Date 
+#### Comments
+
+## Crystallography Library
+### Motivation
+Many experiments are dealing with crystals and thus data reduction must be able to handle crystallography related concepts such as HKL values, point- and space-groups, and many more.
+These low level concepts should be provided as a small and lightweight library, providing data types for safely and correctly storing and manipulating them.
+As usual, this should be fully functional with a complete Python interface.
+### Blocking Projects
+None
+### Specialist Skills Required
+### Resource and Profile Estimate
+### Risks if Not Addressed
+### PMB Approval and Comments
+#### Approval Date 
+#### Comments
+
+## Curve Fitting Library
+The current fitting framework is complex and depends and workspaces.
+Fitting should be made available for individual histograms by a library that does not depend on higher level concepts such as workspaces.
+As usual, this should be fully functional with a complete Python interface.
+### Motivation
+### Blocking Projects
+None
+### Specialist Skills Required
+### Resource and Profile Estimate
+### Risks if Not Addressed
+### PMB Approval and Comments
+#### Approval Date 
+#### Comments
+
+## Metadata Library
+Apart from histograms and event lists, metadata is another major component of workspaces.
+Storing, accessing, searching, and filtering of such metadata should be encapsulated in a library.
+As usual, this should be fully functional with a complete Python interface.
+### Motivation
+### Blocking Projects
+None
+### Specialist Skills Required
+### Resource and Profile Estimate
+### Risks if Not Addressed
+### PMB Approval and Comments
+#### Approval Date 
+#### Comments
+
+## Other Libraries for (Neutron-)Physics Related Concepts
+### Motivation
+The libraries listed above are most likely not a comprehensive list covering all relevant concepts in (neutron-)physics.
+Identify such concepts and evaluating whether it is worth providing a library for them or not.
+### Blocking Projects
+None
+### Specialist Skills Required
+### Resource and Profile Estimate
+### Risks if Not Addressed
+### PMB Approval and Comments
+#### Approval Date 
+#### Comments
+
+## Workspaces-2.0
+### Motivation
+The current workspace hierarchy is an inflexible, bloated, and frequently abused construct that most developers do not fully understand.
+Based on many of the low-level libraries above, a more versatile and complete set of workspace types would be developed.
+### Blocking Projects
+None
+### Specialist Skills Required
+### Resource and Profile Estimate
+### Risks if Not Addressed
+### PMB Approval and Comments
+#### Approval Date 
+#### Comments
+
 
 ## Read Write Standard NeXus Files
 
