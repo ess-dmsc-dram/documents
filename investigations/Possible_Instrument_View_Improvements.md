@@ -1,8 +1,7 @@
-# Investigation of Possible Instrument 2.0 Effects on Instrument View Performance.
-This document outlines areas in which the performance of the instrument view may benefit from the introduction of the new Instrument 2.0 caching layers. Tests were carried out using the Microsoft Visual Studio debugger and profiling tools in conjunction with `Callgrind` on Linux which provided information on which Instrument 1.0 methods are most heavily used when interacting with the instrument view. The instrumentation was taken for the duration of the creation of the `InstrumentWidget`.
+# Investigation of Performance Bottlenecks in the Instrument View.
+This document outlines the performance bottlenecks in the instrument view loading which are a direct result of Instrument 1.0 geometry access. Tests were carried out using the Microsoft Visual Studio debugger and profiling tools in conjunction with `Callgrind` on Linux which provided information on which Instrument 1.0 methods are most heavily used when interacting with the instrument view. The instrumentation was taken for the duration of the creation of the `InstrumentWidget`.
 
 ## Findings
-
 The following report contains results in terms of percentage inclusive time during the loading of an empty GEM instrument in the instrument view:
 
 - 34% of time is spent doing dynamic casts in several places: 
@@ -17,15 +16,17 @@ The following report contains results in terms of percentage inclusive time duri
 	- 4% `sp_counted_base::release`
 - Of the 25% inclusive time spent on calls to `ComponentActor::getDetector`, 17% is spent calling `InstrumentActor::getInstrument()`.
 
+The results above clearly show that the majority of time is being spent in Instrument 1.0 geometry access. Even with the instrument being drawn on screen, the geometry access dominates the processing time.
+
 ## Interpretation 
 ### Copying Instrument Geometry
-When creating the instrument view, the entire instrument geometry is copied and stored in "Actors", since the component assembly makes use of virtualisation, several dynamic downcasts must be performed in order to determine types. This can be improved in Instrument 2.0 since the type information is stored in the `ComponentInfo/DetectorInfo` layers without the need for dynamic casting.
+When creating the instrument view, the entire instrument geometry is copied and stored in "Actors", since the component assembly uses some kind of shoe-horned mechanism (poorly designed system of virtualisation), several dynamic downcasts must be performed in order to determine types. This can be improved in Instrument 2.0 since the type information is stored in the `ComponentInfo/DetectorInfo` layers without the need for dynamic casting.
  
 ### Parametrised Instrument Allocation
 In several scenarios within the Instrument View (loading, switching between unwrapped views and picking) a parametrised version of the instrument is created before attempting to access detectors. Every call to `ExperimentInfo::getInstrument()` results in a call to `ExperimentInfo::makeParameterizedInstrument()`, which in turn is triggered by every call to `InstrumentActor::getInstrument()` or `ComponentActor::getComponent()`. For SANS2D, there are 255 calls to the parametrised instrument constructor, for GEM there are ~130K. Similar figures were recorded for switching instrument representations (unwrapped views). This seems to be, in general terms, a design flaw in Instrument 1.0. However, Instrument 2.0 obviates the need to access parameter maps or even the creation of a parametrised instrument. It therefore follows that any access which replaces this object creation with a table lookup could drastically improve performance.
 
-### Caching Layer Lookup vs Detector Object Access
-Following on from the last point, in most places where information about individual detectors are required, a pointer/reference to the detector object is obtained in order to retrieve detector id, shape, bounding boxes and corresponding workspace data. Instrument 2.0 simplifies this access by making most of this information directly accessible from the `DetectorInfo`/`ComponentInfo`. 
+### ComponentInfo/DetectorInfo Lookup vs Detector Object Access
+Following on from the last point, in most places where information about individual detectors are required, a pointer/reference to the detector object is obtained in order to retrieve detector id, shape, bounding boxes and corresponding workspace data which in some cases may require `dynamic_cast`. Instrument 2.0 simplifies this access by making most (if not all) of this geometry information directly accessible from the `DetectorInfo`/`ComponentInfo`. 
 
 ### List of Operations Instrument View requires of Instrument 1.0
 The list below is sorted by relative cost. Everything above ObjComponent has a relative cost > 10%.
