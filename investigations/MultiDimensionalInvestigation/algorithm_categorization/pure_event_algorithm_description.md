@@ -56,7 +56,7 @@ if the box contributes partially, then the child box is recursively investigated
 box is not in the integration region, then it is not added to the total signal and not further
 investigated.
 
-##### Comment
+##### Comment on scalability
 The way we the data is stored in the structure should not matter to this algorithm.
 Especially, having a parallel *MDEventWorkspace* would not be an issue here.
 

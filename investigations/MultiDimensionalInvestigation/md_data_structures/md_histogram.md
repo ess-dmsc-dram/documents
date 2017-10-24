@@ -14,6 +14,10 @@ the extent of a single box, etc. The signal/error/event data comprises the bulk
 of the information stored in the *MDHistoWorkspace*. This data is stored in
 a dynamically allocated linear array. The linear array can be easily mapped
 into multiple dimensions, ie multi-dimensional indexing is easily possible.
+In addition a vertex array is stored. This is the collection of coordinates
+of vertices which make the 0th box. This is important when calculating slices
+through the MDWorkspace of if a box is partially, fully or not contained inside
+a volume.
 
 ## Creation
 
@@ -27,7 +31,6 @@ the events are then added into the correct bins.
 1. **Via conversion from a *MatrixWorkspace***: The main algorithm here is *ConvertToReflectometryQ*.
 1. **Via direct creation**: By providing signal and error arrays it is possible to directly
 create an *MDHistoWorkspace* using *CreateMDHistoWorkspace*.
-
 
 ## Comments
 
