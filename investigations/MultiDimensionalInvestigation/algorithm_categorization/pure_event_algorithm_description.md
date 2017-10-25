@@ -7,7 +7,18 @@ functionality and their dependence on data-structure-specific features.
 
 
 ## Creation
-* ConvertToDiffractionMDWorkspace
+
+There are many creational algorithms are many are very specialist. The main
+algorihtm in use today is *ConvertToMD* which is quite difficult. Another
+algorithm which is widely used is *ConvertToDiffractionMDWorkspace*.
+
+#### ConvertToDiffractionMDWorkspace
+
+TODO
+
+#### ConvertToMD
+TODO
+
 * ConvertCWPDMDToSpectra
 * ConvertCWSDExpToMomentum
 * ConvertCWSDMDtoHKL
@@ -27,16 +38,19 @@ functionality and their dependence on data-structure-specific features.
 * LoadSQW2
 * OneStepMDEW
 
-## Normalization
-* MDNormDirectSC
+### Normalization
 
-### MDNormSCD
+#### MDNormDirectSC
+
+The same as *MDNormSCD* but with some extras for the energy.
+
+#### MDNormSCD
 
 Calculates the normaliztion of an MDEvent workspace for SCD. The normalization
 is the product of time integrated incident flux and the solid angle of detector
 which contribute to the differential cross section at a point in q space.
 
-##### Execution
+###### Execution
 
 The algorithm is very complex. As inputs it takes an *MDEventWorkspace* which contains
 the counts, a *MatrixWorkspace* which contains the momentum-depenent input flux and
@@ -70,27 +84,27 @@ This is a gross simplification of the algorithm. The main insight is the fact,
 that we apply *BinMD* immediately, this could mean that we migth be able to
 deal with histogram-type workspaces as the input.
 
-##### Data Structure access
+###### Data Structure access
 The event data structure has *BinMD* applied to it, hence we require the access
 that *BinMD* requires. The resulting *MDHistoWorkspace* has indexed setter access
 with an atomic add-operation
 
-##### Comment on scalability and dependence on underlying data structure
+###### Comment on scalability and dependence on underlying data structure
 The scalability is limited by the scalability of *BinMD*. In addition, the
 atomic add-operation on the *MDHistoWorkspace* might also be a bottle-neck.
 
-## Peaks
+### Peaks
 
-### IntegratePeaksHybrid
+#### IntegratePeaksHybrid
 
 Looking at the usage statistics for Mantid 3.5 to 3.9, this has not been used
 heavily.
 
-### IntegratePeaksMD
+#### IntegratePeaksMD
 
 This algorithm performs integration of single-crystal peaks within a radius (with optional background subtraction) in reciprocal space.
 
-##### Execution
+###### Execution
 The algorithm can be described as below. This assumes the standard spherical case.
 
 ```
@@ -110,7 +124,7 @@ def integrate_peaks(peaks, md_ws):
 The heavy lifting is done by `integreateSphere` or `integrateCylinder` on the root level
 box. This yields information about the signal and error for the ROI and the inner and outer background, if this was specified.
 
-##### Data Structure access
+###### Data Structure access
 The `integreateSphere` method goes over all child boxes and checks if their vertices
 are fully or partially contained in the integration region. If the box is fully contained
 in the integration region, then the signal (and error) is added to the integrated signal,
@@ -118,23 +132,23 @@ if the box contributes partially, then the child box is recursively investigated
 box is not in the integration region, then it is not added to the total signal and not further
 investigated.
 
-##### Comment on scalability and dependence on underlying data structure
+###### Comment on scalability and dependence on underlying data structure
 
 Ultimately the algorithm is interested in several patches of localized events, ie peaks.
 This means that the sphere integration is a local operation.
 
 
-### IntegratePeaksCWSD
+#### IntegratePeaksCWSD
 Integrate single-crystal peaks in reciprocal space, for *MDEventWorkspace* s from reactor-source single crystal diffractometer.
 
 Specialized algorithm. TODO later (?)
 
 
-### CentroidPeaksMD
+#### CentroidPeaksMD
 
 Find the centroid of single-crystal peaks in a MDEventWorkspace, in order to refine their positions.
 
-##### Execution
+###### Execution
 
 The algorithm can be described as below.
 
@@ -155,18 +169,18 @@ sphere. If this is the case then, then the events contribute to the total signal
 and weighted centroid position.
 
 
-##### Data Structure access
+###### Data Structure access
 The `centroidSphere` method access is comparable to `integrateSphere` for *IntegratePeaksMD*.
 
-##### Comment on scalability and dependence on underlying data structure
+###### Comment on scalability and dependence on underlying data structure
 As with *IntegratePeaksMD* the data of interest for each peak is located in a small
 region of the Q space. If there is a partitioning of the data in Q space then
 it should be easy to execute this algorithm in parallel.
 
 
-## Slicing
+### Slicing
 
-### SliceMD
+#### SliceMD
 
 Creates a sub-workspace containing the events in a slice of an input *MDEventWorkspace*.
 In contrast to *BinMD*, the space is not binned and the events are not summed up into
@@ -175,7 +189,7 @@ these bins.
 Q: Why do we specify bins in the input? A: Because the *MDBoxImplicitFunction* function uses
 the number of bins indirectly to determine the slice range.
 
-##### Execution
+###### Execution
 
 The *SliceMD* algorithm is fairly complex
 
@@ -215,13 +229,13 @@ def slice_md(md_ws, slice_geometry):
 Note that the specified binning is used when constructing the implicit MD box
 structure, but only indirectly as we only use the number of bins.
 
-##### Data Structure access
+###### Data Structure access
 The algorithm performs a standard acces via the *getBoxes* method. The returned
 boxes have been checked against an MD box-like structure, ie only boxes fully- or
 partially contained in the structure are returned. Later on the events of these
 boxes are added to another workspace via *addEvent*
 
-##### Comment on scalability and dependence on underlying data structure
+###### Comment on scalability and dependence on underlying data structure
 Leaving the current data structure aside, it would be possible to have this
 scalable, since all we need to do is ask leaf nodes if they are contained within
 a box-like structure. This is a local operation.
@@ -230,12 +244,12 @@ Adding events to the other workspace is currently highly nom-local since we
 need to add them to the root box of the output workspace. However this is an
 issue that we have for all algorithms which add data.
 
-## Other
-### AccumulateMD
+### Other
+#### AccumulateMD
 This algorithm appends new data to an existing multidimensional workspace.
 It allows the accumulation of data in a single MDWorkspace as you go.
 
-##### Execution
+###### Execution
 The *AccumulateMD* algorithm works as follows:
 
 ```
@@ -252,21 +266,18 @@ def accumulate(input_ws, data_sources):
   return output_ws
 ```
 
-##### Data Structure access
+###### Data Structure access
 This is all abstracted to *MergeMD*.
 
-##### Comment on scalability and dependence on underlying data structure
+###### Comment on scalability and dependence on underlying data structure
 Same as *MergeMD*.
-
-
 
 * GetSpiceDataRawCountsFromMD
 
-
-### MergeMD
+#### MergeMD
 Merges several *MDEventWorkspace* s into one, by adding their events together.
 
-##### Execution
+###### Execution
 The merge algorithm operates on a list of workspaces and can be described as
 below.
 
@@ -287,16 +298,16 @@ Essentially the algorithm finds all leaf nodes and adds the events to the
 root level box of the output workspace. This is in a way pretty bad, since
 the algorithm is very aware of the implemenation of the *MDEventWorkspace*.
 
-##### Data Structure access
+###### Data Structure access
 The entire data structre needs to be traversed and accessed. Teh underlying
 data strucutre has its implementation details not abstrated away.
 
-##### Comment on scalability and dependence on underlying data structure
+###### Comment on scalability and dependence on underlying data structure
 The events need to be gathered from the entire q space and placed one by one into
 the new data structure. It is not clear to me how scalable the merge really is.
 
-### MergeMDFiles
+#### MergeMDFiles
 Operates on files, so maybe not too relevant now.
 
-### Utility
+#### Utility
 * FakeMDEventData
