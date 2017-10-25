@@ -231,7 +231,35 @@ need to add them to the root box of the output workspace. However this is an
 issue that we have for all algorithms which add data.
 
 ## Other
-* AccumulateMD
+### AccumulateMD
+This algorithm appends new data to an existing multidimensional workspace.
+It allows the accumulation of data in a single MDWorkspace as you go.
+
+##### Execution
+The *AccumulateMD* algorithm works as follows:
+
+```
+def accumulate(input_ws, data_sources):
+  # Check if the data sources
+  data_sources = remove_data_sources_which_are_already_in_workspace(input_ws, data_sources)
+
+  if data_sources.is_empty():
+    return
+
+  merge_alg = new MergeMD()
+  data_source_workspaces = load_data_source_workspaces(data_sources)
+  output_ws = merge_alg.merge(input_ws, data_source_ws)
+  return output_ws
+```
+
+##### Data Structure access
+This is all abstracted to *MergeMD*.
+
+##### Comment on scalability and dependence on underlying data structure
+Same as *MergeMD*.
+
+
+
 * GetSpiceDataRawCountsFromMD
 
 
@@ -267,7 +295,8 @@ data strucutre has its implementation details not abstrated away.
 The events need to be gathered from the entire q space and placed one by one into
 the new data structure. It is not clear to me how scalable the merge really is.
 
-* MergeMDFiles
+### MergeMDFiles
+Operates on files, so maybe not too relevant now.
 
 ### Utility
 * FakeMDEventData
