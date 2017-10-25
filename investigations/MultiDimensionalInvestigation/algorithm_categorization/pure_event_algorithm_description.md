@@ -96,7 +96,7 @@ def centroids(md_ws, peak_ws):
   for peak in peaks:
       box = md_ws.get_box()
       centre, signal = box.centroid_sphere(peak)
-      normalized_centre = get_center_normalized_by_signal(centre, signal)
+      normalized_centre = get__normalized_by_signal(centre, signal)
       peak.set_centre(normalized_centre)
 ```
 
@@ -116,9 +116,71 @@ region of the Q space. If there is a partitioning of the data in Q space then
 it should be easy to execute this algorithm in parallel.
 
 
-
 ## Slicing
-* SliceMD
+
+### SliceMD
+
+Creates a sub-workspace containing the events in a slice of an input *MDEventWorkspace*.
+In contrast to *BinMD*, the space is not binned and the events are not summed up into
+these bins.
+
+Q: Why do we specify bins in the input? A: Because the *MDBoxImplicitFunction* function uses
+the number of bins indirectly to determine the slice range.
+
+##### Execution
+
+The *SliceMD* algorithm is fairly complex
+
+```
+def slice_md(md_ws, slice_geometry):
+  # Set up the output workspace
+  out_ws = create_outut_ws()
+  transfer_box_controller_settings_to_output_ws(md_ws, out_ws)
+
+  # Define implicit function
+  md_box_implicit_function = get_slice_function(slice_geometry)
+
+  # Get all boxes which are contained by implicit box function
+  top_box = md_ws.get_box()
+  boxes = top_box.get_boxes(md_box_implicit_function)
+
+  # Transfer events from input boxes to output workspace. We need to ensure
+  # that the individual events are contained within the md box
+  for box in boxes:
+    if box is not masked:
+        events = box.get_events()
+        for event in events:
+          if md_box_implicit_function.is_contained(event.centre):   
+            out_box_centre = get_transformed_centre(box.centre)
+            new_event = get_new_event(event, out_box_centre)
+
+            # Add the new event to the top box of the output
+            top_box_out = out_ws.get_box()
+            top_box_out.add_event(new_event)
+
+        # After having added teh events we might need to split the ws
+        if out_ws.get_box_controller().requires_split(top_box_out):
+          out_ws.split_all_if_needed
+  return out_ws
+```
+
+Note that the specified binning is used when constructing the implicit MD box
+structure, but only indirectly as we only use the number of bins.
+
+##### Data Structure access
+The algorithm performs a standard acces via the *getBoxes* method. The returned
+boxes have been checked against an MD box-like structure, ie only boxes fully- or
+partially contained in the structure are returned. Later on the events of these
+boxes are added to another workspace via *addEvent*
+
+##### Comment on scalability and dependence on underlying data structure
+Leaving the current data structure aside, it would be possible to have this
+scalable, since all we need to do is ask leaf nodes if they are contained within
+a box-like structure. This is a local operation.
+
+Adding events to the other workspace is currently highly nom-local since we
+need to add them to the root box of the output workspace. However this is an
+issue that we have for all algorithms which add data.
 
 ## Other
 * AccumulateMD
