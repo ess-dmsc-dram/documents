@@ -14,7 +14,7 @@
   with.
 
 
-### Stand up with Simon and Lamar 22/10/2017
+### Stand up with Simon and Lamar 23/10/2017
 * It is unclear (or not fully clear) how users will consume data
 * Two approaches have been mentioned:
   1. Parallel workspaces which are easy, but don't have any computational scaling (maybe not)
@@ -23,7 +23,7 @@
 * We need to know how data reduction is performed for SXD, especially the protein case. Need to arrange a meeting with Fabio Orlandi ( I.P.)
 
 
-### Interview with Sam 22/10/2017
+### Interview with Sam 23/10/2017
 * Interview with Sam regarding MD usage in SCD (WISH 680.000 detectors in histogram mode). Standard usage is
   1. Load raw data
   1. Crop data
@@ -38,8 +38,30 @@
   This means that MD algorithms are only used for peak integration and peak centering (which
   Sam will move into TOF). Magnetic investigations are not different to standard reductions.
 
-### Interview with Alex B. and Duc L.
+### Interview with Alex B. and Duc L. 23/10/2017
 * I asked the indirect group how multi-dimensional algorithms and data structures are
 used within Mantid. Apparently they are not used at all. When the choppers are open and
 a white beam becomes available, they before the same steps as WISH. Else they use Horace and
 there is not intention of moving away from that. BinMD and ConvertToMD is used in MSlice.
+
+### Standup with Simon and Lamar 24/10/2017
+* It was mentioned that we should investigate the principal scalability of the algorithms
+  as we go through the list.
+
+### Discussion with Steven, Simon, Lamar, Vickie, Andrei, Pete 24/10/2017
+* typical SCD inelastic workflow is:
+  * LoadEventNexus on data
+  * Crop to the limits
+  * ConvertToMD (converts to MDEventWorkspace)
+  * MDNormSCD (converts to MDHistoWorkspace)
+  * PlusMD, DivideMD (other arithmetic operations)
+* MDNorm would not work on MDEventWorkspace well, since the norm would have to
+be recalculated everytime the box structure changes
+* MDEventWorkspace's prime purpose is visualization
+* Requirement (indepenent of distributed system): would like to expose MDEventWorkspace to Python
+* Vickie described the use case for SCD:
+  * Similar to what is being done at ISIS
+  * Corrections (spectrum correction, Lorentz correction, absporption correction) are applied on peaks but maybe should be applied on MDEventWorkspace (why?)
+* ConvertToMD is quick in the US; they were surprised tht it can take 10 minuts here for WISH
+* MultiBlock data set was mentioned as a distribued data set option
+* We should check if MDConvertToDiffractionMD produces the same as ConvertToMD (with and without Lorentz correction)

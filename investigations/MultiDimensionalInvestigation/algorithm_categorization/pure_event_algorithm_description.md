@@ -35,18 +35,32 @@ functionality and their dependence on data-structure-specific features.
 
 ### IntegratePeaksHybrid
 
+Looking at the usage statistics for Mantid 3.5 to 3.9, this has not been used
+heavily.
+
 ### IntegratePeaksMD
 
 This algorithm performs integration of single-crystal peaks within a radius (with optional background subtraction) in reciprocal space.
 
 ##### Execution
-1. Input: MDEventWorkspace, PeakWorkspace and peak radius settings
-1. For each peak
-  1. execute `integreateSphere` or `integrateCylinder` on the root level box. This yields
-     information about the signal and error for the ROI and the inner and outer background,
-      if this was specified.
-  1. if a background was specified then normalize the background signal by the background volume
-  1. Perform a signal correction with the background and save it in the information in the PeaksWorkspace.
+The algorithm can be described as below. This assumes the standard spherical case.
+
+```
+def integrate_peaks(peaks, md_ws):
+  peak_ws = new PeakWS()
+  for peak in peaks:
+      box = md_ws.get_box()
+      background_radius = get_background_radius(peak)
+      signal, error = box.integrate_sphere(peak.radius)
+      background_signal, background_error = box.integrate_sphere(background_radius)
+
+      peak_corrected = get_corrected_peak(signal, error, background_signal, background_error)
+      peak_ws.add_peak(peak_corrected)
+  return peak_ws
+```
+
+The heavy lifting is done by `integreateSphere` or `integrateCylinder` on the root level
+box. This yields information about the signal and error for the ROI and the inner and outer background, if this was specified.
 
 ##### Data Structure access
 The `integreateSphere` method goes over all child boxes and checks if their vertices
@@ -56,9 +70,11 @@ if the box contributes partially, then the child box is recursively investigated
 box is not in the integration region, then it is not added to the total signal and not further
 investigated.
 
-##### Comment on scalability
-The way we the data is stored in the structure should not matter to this algorithm.
-Especially, having a parallel *MDEventWorkspace* would not be an issue here.
+##### Comment on scalability and dependence on underlying data structure
+
+Ultimately the algorithm is interested in several patches of localized events, ie peaks.
+This means that the sphere integration is a local operation.
+
 
 ### IntegratePeaksCWSD
 Integrate single-crystal peaks in reciprocal space, for *MDEventWorkspace* s from reactor-source single crystal diffractometer.
@@ -71,19 +87,33 @@ Specialized algorithm. TODO later (?)
 Find the centroid of single-crystal peaks in a MDEventWorkspace, in order to refine their positions.
 
 ##### Execution
-1. Input: MDEventWorkspace, PeakWorkspace and peak radius settings
-1. For each peak
-  1. execute `centroidSphere`  on the root level box. This will check down to the
-  leaf level if the events are inside the peak sphere. If this is the case then,
-  the events contribute to the total signal and weighted centroid position.
-  1. The new values are added to the PeaksWorkspace and returned.
+
+The algorithm can be described as below.
+
+```
+def centroids(md_ws, peak_ws):
+  peaks = peak_ws.get_peaks()
+  for peak in peaks:
+      box = md_ws.get_box()
+      centre, signal = box.centroid_sphere(peak)
+      normalized_centre = get_center_normalized_by_signal(centre, signal)
+      peak.set_centre(normalized_centre)
+```
+
+The heavy lifting is done by `centroidSphere`  on the root level
+box. This yields the signal and teh centroid of the region of interest. The method
+essentially checks down to the leaf level if the events are inside the specified
+sphere. If this is the case then, then the events contribute to the total signal
+and weighted centroid position.
+
 
 ##### Data Structure access
 The `centroidSphere` method access is comparable to `integrateSphere` for *IntegratePeaksMD*.
 
-##### Comment
-See *IntegratePeaksMD*
-
+##### Comment on scalability and dependence on underlying data structure
+As with *IntegratePeaksMD* the data of interest for each peak is located in a small
+region of the Q space. If there is a partitioning of the data in Q space then
+it should be easy to execute this algorithm in parallel.
 
 
 
@@ -93,9 +123,40 @@ See *IntegratePeaksMD*
 ## Other
 * AccumulateMD
 * GetSpiceDataRawCountsFromMD
-* MDNormDirectSC
-* MDNormSCD
-* MergeMD
+
+
+### MergeMD
+Merges several *MDEventWorkspace* s into one, by adding their events together.
+
+##### Execution
+The merge algorithm operates on a list of workspaces and can be described as
+below.
+
+```
+def merge(md_workspaces):
+  output_ws = get_output_workspace(md_workspaces)
+  for ws in md_workspaces:
+    out_box = output_ws.get_box()
+    top_box = ws.get_box()
+    leaf_box = top_box.get_all_leaf_boxes()
+    for bx in leaf_box:
+      if bx is not masked:
+        events = bx.get_events()
+        out_box.add_events(events)
+```
+
+Essentially the algorithm finds all leaf nodes and adds the events to the
+root level box of the output workspace. This is in a way pretty bad, since
+the algorithm is very aware of the implemenation of the *MDEventWorkspace*.
+
+##### Data Structure access
+The entire data structre needs to be traversed and accessed. Teh underlying
+data strucutre has its implementation details not abstrated away.
+
+##### Comment on scalability and dependence on underlying data structure
+The events need to be gathered from the entire q space and placed one by one into
+the new data structure. It is not clear to me how scalable the merge really is.
+
 * MergeMDFiles
 
 ### Utility

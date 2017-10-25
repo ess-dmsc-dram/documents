@@ -90,8 +90,6 @@
 ### Other
 * AccumulateMD
 * GetSpiceDataRawCountsFromMD
-* MDNormDirectSC
-* MDNormSCD
 * MergeMD
 * MergeMDFiles
 
