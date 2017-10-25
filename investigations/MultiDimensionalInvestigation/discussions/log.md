@@ -65,3 +65,9 @@ be recalculated everytime the box structure changes
 * ConvertToMD is quick in the US; they were surprised tht it can take 10 minuts here for WISH
 * MultiBlock data set was mentioned as a distribued data set option
 * We should check if MDConvertToDiffractionMD produces the same as ConvertToMD (with and without Lorentz correction)
+
+### Standup with Simon and Lamar 25/10/2017
+* Simon mentioned that the powder reduction at the SNS makes use of CompactEvents,
+  wich will reduce the number of events by creating weighted events out of events
+  which are within a certain tolerance. The tolerance would be set by the resolution
+  in the experiment. We need to check what the resolution of ESS instruments are.

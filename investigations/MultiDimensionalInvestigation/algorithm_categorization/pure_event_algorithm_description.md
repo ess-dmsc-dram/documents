@@ -29,7 +29,55 @@ functionality and their dependence on data-structure-specific features.
 
 ## Normalization
 * MDNormDirectSC
-* MDNormSCD
+
+### MDNormSCD
+
+Calculates the normaliztion of an MDEvent workspace for SCD. The normalization
+is the product of time integrated incident flux and the solid angle of detector
+which contribute to the differential cross section at a point in q space.
+
+##### Execution
+
+The algorithm is very complex. As inputs it takes an *MDEventWorkspace* which contains
+the counts, a *MatrixWorkspace* which contains the momentum-depenent input flux and
+a *MatrixWorkspace* which contains momentum integrated solid-angle information (a Vanadium run).
+
+```
+def md_norm_scd(md_event_input_ws, flux_ws, solid_angle_ws):
+  # The first thing that is done here, is to convert to MDHistoWorkspace
+  output_md_ws = create_md_histo_output_ws(md_event_input_ws)
+  normalization_ws = get_normalization_ws(output_md_ws)
+
+
+  # For each detector we check what the space is that it occupies in Q.
+  for detector in flux_ws.detectors():
+    # Get the intersections of HKL planes with the space that detector
+    # occcupies in Q and perform integration (code is not clear what the intention is)
+    intersections = get_intersections(detector, normalization_ws, flux_ws)
+    intersection_integrals = get_interesection_integrals(detector, flux_ws, intersections)
+
+    solid_angle = get_solid_angle_for_detector(detecotr, solid_angle_ws)
+
+    for intersection in intersections:
+      position = get_average_intersection_position(intersection)
+      normalization_signal = get_normalization_signal(intersection, intersection_integrals, solid_angle)
+      normalization_ws.set_signal_at_position(position, normalization_signal)
+
+  return output_md_ws, normalization_ws
+```
+
+This is a gross simplification of the algorithm. The main insight is the fact,
+that we apply *BinMD* immediately, this could mean that we migth be able to
+deal with histogram-type workspaces as the input.
+
+##### Data Structure access
+The event data structure has *BinMD* applied to it, hence we require the access
+that *BinMD* requires. The resulting *MDHistoWorkspace* has indexed setter access
+with an atomic add-operation
+
+##### Comment on scalability and dependence on underlying data structure
+The scalability is limited by the scalability of *BinMD*. In addition, the
+atomic add-operation on the *MDHistoWorkspace* might also be a bottle-neck.
 
 ## Peaks
 
