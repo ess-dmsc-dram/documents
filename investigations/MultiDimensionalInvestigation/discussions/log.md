@@ -71,3 +71,25 @@ be recalculated everytime the box structure changes
   wich will reduce the number of events by creating weighted events out of events
   which are within a certain tolerance. The tolerance would be set by the resolution
   in the experiment. We need to check what the resolution of ESS instruments are.
+
+### Interview with Pascal and Fabio 26/10/2018
+* The reduction that was described matched pretty much what Sam had described earlier.
+* From MD they use
+  * ConvertToDiffractionMDWorkspace (which is very slow for them)
+  * IntegratePeaksMD (but they think this algorithm is not working correctly; Sam is investigating)
+  * CentroidPeaksMD (but very little, since the UB matrix is pretty good; also Sam is improving CentroidPeaks, hence it can be performed in TOF)
+  * IntegratePeaksUsingClusters sometimes (this is purely event based)
+  * BinMD (mainly via the SliceViewer)
+* They stopped using FindPeaksMD and are now using FindSXPeaks
+* They use the VSI a bit
+* We should keep in mind that the data is recorded in histogram-mode
+* Corrections and normalizations (Vanadium, Lorentz correction) are applied to
+  the MatrixWorkspace
+* When they perfor diffuse scattering they might in the future use MDNormSCD and maybe merge runs. How and when this will happen is unknown now.
+* The PeakIntensityVsRadius is used sometimes, but seems to produce erratic results. (Sam was informed)
+* The resolution of WISH is 0.2 degrees and in the time domain dT/T = 0.006. They use logarithmic binning with
+  about 5000 bins. They could use 32000 bins in the linear case, but the buffer cannot handle this.
+* **Very important**: They don't (and maybe) cannot make use of auto-reduction. They rely on seeing the data and
+changing the parameters. As such it is important for them to use the SliceViewer and potentially the VSI. This is also
+the reason they rely on *BinMD*. They mentioned that *SXD* operated in a similar manner. In addition they use the
+InstrumentView quite heavily to manually correct the PeakWorkspaces. -> Can we support such a work-flow?
