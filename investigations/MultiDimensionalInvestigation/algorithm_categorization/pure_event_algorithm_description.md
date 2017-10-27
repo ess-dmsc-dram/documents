@@ -13,7 +13,6 @@ algorihtm in use today is *ConvertToMD* which is quite difficult. Another
 algorithm which is widely used is *ConvertToDiffractionMDWorkspace*.
 
 #### ConvertToDiffractionMDWorkspace
-
 TODO
 
 #### ConvertToMD
@@ -272,7 +271,8 @@ This is all abstracted to *MergeMD*.
 ###### Comment on scalability and dependence on underlying data structure
 Same as *MergeMD*.
 
-* GetSpiceDataRawCountsFromMD
+#### GetSpiceDataRawCountsFromMD
+* specialist algorithm
 
 #### MergeMD
 Merges several *MDEventWorkspace* s into one, by adding their events together.
@@ -307,7 +307,8 @@ The events need to be gathered from the entire q space and placed one by one int
 the new data structure. It is not clear to me how scalable the merge really is.
 
 #### MergeMDFiles
-Operates on files, so maybe not too relevant now.
+* Operates on files, so maybe not too relevant now.
 
 #### Utility
-* FakeMDEventData
+##### FakeMDEventData
+* not very relevant
