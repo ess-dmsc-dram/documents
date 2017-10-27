@@ -7,13 +7,15 @@ understanding of their functionality and their dependence on
 data-structure-specific features.
 
 
-## Mixed algorithms
+# Mixed algorithms
+
 ### Creation
-* SaveMD
-* LoadMD
+
+#### SaveMD
+#### LoadMD
 
 ### MDArithmetic
-#### MinusMD
+##### MinusMD
 
 The *MinusMD* algorithm is used to subtract two workspaces.
 
@@ -50,12 +52,15 @@ In principal this could be a scalable operation since the subtraction is local.
 So in principal, with a different data structure there is no reason why this
 should not be scalable.
 
-### PlusMD
+##### PlusMD
 This is the same as *MinusMD*, but we don't use the inversion of the signal value.
 The same considerations regarding the scalability apply here.
 
-* BinaryOperationMD (Base algorithm)
-* UnaryOperationMD (Base algorithm for which the derived algorithms only work on MDHisto. Why accept both then?)
+##### BinaryOperationMD
+ * Base algorithm
+
+##### UnaryOperationMD
+* Base algorithm for which the derived algorithms only work on MDHisto. Why accept both then?)
 
 ### Peaks
 ##### FindPeaksMD
@@ -169,7 +174,8 @@ heavily linked to the implementation details of the workspaces (this might
 be the only algorihtm which decribes boxes in the algorithm documentation).
 
 
-* IntegratePeaksMDHKL
+##### IntegratePeaksMDHKL
+* does not seem to be used very much
 
 ### Slicing
 ##### BinMD
@@ -237,10 +243,12 @@ This algorithm has several challanges in terms of scalability:
   atomic writes might be needed since (potentially) several ranks can contribute to the
   same bin.
 
-* CutMD (forwarding algorithm)
+##### CutMD
+ * forwarding algorithm
+ * complexity lies in *SliceMD*
 
 ### Transforms
-#### MaskMD
+##### MaskMD
 The algorithm masks all data in a rectangular block on an MDWorkspace.
 
 ###### Execution
@@ -323,8 +331,23 @@ scalability, provided the underlying data structure allows easy local access (as
 with all other algorithms).
 
 ### Utility
-* CloneMDWorkspace
-* CompareMDWorkspaces
+##### CloneMDWorkspace
+This algorithm creates a copy of an existing workspace.
+
+The *MDHistoWorkspace* essentially performs a `std::copy_n` of the signal,
+error, event number and masking arrays. The *MDEventWorkspace* performs recursive
+copying of the MDBox structure.
+
+The scalability of this algorithm might be limited. While the new copies of the
+data could be generated locally, it would be non-local to generate the underlying
+connection to other data if the data ws stored in a hierarchical data structure.
+
+##### CompareMDWorkspaces
+For the *MDHistoWorkspace* a bin-by-bin comparison is performed. This is locally
+possible.
+
+For the *MDEventWorkspace*   a box-by-box comparison of all (including internal) nodes
+is performed. This is not locally possible with our hierarchical data strucutre.
 
 ### Other
 * SaveMDWorkspaceToVTK
