@@ -1,5 +1,3 @@
-
-
 # T-REX
 
 T-REX is a time-of-floght, reciprocal space explorer which can also perform
@@ -35,9 +33,6 @@ the possition can be easily infered from the regular grid.
 
 The truth of this will lie more closely in the tens of GB case when logarithmic
 binning is used as is the case for WISH.
-
-
-# CSPEC
 
 # Esko
 
@@ -84,3 +79,8 @@ for a specific scenarios from the instrument scientists.
 # MAGIC
 
 MAGIC provides polarized neutron time-of flight spectroscopy of small single crystals. From the documents it is not clear what the resolutions will be.
+
+
+# WISH COMPARISON
+
+TODO
