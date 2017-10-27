@@ -66,7 +66,70 @@ TODO
 
 ### Slicing
 ##### BinMD (but histogram needs link to original event or weighted workspace)
-TODO
+This algorithm takes an *MDEventWorkspace* and bins into into a dense,
+multi-dimensional histogram workspace (*MDHistoWorkspace*). Alternatively one
+can provide an *MDHistoWorkspace* as the input if it contains a link to the
+generating *MDEventWorkspace*, hence it is probably fair to say that this is
+actually a pure *MDEventWorkspace* algorithm.
+
+###### Execution
+The algorithm is closely related to the *SliceMD* algorithm and accepts the same
+kind of inputs. *SliceMD* however extracts the box structure that matches an
+implicit function defined by the boundary of the binning into a new *MDEventWorkspace*
+Here we effectively reduce the events into bins. The algorithm operates as follows:
+
+```
+def bin_md(md_ws, binning):
+  # We need to get hold of an event-based workspace to perform the binning operation
+  if md_ws.is_histogram and md_ws.has_original_event_workspace():
+    throw ValueException
+  elif md_ws.is_histogram and md_ws.has_original_event_workspace():
+    in_ws = md_ws.get_original()
+  else:
+    in_ws = md_ws
+
+  # Generate a workspace for the output
+  out_histo = generate_output_workspace(binning)
+
+  # Fill the bins of the MDHistoWorkspace. This is done in parallel by parcelling
+  # the parameter space. This is presented here in a very stylized way
+  chunks = get_parcelled_space(binning)
+  for chunk in chunks:
+    top_box = in_ws.get_box()
+    implicit_chunk_funcion = get_chunk_function(chunk)
+    boxes = top_box.get_boxes(implicit_chunk_funcion) # Get all leaf nodes
+                                                      # that are in the chunk's region
+    # If it is masked, we don't consider it
+    if not box.is_masked():
+      bin_box(box, out_histo, chunk)
+
+def bin_box(box, out_histo, chunk):
+    # Check if the box is fully contained in a bin. Note that in the algorithm
+    # this is done on the raw array, which is not very scalable, but that implementation
+    # should be easy to change.
+    if is_box_in_single_bin(box, out_histo, chunk):
+      add_full_box_to_bin(box.get_signal(), box.get_error(), box.get_centre(), out_histo)
+    else:
+      # If the box is not entirely in the chunk region, then we need to go through
+      # all events individually
+      events = box.get_events()
+      for event in events:
+        if is_event_in_chunk_region(event, chunk):
+          add_event_to_bin(event.get_signal(), event.get_error(), event.get_centre(), out_histo)
+```
+
+###### Data Structure access
+The data structure access is the same as with most algorithms. We access
+via `getBoxes` (all leaf nodes).  On the *MDHistoWorkspace* side we access the
+raw arrays which is not very scalable, but can be adapted.
+
+###### Comment on scalability and dependence on underlying data structure
+This algorithm has several challanges in terms of scalability:
+* the `getBoxes` access (which is the same for all other algorithms)
+* the mapping from boxes to bins is potentially non-local (imagine the case of a single bin).
+  Atomic writes might be needed since (potentially) several ranks can contribute to the
+  same bin.
+
 * CutMD (forwarding algorithm)
 
 ### Transforms
