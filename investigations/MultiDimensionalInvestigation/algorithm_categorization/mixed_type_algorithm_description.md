@@ -58,14 +58,121 @@ The same considerations regarding the scalability apply here.
 * UnaryOperationMD (Base algorithm for which the derived algorithms only work on MDHisto. Why accept both then?)
 
 ### Peaks
-### FindPeaksMD
-TODO
+##### FindPeaksMD
+This algorithm is widely used at the SNS and has until recently been in use at
+ISIS. ISIS SCD has switched in the last couple of months to *FindSXPeaks*. The
+algorithm will be one of the bottle-necks to port to a distributed system,
+since it conceptually ties in directly to the underlying data structure. Other
+data strucutres won't work with this algorithm directly.
+
+###### Execution
+
+The histogram-mode case iterates over all bins and adds information about that
+bin to vector of candidates if its signal density is above a certain threshold.
+The pre-selected boxes are then evaluated against each other and only boxes which
+are not too close to each other (determined by a fraction of the peak radius)
+are kept. The boxes are sorted via their signal strength and only the N boxes
+with the most intense signal are kept and added to a PeaksWorkspace. The execution
+is described below:
+
+```
+def find_peaks_histo(ws, threshold, tolerance, max_number):
+  # 1. Get all bins above a certain threshold
+  above_threshold = []
+  for i in range(ws.get_number_of_bins()):
+    if ws.get_signal(i) > threshold:
+      above_threshold.append(ws.get_bin())
+
+  # 2. Select bins which are not too close to each other
+  unique_bins = []
+  for bin in above_threshold:
+    can_add = True
+    for unique_bin in unique_bin:
+      if is_too_close(bin, unique_bin, tolerance):
+        can_add = False
+        break
+    if can_add:
+      peaks.append(bin)
+
+  # 3. Sort and select max number
+  peak_ws = new PeakWorksapce()
+  sort(unique_bins)
+
+  # 4. Convert bins to peaks and add to peak workspace (only the top N bins)
+  peaks = []
+  for bin in unique_bins:
+    peaks.append(convert_to_peak(unique_bin))
+  add_top_bins_to_peak_workspace(peaks, peak_ws, max_number)
+  return peak_ws
+```
+
+The event-mode case is very similar in nature. It can be described as
+```
+def find_peaks_event(ws, threshold, tolerance, max_number):
+  # 1. Get all boxes which are above a certain threshold
+  top_box = ws.get_box()
+  boxes = top_box.get_boxes() # Gets all leaf nodes
+  above_threshold = []
+  for box in boxes:
+    if box.get_signal() > threshold:
+      above_threshold.append(box)
+
+  # 2. Sort the boxes. Note that in the actual implementation a map (with an underlying
+  #    self-balancing tree) is used, hence no explicit sorting is required. This
+  #    is only to show the algorithmic significance of sorting at this step.
+  sort(above_threshold)
+
+  # 2. Select the boxes whih are not too close to each other and only up to
+  #    the max number of boxes
+  unique_boxes = []
+  for box in above_threshold:
+    can_add = False
+    for unique_box in unique_boxes:
+      if is_too_close(box, unique_box):
+        can_add = False
+        break
+      if can_add:
+        unique_boxes.append(box)  
+
+    # We are not interested in all boxes.
+    if len(unique_boxes) >= max_number:
+      break
+
+  # 3. Add peaks to peak workspace
+  peak_ws = new PeakWorksapce()
+  for unique_box in unique_boxes:
+    peak = convert_to_peak(unique_box)
+    peak_ws.add_peak(peak)
+  return peak_ws
+```
+
+###### Data Structure access
+Data strucure acccess is as usual via `getBoxes`
+
+###### Comment on scalability and dependence on underlying data structure
+While the `getBoxes` acccess is the same as in other algorithms, the sorting
+of boxes is highly non-local. However, a distributed Mergesort lends itself
+quite well to this problem.
+
+A more serious problem is that if data which contributes to the same volume
+in Q space is located on different ranks (and forms a peak) it migth not be
+considered as a peak in this sorting procedure.
+
+Additionally we are comparing all peaks with all found peaks to check for neighbours
+which we potentially don't want to count twice (if they are within a tolerance)
+of each other. This means potntially that ransk need to communicate quite heavily
+with each other.
+
+All of this makes this one of the hardest algorithms to realize in a distributed
+environment, which is not surprising since the concept of the algorithm is
+heavily linked to the implementation details of the workspaces (this might
+be the only algorihtm which decribes boxes in the algorithm documentation).
 
 
 * IntegratePeaksMDHKL
 
 ### Slicing
-##### BinMD (but histogram needs link to original event or weighted workspace)
+##### BinMD
 This algorithm takes an *MDEventWorkspace* and bins into into a dense,
 multi-dimensional histogram workspace (*MDHistoWorkspace*). Alternatively one
 can provide an *MDHistoWorkspace* as the input if it contains a link to the
@@ -127,7 +234,7 @@ raw arrays which is not very scalable, but can be adapted.
 This algorithm has several challanges in terms of scalability:
 * the `getBoxes` access (which is the same for all other algorithms)
 * the mapping from boxes to bins is potentially non-local (imagine the case of a single bin).
-  Atomic writes might be needed since (potentially) several ranks can contribute to the
+  atomic writes might be needed since (potentially) several ranks can contribute to the
   same bin.
 
 * CutMD (forwarding algorithm)
@@ -196,14 +303,14 @@ def event_transform(ws, scale, offset):
   for box in boxes:
     # Scale and shift the box extents for each dimension
     # and update the cached box volume.
-    for dim in box.get_number_of_dimensions():
+    for dim in range(box.get_number_of_dimensions()):
       box.scale_and_shift_extents_for_dimension(dim, scale, offset)
       box.recalculate_volume()
 
     # Now we need to scale and shift the events inside the box too
     events = box.get_events()
     for event in events:
-      for dim in box.get_number_of_dimensions()
+      for dim in range(box.get_number_of_dimensions()):
         event.centre[dim] = scale[dim]* event.centre[dim] + offset[dim]
 ```
 
