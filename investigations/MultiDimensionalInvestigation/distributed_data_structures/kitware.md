@@ -5,7 +5,8 @@ Steve has pointed us to:
 * [vtkCompositeDataSet](https://www.vtk.org/doc/nightly/html/classvtkCompositeDataSet.html)
 * [vtkMultiBlockDataSet](https://www.vtk.org/doc/nightly/html/classvtkMultiBlockDataSet.html)
 
-for potential distributed (and sparse, hierarchical) data sets.
+for potential distributed (and sparse, hierarchical) data sets. However looking into these elements, they don't seem to 
+have a direct connection with distributed data sets, but they can be rather used to build sparse, hierarchical data sets.
 
 
 ## vtkDataObject family
@@ -23,3 +24,8 @@ vtkMultiBlockDataSet is a dataset comprised of blocks. Each block can be a non-c
 ### vtkMultiPieceDataSet
 
 Here the elements cannot be a block themselves.
+
+
+# From Reading
+
+### vtkDistributedDataFilter

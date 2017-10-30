@@ -49,7 +49,7 @@ there is not intention of moving away from that. BinMD and ConvertToMD is used i
   as we go through the list.
 
 ### Discussion with Steven, Simon, Lamar, Vickie, Andrei, Pete 24/10/2017
-* typical SCD inelastic workflow is:
+* typical SC inelastic workflow is:
   * LoadEventNexus on data
   * Crop to the limits
   * ConvertToMD (converts to MDEventWorkspace)
@@ -72,7 +72,7 @@ be recalculated everytime the box structure changes
   which are within a certain tolerance. The tolerance would be set by the resolution
   in the experiment. We need to check what the resolution of ESS instruments are.
 
-### Interview with Pascal and Fabio 26/10/2018
+### Interview with Pascal and Fabio 26/10/2017
 * The reduction that was described matched pretty much what Sam had described earlier.
 * From MD they use
   * ConvertToDiffractionMDWorkspace (which is very slow for them)
@@ -93,3 +93,9 @@ be recalculated everytime the box structure changes
 changing the parameters. As such it is important for them to use the SliceViewer and potentially the VSI. This is also
 the reason they rely on *BinMD*. They mentioned that *SXD* operated in a similar manner. In addition they use the
 InstrumentView quite heavily to manually correct the PeakWorkspaces. -> Can we support such a work-flow?
+
+
+### Interview with Thomas L 30/10/2017
+
+
+### Interview with Alex 31/10/2017
