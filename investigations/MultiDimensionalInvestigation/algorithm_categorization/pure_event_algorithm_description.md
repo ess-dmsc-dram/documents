@@ -13,7 +13,42 @@ algorihtm in use today is *ConvertToMD* which is quite difficult. Another
 algorithm which is widely used is *ConvertToDiffractionMDWorkspace*.
 
 #### ConvertToDiffractionMDWorkspace
-TODO
+
+There are several versions of this algorihtm the current version makes use
+of *ConvertToMD*. However the early version of the algorithm is very intuitive
+and illustates well what it actually means to convert a MatrixWorkspace into an
+MDWorkspace, hence this is described briefly here.
+
+Note that the algorihtm can accept a *Workspace2D* but it converts it into an
+*EventWorkspace* with weighted events. Hence, it is fair to say that the
+conversion only works on events. The event is characterized by the detector which
+measured the event and the time-of-flight at which the event was measured. These
+three dimensions are coverted into the three-dimensional Q space. The conversion
+steps are:
+1. Get the direction of the Q vector
+  1. Get the normalized beam direction `beamDir` via the `Instrument::getInstrumentParameters` method
+  2. Get the detector direction `detDir` via from the `SpectrumInfo::position` method
+  3. Get the Q direction in the laboratory frame:  `Q_dir_lab_frame = beamDir - detDir`
+  4. Potentially performa sign conversion, depending on the crystallography convention
+  5. Convert from the laborarty frame to the sample frame or to HKL or leave as is,
+     depending on the selected target frame. We end of up `Q_dir`
+2. Calcualte the travelled distance: `distance = L1 + L2`
+3. Calcualte the conversion factor: `wavenumber_in_angstrom_times_tof_in_microsec = mass_neturon * distance *1e-10 / (1e-6 * hbar)` which provides a conversion to
+Q when the time-of-flight is in microseconds and the wavelength is in Angstrom.
+4. Calculate the `wavenumber = wavenumber_in_angstrom_times_tof_in_microsec / event.tof()`
+5. Calcuate the Q vector: `Q_dir=Q_dir *wavenumber`
+6. The event weight and error are transferred one to one and the Q vector defines
+    the position of the event.
+
+In simple words:
+First get the direction of the momentum transfer, which is defined by the incoming
+direction and the direction the neutron has been scattered into. Second we need
+to get the modulus of the momentum of the neutron (or rather wave number), which is
+$k = m*v/\hbar = \frac{m*distance}{time_of_flight * \hbar}$.
+
+While the real implementation is sligthly more complicated and can contain Lorentz corrections
+etc, this is essentially what is happening for a diffraction conversion.
+
 
 #### ConvertToMD
 TODO
