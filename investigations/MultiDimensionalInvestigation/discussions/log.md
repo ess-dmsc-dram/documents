@@ -96,6 +96,27 @@ InstrumentView quite heavily to manually correct the PeakWorkspaces. -> Can we s
 
 
 ### Interview with Thomas L 30/10/2017
+* Thomas provided the write up for his work regarding merging mutliple runs of
+  (diffuse?) single crystal runs which were measrued at different rotations. The
+  document can be found [here](https://github.com/mantidproject/documents/blob/alf_auto_alignment/Help/SingleCrystal/ALF%20Auto%20Alignment/ALF-Visualization.md) and the corresponding script [here](https://github.com/mantidproject/scripts/blob/master/development/ALF%20automation%20project/visualization/ALF_VisualizeMerged.py).
+* The merge workflow is very similar to what Andrei has described:
+  ```
+  def merge(rotation_matrix_ws, ...)
+  ... # Standard processing of matrix workspaces
+  md_histo_data_accumulated = new MDHistoWorkspace()
+  md_histo_norm_accumulated = new MDHistoWorkspace()
+  for rotation in rotation_matrix_ws:
+    md_event_ws = ConvertToMD(rotation, ...)
+    md_histo_data, md_histo_norm = MDNormSCD(md_event_ws, ...)
 
+    md_histo_data_accumulated = PlusMD(md_histo_data_accumulated, md_histo_data)
+    md_histo_norm_accumulated = PlusMD(md_histo_norm_accumulated, md_histo_data)
+
+  out_ws = DivideMD(md_histo_data_accumulated, md_histo_norm_accumulated)
+  return out_ws
+  ```
+* Again, there is no good reason to be in event mode. The normalization converts
+  this into histogram-type data.
+* The point of this workflow is to add up slice-measurements.
 
 ### Interview with Alex 31/10/2017
