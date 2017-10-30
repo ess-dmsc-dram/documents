@@ -51,7 +51,56 @@ etc, this is essentially what is happening for a diffraction conversion.
 
 
 #### ConvertToMD
-TODO
+
+This the main conversion algorithm for going from time-of-flight to the MD domain.
+Other conversion algorithms migth redirect to this algorithm under the hood. It is
+also incredibly complex and hard to maintain and might pose a serious risk at any
+rewrite effort. A very good starting place to undestand the algorithm can be found
+[here](https://www.mantidproject.org/Writing_custom_ConvertTo_MD_transformation).
+
+###### Structure
+
+The algorithm is a general purpose conversion algorithm which allows developers
+to add and register new conversions via a plugin system (dynamic factory pattern).
+This is part why the algorithm is quite complex. However this complexity
+mitigates from the actual conversion which is happening under the hood and in which
+we are interested in.
+
+The main conversion happens in classes which fullfil the *MDTransfInterface*
+contract. As stated in the documentation the, the class has to perform two tasks:
+1. Define the target MDWorkspace and its dimensions
+2. Initialize the transformation and define the mapping from a standard event
+   into the MDEvent (actually it is even more general than this since histogram types are allowed).
+
+The main methods on *MDTransfInterface* are:
+
+* `bool calcGenericVariables(std::vector<coord_t> &Coord, size_t n_ws_variabes)`:
+   This used to set up generic coordinates of an event which depend on things
+   like temperature, pressure etc. , i.e. quantities which can be found in the
+   sample logs.
+* `bool calcYDepCoordinates(std::vector<coord_t> &Coord, size_t i)`: This is
+   used to set up coordinates which only depend on the individual detector
+   position itself. This is partially used to setup some factors wich
+   are used in other methods as in `MDTransfQ3D` and in `MDTransfModQ`. In
+   `MDTransfNoQ` this is set directly
+* `bool calcMatrixCoord(const double &X, std::vector<coord_t> &Coord, double &signal, double &errSq)`:
+   This is takes care of the x axis data in the spectra. This is what converts
+   the Q part. Most noteably, the `MDTransfQ3D` performs the same operation as
+   the *ConvertToDiffractionMDWorkspace* in the elastic case.
+
+
+Currently there are three plugins which define a transformation: `MDTransfQ3D`,
+`MDTransfModQ` and `MDTransfNoQ` (when is this used?). The methods mentioned above
+are chained in Template Method pattern where the resulting signals, errors and
+coordinates are added to an empty workspace via the `MDxxxWSWrapper`. 
+
+One thing to note about all the conversion algorithms is that they occur on a
+per-spectrum basis, which makes sense since events in a spectrum share the same
+geometry.
+
+The name of the `ConvToMDHistoWS` converter is confusing since it apparently converts
+a *Workspae2D* into an *MDEventWorkspace*. At no point are we converting into
+an *MDHistoWorkspace*.
 
 * ConvertCWPDMDToSpectra
 * ConvertCWSDExpToMomentum
