@@ -120,3 +120,15 @@ InstrumentView quite heavily to manually correct the PeakWorkspaces. -> Can we s
 * The point of this workflow is to add up slice-measurements.
 
 ### Interview with Alex 31/10/2017
+* The inelastic workflow is:
+  * Perform reduction which is then saved in the NXPSE format. The data is in
+    histogram format and contains energy transfer on the x axis. All of this
+    is done using the *MatrixWorkspace* facilities. Normalizations are done
+    at this point.
+  * The next bit is done in Horace, but the equivalent in Mantid would be:
+    * ConvertToMD
+    * MergeMD
+    * then slicing and fitting
+* For the fitting there are *FitMD*, *FitResolutionConvolutionModel* (TobyFit), etc.
+* One of the things missing is a custom model for *FitResolutionConvolutionModel*.
+* Other algorithms don't seem to be that important. Importance lies on fitting.

@@ -92,7 +92,7 @@ The main methods on *MDTransfInterface* are:
 Currently there are three plugins which define a transformation: `MDTransfQ3D`,
 `MDTransfModQ` and `MDTransfNoQ` (when is this used?). The methods mentioned above
 are chained in Template Method pattern where the resulting signals, errors and
-coordinates are added to an empty workspace via the `MDxxxWSWrapper`. 
+coordinates are added to an empty workspace via the `MDxxxWSWrapper`.
 
 One thing to note about all the conversion algorithms is that they occur on a
 per-spectrum basis, which makes sense since events in a spectrum share the same
@@ -246,7 +246,7 @@ def centroids(md_ws, peak_ws):
 ```
 
 The heavy lifting is done by `centroidSphere`  on the root level
-box. This yields the signal and teh centroid of the region of interest. The method
+box. This yields the signal and the centroid of the region of interest. The method
 essentially checks down to the leaf level if the events are inside the specified
 sphere. If this is the case then, then the events contribute to the total signal
 and weighted centroid position.
