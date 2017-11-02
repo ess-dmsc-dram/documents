@@ -1,18 +1,20 @@
-# Description of pure mixed type algorithms
+# Description of mixed-type algorithms
 
-In this document we want to describe MDAlgorithms which  operate on
+In this document we want to describe MDAlgorithms which operate on
 event-type and histogram-type workspaces. It is not intention to give an
-algorithmically exact representation of the algorithms but rather to get a good
+algorithmically exact representation of the Mantid implementations but rather to get a good
 understanding of their functionality and their dependence on
 data-structure-specific features.
-
 
 # Mixed algorithms
 
 ### Creation
 
 #### SaveMD
+Is this relevant for the ESS?
+
 #### LoadMD
+Is this relevant for the ESS?
 
 ### MDArithmetic
 ##### MinusMD
@@ -22,10 +24,10 @@ The *MinusMD* algorithm is used to subtract two workspaces.
 ###### Execution
 
 In the case of *MDHistoWorkspace* subtraction the binning and dimensionality
-needs match between the two workspaces. The signals of the two workspaces are
+needs to match between the two workspaces. The signals of the two workspaces are
 subtracted from each other and the squared errors are added.
 
-In the case of *MDEventWorkspace* subtraction, the worflow below is used:
+In the case of *MDEventWorkspace* subtraction, the work-flow below is used:
 
 ```
 def subtract(ws1, ws2):
@@ -60,33 +62,33 @@ The same considerations regarding the scalability apply here.
  * Base algorithm
 
 ##### UnaryOperationMD
-* Base algorithm for which the derived algorithms only work on MDHisto. Why accept both then?)
+* Base algorithm for which the derived algorithms only operate on histogram-type data. Why accept both types of workspaces as inputs then?
 
 ### Peaks
 ##### FindPeaksMD
 This algorithm is widely used at the SNS and has until recently been in use at
 ISIS. ISIS SCD has switched in the last couple of months to *FindSXPeaks*. The
 algorithm will be one of the bottle-necks to port to a distributed system,
-since it conceptually ties in directly to the underlying data structure. Other
-data strucutres won't work with this algorithm directly.
+since it is conceptually tied to the underlying data structure. Other
+data structures will not work with this algorithm.
 
 ###### Execution
 
 The histogram-mode case iterates over all bins and adds information about that
-bin to vector of candidates if its signal density is above a certain threshold.
+bin to vector of candidates if the bin's signal density is above a certain threshold.
 The pre-selected boxes are then evaluated against each other and only boxes which
 are not too close to each other (determined by a fraction of the peak radius)
 are kept. The boxes are sorted via their signal strength and only the N boxes
-with the most intense signal are kept and added to a PeaksWorkspace. The execution
+with the most intense signal are kept and added to a *PeaksWorkspace*. The execution
 is described below:
 
 ```
 def find_peaks_histo(ws, threshold, tolerance, max_number):
   # 1. Get all bins above a certain threshold
   above_threshold = []
-  for i in range(ws.get_number_of_bins()):
+  for i in range(0, ws.get_number_of_bins()):
     if ws.get_signal(i) > threshold:
-      above_threshold.append(ws.get_bin())
+      above_threshold.append(ws.get_bin(i))
 
   # 2. Select bins which are not too close to each other
   unique_bins = []
@@ -100,7 +102,7 @@ def find_peaks_histo(ws, threshold, tolerance, max_number):
       peaks.append(bin)
 
   # 3. Sort and select max number
-  peak_ws = new PeakWorksapce()
+  peak_ws = new PeakWorkspace()
   sort(unique_bins)
 
   # 4. Convert bins to peaks and add to peak workspace (only the top N bins)
@@ -125,10 +127,10 @@ def find_peaks_event(ws, threshold, tolerance, max_number):
   # 2. Sort the boxes. Note that in the actual implementation a map (with an underlying
   #    self-balancing tree) is used, hence no explicit sorting is required. This
   #    is only to show the algorithmic significance of sorting at this step.
-  sort(above_threshold)
+  sort_descending_order(above_threshold)
 
-  # 2. Select the boxes whih are not too close to each other and only up to
-  #    the max number of boxes
+  # 3. Select the boxes which are not too close to each other and only up to
+  #    the maximum number of boxes
   unique_boxes = []
   for box in above_threshold:
     can_add = False
@@ -152,30 +154,31 @@ def find_peaks_event(ws, threshold, tolerance, max_number):
 ```
 
 ###### Data Structure access
-Data strucure acccess is as usual via `getBoxes`
+Data structure access is as usual via `getBoxes` which returns all leaf nodes.
 
 ###### Comment on scalability and dependence on underlying data structure
-While the `getBoxes` acccess is the same as in other algorithms, the sorting
-of boxes is highly non-local. However, a distributed Mergesort lends itself
+While the `getBoxes` access is the same as in other algorithms, the sorting
+of boxes is highly non-local. However, a distributed *Mergesort* lends itself
 quite well to this problem.
 
 A more serious problem is that if data which contributes to the same volume
-in Q space is located on different ranks (and forms a peak) it migth not be
+in Q space is located on different ranks (and forms a peak) it might not be
 considered as a peak in this sorting procedure.
 
 Additionally we are comparing all peaks with all found peaks to check for neighbours
-which we potentially don't want to count twice (if they are within a tolerance)
-of each other. This means potntially that ransk need to communicate quite heavily
+which we potentially don't want to count twice (if they are within a specified tolerance)
+of each other. This means potentially that ranks need to communicate quite heavily
 with each other.
 
 All of this makes this one of the hardest algorithms to realize in a distributed
 environment, which is not surprising since the concept of the algorithm is
 heavily linked to the implementation details of the workspaces (this might
-be the only algorihtm which decribes boxes in the algorithm documentation).
+be the only algorithm which mentions the workspaces box structure  in the algorithm documentation).
 
 
 ##### IntegratePeaksMDHKL
-* does not seem to be used very much
+Going by the usage statistics, this does not seem to be used very much, hence
+we don't consider it now.
 
 ### Slicing
 ##### BinMD
@@ -188,12 +191,13 @@ actually a pure *MDEventWorkspace* algorithm.
 ###### Execution
 The algorithm is closely related to the *SliceMD* algorithm and accepts the same
 kind of inputs. *SliceMD* however extracts the box structure that matches an
-implicit function defined by the boundary of the binning into a new *MDEventWorkspace*
-Here we effectively reduce the events into bins. The algorithm operates as follows:
+implicit function defined by the bin boundaries and places the events of these
+boxes into a new *MDEventWorkspace*. In the *BinMD* algorithm  we effectively
+reduce the events into bins. The algorithm operates as follows:
 
 ```
 def bin_md(md_ws, binning):
-  # We need to get hold of an event-based workspace to perform the binning operation
+  # 1. Get hold of an event-based workspace
   if md_ws.is_histogram and md_ws.has_original_event_workspace():
     throw ValueException
   elif md_ws.is_histogram and md_ws.has_original_event_workspace():
@@ -201,25 +205,25 @@ def bin_md(md_ws, binning):
   else:
     in_ws = md_ws
 
-  # Generate a workspace for the output
+  # 2. Generate a histogram-type output workspace
   out_histo = generate_output_workspace(binning)
 
-  # Fill the bins of the MDHistoWorkspace. This is done in parallel by parcelling
+  # 3. Fill the bins of the output. This is done in parallel by parcelling
   # the parameter space. This is presented here in a very stylized way
   chunks = get_parcelled_space(binning)
   for chunk in chunks:
     top_box = in_ws.get_box()
-    implicit_chunk_funcion = get_chunk_function(chunk)
-    boxes = top_box.get_boxes(implicit_chunk_funcion) # Get all leaf nodes
-                                                      # that are in the chunk's region
+    implicit_chunk_function = get_chunk_function(chunk)
+    boxes = top_box.get_boxes(implicit_chunk_function) # Get all leaf nodes
+                                                       # that are in the chunk's region
     # If it is masked, we don't consider it
     if not box.is_masked():
       bin_box(box, out_histo, chunk)
 
 def bin_box(box, out_histo, chunk):
-    # Check if the box is fully contained in a bin. Note that in the algorithm
-    # this is done on the raw array, which is not very scalable, but that implementation
-    # should be easy to change.
+    # 1. Check if the box is fully contained in a bin. Note that in the algorithm
+    #    this is done on the raw array, which is not very scalable,
+    #    but that implementation should be easy to change.
     if is_box_in_single_bin(box, out_histo, chunk):
       add_full_box_to_bin(box.get_signal(), box.get_error(), box.get_centre(), out_histo)
     else:
@@ -237,23 +241,22 @@ via `getBoxes` (all leaf nodes).  On the *MDHistoWorkspace* side we access the
 raw arrays which is not very scalable, but can be adapted.
 
 ###### Comment on scalability and dependence on underlying data structure
-This algorithm has several challanges in terms of scalability:
+This algorithm has several challenges in terms of scalability:
 * the `getBoxes` access (which is the same for all other algorithms)
 * the mapping from boxes to bins is potentially non-local (imagine the case of a single bin).
   atomic writes might be needed since (potentially) several ranks can contribute to the
   same bin.
 
 ##### CutMD
- * forwarding algorithm
- * complexity lies in *SliceMD*
+This is a forwarding algorithm which at the end of the day relies on *SliceMD*.
 
 ### Transforms
 ##### MaskMD
-The algorithm masks all data in a rectangular block on an MDWorkspace.
+The algorithm masks all data in a rectangular block on an *MDWorkspace*.
 
 ###### Execution
 The user specifies extents in the dimensions she wants to apply masking. Several
-boxs can be specified. The box specifications are grouped on a per-box basis.
+boxes can be specified. The box specifications are grouped on a per-box basis.
 Per box the `TMDE(void MDEventWorkspace)::setMDMasking(Mantid::Geometry::MDImplicitFunction *maskingRegion)`
 for *MDEventWorkspace* or `void MDHistoWorkspace::setMDMasking(Mantid::Geometry::MDImplicitFunction *maskingRegion)` for *MDHistoWorkspace*
 are called.
@@ -285,24 +288,23 @@ unusual
 The data access is via the `getBoxes` method with an implicit function in a
 similar way to a lot of other algorithms.
 
-
 ###### Comment on scalability and dependence on underlying data structure
 This is again a fairly local operation (we know which q region we want to mask).
-It caontsais the same constraints as other algorithms that use `getBoxes`, e.g. *MinusMD*.
+It has the same constraints as other algorithms that use `getBoxes`, e.g. *MinusMD*.
 
 #### TransformMD
-This algorihtm provides a lienar transformation, ie offset and scale for each
+This algorithm provides a linear transformation, i.e. offset and scale for each
 dimension in an *MDWorkspace*.
 
 ###### Execution
 The algorithm changes the relevant entries in the *MDHistoDimension* of the workspace.
 
-If the algorithm is an *MDHistoWorkspace*, then there is nothing left todo, unless
+If the algorithm is an *MDHistoWorkspace*, then there is nothing left to do, unless
 the scaling was negative in which case the raw signal array is inverted. This could
 be an issue if we wanted to have a distributed *MDHistoWorkspace*, but that
-would depend on the implmentation details.
+would depend on the implementation details.
 
-If the algorihtm is an *MDEventWorkspace* the the following happens:
+If the algorithm is an *MDEventWorkspace* the the following happens:
 
 ```
 def event_transform(ws, scale, offset):
@@ -336,18 +338,18 @@ This algorithm creates a copy of an existing workspace.
 
 The *MDHistoWorkspace* essentially performs a `std::copy_n` of the signal,
 error, event number and masking arrays. The *MDEventWorkspace* performs recursive
-copying of the MDBox structure.
+copying of the *MDBox* structure.
 
 The scalability of this algorithm might be limited. While the new copies of the
 data could be generated locally, it would be non-local to generate the underlying
-connection to other data if the data ws stored in a hierarchical data structure.
+connection to other data if it was stored in a hierarchical data structure.
 
 ##### CompareMDWorkspaces
-For the *MDHistoWorkspace* a bin-by-bin comparison is performed. This is locally
-possible.
+For the *MDHistoWorkspace* a bin-by-bin comparison is performed. This is
+possible locally.
 
-For the *MDEventWorkspace*   a box-by-box comparison of all (including internal) nodes
-is performed. This is not locally possible with our hierarchical data strucutre.
+For the *MDEventWorkspace* a box-by-box comparison of all (including internal) nodes
+is performed. This is not locally possible with our hierarchical data structure.
 
 ### Other
 * SaveMDWorkspaceToVTK

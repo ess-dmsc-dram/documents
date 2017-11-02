@@ -32,3 +32,5 @@ Here the elements cannot be a block themselves.
 
 From the documentation:
 > This filter redistributes data among processors in a parallel application into spatially contiguous vtkUnstructuredGrids. The execution model anticipated is that all processes read in part of a large vtkDataSet. Each process sets the input of filter to be that DataSet. When executed, this filter builds in parallel a k-d tree, decomposing the space occupied by the distributed DataSet into spatial regions. It assigns each spatial region to a processor. The data is then redistributed and the output is a single vtkUnstructuredGrid containing the cells in the process' assigned regions.
+
+TODO: Continue when appropriate

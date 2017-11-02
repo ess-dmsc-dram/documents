@@ -1,9 +1,20 @@
+# ESS instrument resolution estimation
+
+Note that the following estimations are based on data which was obtained from
+* `CSPEC_resubmission.pdf`
+* `Esko_Instrument_Construction_NMX_revised_160813.pdf`
+* `MAGiC_spectroscopy.pdf`
+* `MAGiC.pdf`
+* `T-REX_proposal.pdf`
+
+
 # T-REX
 
-T-REX is a time-of-floght, reciprocal space explorer which can also perform
-magnetism-sensitive measurments. They measure a 4D reciprocal space (assume Q and E).
+T-REX is a time-of-flight, reciprocal space explorer which can also perform
+magnetism-sensitive measurements. They measure a 4D reciprocal space
+(assuming this is Q and E).
 
-The specs for this instrument are:
+The specifications for this instrument are:
 
 | Quantity          | Range                 |
 |-------------------|-----------------------|
@@ -18,21 +29,20 @@ The specs for this instrument are:
 Assumption: Q range refers to the modulus, ie we are dealing with a hyphershell
             which ranges from q_range_min to q_range_max and e_min to e_max.
 
-The volume of the Q component is: $\frac{4}{3}\pi\left( 17^{3} - 0.05^{3} \rigth) \AA^{-3} \approx 20600\AA^{-3}$
+The volume of the Q component is: $\frac{4}{3}\pi\left( 17^{3} - 0.05^{3} \right) \AA^{-3} \approx 20600\AA^{-3}$
 
-For the momentum tranfer component of the parameter space will lead to a range of $20600/ (0.01)^{3} = 2e10$ to $20600/ (0.1)^{3}=2e7$ cells.
+The momentum transfer component of the parameter space will lead to a range of $20600/ (0.01)^{3} = 2e10$ to $20600/ (0.1)^{3}=2e7$ cells.
 
-For the number of cells in the energy component of the parameter space lies between  
+For the number of cells in the energy component of the parameter space we get a range which lies between  
 $(160 - 2)/0.02=7900$ and $(160 - 2)/10=15.8$
 
-This range of possible cells that we can have is between 3.1e8 and 1.6e14.
+This range of possible cells is between 3.1e8 and 1.6e14.
 
 This analysis is most likely flawed, but it shows that in the best case scenario
-of ~1e8 we are dealing with data sizes of a couple of gigabytes and in the worst case scenario of ~1e14 we are dealing with data sizes of almost a petabyte. Assuming that each cell only needs to contain signal (int) and error(float), as
-the possition can be easily infered from the regular grid.
+of ~1e8 we are dealing with data sizes of a couple of gigabytes and in the worst case scenario of ~1e14 we are dealing with data sizes of almost a petabyte (?). Assuming that each cell only needs to contain signal (int) and error(float), as the position can be easily inferred from the regular grid.
 
-The truth of this will lie more closely in the tens of GB case when logarithmic
-binning is used as is the case for WISH.
+It is highly unlikely that we are dealing with memory requirements in the high terabyte or petabyte scale, since we will most likely be dealing with logarithmic binning as with WISH.
+
 
 # Esko
 
@@ -61,17 +71,14 @@ plane the angle is $\atan \frac{30/100} \approx 17^{\circ}$. For an upper bound
 estimate we get a value of about $Q\approx 5.4\AA^{-1}$ (for min wavelength and max angle).
 Note that we just used $Q=2*k*\sin\left(2\theta\right)$
 As a volume we assume a sphere, hence we estimate it to be $624\\A^{-3}$. There is no
-engergy dimension that we need to consider.
+energy dimension that we need to consider.
 
-We estimate the resolution of theta to be $\atan\left(0.2\times 10^{-3}\right) \approx 0.01[^{\circ}]$
-and the wavelength is about $0.07\AA$. With this we can propagte the uncertainty to Q.
-We obtain a Q resolution of about in the range from $9e-4\AA^{-1}$ to $2e-1\AA^{-1}$. This
-leads to resolution cubes of $7e-10\AA^{-3}$ and $8e-3\AA^{-3}$.
+We estimate the resolution of theta to be $\atan\left(0.2\times 10^{-3}\right) \approx 0.01[^{\circ}]$ and the wavelength is about $0.07\AA$. With this we can propagate the uncertainty to Q. We obtain a Q resolution in the range from $9e-4\AA^{-1}$ to $2e-1\AA^{-1}$. This leads to resolution cubes of $7e-10\AA^{-3}$ and $8e-3\AA^{-3}$.
 
 Finally we get an estimate of the parameter cell count between $8e4$ and $9e11$. This leads
 to an estimated memory usage between several megabyte and low ten(s) of terabyte.
 
-This extremly wide estimate suffers most likely from the fact that we have a variable
+This extremely wide estimate suffers most likely from the fact that we have a variable
 resolution in Q which is hard to take into account without having exact parameters
 for a specific scenarios from the instrument scientists.
 
@@ -83,4 +90,4 @@ MAGIC provides polarized neutron time-of flight spectroscopy of small single cry
 
 # WISH COMPARISON
 
-TODO
+TODO if we have the feeling that it is useful

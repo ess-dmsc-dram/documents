@@ -1,6 +1,12 @@
 # Algorithm Categorization
 
-## Pure Histogram algorithms
+Algorithms can be categorized into three groups. Alogrithms which operate on:
+* MDHistoWorkspace only.
+* MDEventWorkspace only.
+* both workspace types.
+
+
+## Pure MDHistoWorkspace algorithms
 
 ### Creation
 * ConvertToReflectometryQ
@@ -52,7 +58,8 @@
 * CompactMD
 * ReplicateMD
 
-## Pure Event algorithms
+
+## Pure MDEventWorkspace algorithms
 ### Creation
 * ConvertToDiffractionMDWorkspace
 * ConvertCWPDMDToSpectra
@@ -97,7 +104,7 @@
 * FakeMDEventData
 
 
-## Mixed algorithms
+##  Algorithms which operate on both
 ### Creation
 * SaveMD
 * LoadMD
@@ -129,7 +136,6 @@
 * ChangeQConvention
 * QueryMDWorkspace
 * SetMDFrame
-
 
 
 ## Other algorithms or plain classes

@@ -2,7 +2,7 @@
 
 The *CompressEvent* algorithm was mentioned as a possibility of handling large
 amounts of events which are located closer than the instrument resolution
-with respect to each other. In this case the algorihtm would effectively bundle
+with respect to each other. In this case the algorithm would effectively bundle
 neighbouring events into weighted events.
 
 
@@ -49,8 +49,10 @@ in reverse.
 
 ## Usage in reductions
 
-The algorihtm is used in several reductions at the SNS. However none of the reductions
+The algorithm is used in several reductions at the SNS. However none of the reductions
 seems to make use of the MD facilities that Mantid has to offer.
 
 
 ## Considerations regarding resolution
+
+TODO if we have the feeling that this leads to something
