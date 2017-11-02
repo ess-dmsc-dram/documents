@@ -2,7 +2,7 @@
 
 In this document we want to describe MDAlgorithms which exclusively operate on
 histogram-type workspaces. It is not intention to give an algorithmically exact
-representation of the Mantid implemntations but rather to get a good understanding of their
+representation of the Mantid implementations but rather to get a good understanding of their
 functionality and their dependence on data-structure-specific features.
 
 This investigation is currently halted, since histogram-type algorithms are not

@@ -13,7 +13,9 @@ The algorithm performs the following steps:
 2. For each spectrum on the workspace call `compressEvents` on the associated
   event list
 
-### `void EventList::compressEvents(double tolerance, EventList *destination)`
+##### `void EventList::compressEvents(double tolerance, EventList *destination)`
+
+The compression can be described as:
 
 ```
 def compress(to_compress, tolerance):

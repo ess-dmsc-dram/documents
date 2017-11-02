@@ -26,7 +26,7 @@ vtkMultiBlockDataSet is a dataset comprised of blocks. Each block can be a non-c
 Here the elements cannot be a block themselves.
 
 
-# From Reading
+## To investigate
 
 ### vtkDistributedDataFilter
 

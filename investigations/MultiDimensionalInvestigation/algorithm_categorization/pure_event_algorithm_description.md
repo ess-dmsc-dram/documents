@@ -106,7 +106,7 @@ per-spectrum basis, which makes sense, since events in a spectrum share the same
 geometry.
 
 The data-structure access is unsurprisingly via `addEvent` on the top level box
-(see the [description](../md_data_structurs/md_event.md) of the *MDEventWorkspace* for more details).
+(see the [description](../md_data_structures/md_event.md) of the *MDEventWorkspace* for more details).
 
 Side note:
 The name of the `ConvToMDHistoWS` converter is confusing since it apparently converts
@@ -383,7 +383,7 @@ This is all abstracted to *MergeMD*.
 Same as *MergeMD*.
 
 #### GetSpiceDataRawCountsFromMD
-* This is a specialist algorithm which we don't consider now.
+This is a specialist algorithm which we don't consider now.
 
 #### MergeMD
 Merges several *MDEventWorkspace* s into one, by adding their events together.
@@ -429,4 +429,5 @@ This does not seem very relevant for now.
 
 I am not certain if this is something that we support for the ESS, but it is principally
 used by the inelastic group, or would be if they didn't use Horace. Essentially
-*TobyFit* operates under the hood. Is too specialist to investigate?
+*TobyFit* operates under the hood.
+TODO Is too specialist to investigate?

@@ -52,14 +52,14 @@ to $3.55\AA$ with a wavelength resolution of $4%$ at the lower end and $2%$ at t
 upper end of that range. The detector geometry is not specified in the document,
 since it is variable. Some configurations for the geometry are:
 
-|----------------|------------------------------|
+
 | Distance       |  Angle in horizontal plane   |
 |----------------|------------------------------|
 |  20cm          |  330 degrees                 |
 |  30cm          |  270 degrees                 |
 |  50cm          |  186 degrees                 |
 |  100cm         |  100 degrees                 |
-|----------------|------------------------------|
+
 
 with a pixel size of 0.2mm and a detector size of 60cmx60cm. This should allow
 us to estimate the angle resolution and the available detector space.
