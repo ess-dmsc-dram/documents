@@ -1,5 +1,6 @@
 # Project Log
 
+
 ### Conversations with Owen 19/10/2017
 * Results of the MD calculations need to be consumed on a single node, since
   there are no plans of providing a distributed version of *MantidPlot*,
@@ -38,15 +39,18 @@
   This means that MD algorithms are only used for peak integration and peak centring (which
   Sam will move into TOF). Magnetic investigations are not different to standard reductions.
 
+
 ### Interview with Alex B. and Duc L. 23/10/2017
 * I asked the indirect group how multi-dimensional algorithms and data structures are
 used within Mantid. Apparently they are not used at all. When the choppers are open and
 a white beam becomes available, they perform the same steps as WISH. Else they use Horace and
 there is not intention of moving away from that. However, *BinMD* and *ConvertToMD* is used in *MSlice*.
 
+
 ### Standup with Simon and Lamar 24/10/2017
 * It was mentioned that we should investigate the principal scalability of the algorithms
   as we go through the list.
+
 
 ### Discussion with Steven, Simon, Lamar, Vickie, Andrei, Pete 24/10/2017
 * typical SC inelastic work-flow is:
@@ -66,11 +70,13 @@ be recalculated every time the box structure changes
 * MultiBlock (VTK) data set was mentioned as a distributed data set option
 * We should check if *MDConvertToDiffractionMD* produces the same as *ConvertToMD* (with and without Lorentz correction)
 
+
 ### Standup with Simon and Lamar 25/10/2017
 * Simon mentioned that the powder reduction at the SNS makes use of *CompactEvents*,
   which will reduce the number of events by creating weighted events out of events
   which are within a certain tolerance. The tolerance would be set by the resolution
   in the experiment. We need to check what the resolution of ESS instruments are.
+
 
 ### Interview with Pascal and Fabio 26/10/2017
 * The reduction that was described matched pretty much what Sam had described earlier.
@@ -123,6 +129,7 @@ case, but the buffer cannot handle this.
   this into histogram-type data.
 * The point of this work-flow is to add up slice-measurements.
 
+
 ### Interview with Alex 31/10/2017
 * The inelastic work-flow is:
   * Perform reductions (with *MatrixWorkspace* s) which is then saved in the NXPSE format. The data is in histogram format and contains energy transfer on the x axis. All of this
@@ -142,3 +149,24 @@ case, but the buffer cannot handle this.
   means that multi-dimensional fitting needs to be considered.
 * It was also mentioned that if a work-flow requires visualizations then this might
   become part of the work package.
+
+
+### Standup with Lamar, Simon and Owen 3/11/2017
+* We should look at the what needs to be done for interactive reductions
+  * check single machine options
+  * What are the elements that could cause head aches, e.g. rebinning in the *SliceViewer*
+* We discussed resending batch jobs which reload partially processed data, i.e. save
+  loaded and converted data via *LoadMD* and *SaveMD* (check cost of that)
+  -> Could file-backed loading of event-type data work for the SliceViewer?
+
+
+### Email from Esko 3/11/2017
+* We want to know what the reduction work-flow for the ESS migth look like. Esko
+  responded with:
+  >The basic workflow for crystallography (be it X-ray or neutrons) consists of indexing, i.e. determining the unit cell and orientation matrix of the crystal (which requires having found some peak, not necessarily all), refining that indexing solution, predicting the positions of the reflections and integrating them, followed by putting them on a common (and eventually abosolute scale). In principle there is no need for an interactive workflow if an automated one works well enough (this is of course generally true…) An automated workflow also does not remove the need for diagnostic information (plots, statistics etc.) that the user would still want to see. The need for on-the-fly interaction of course also depends on execution times; if it only takes seconds to run the whole pipeline you don’t care, but if it takes days you might want to at least check what’s going on…
+
+ This sounds pretty similar to what ISIS and the SNS are doing. There is no reason to
+ believe that auto-reduction should work better for the ESS than for other facilities.
+ As such we should work under the assumption, that unless there is a significant
+ improvement of the algorithm fidelity within Mantid, they will require some sort of
+ interactive, iterative work-flow.
