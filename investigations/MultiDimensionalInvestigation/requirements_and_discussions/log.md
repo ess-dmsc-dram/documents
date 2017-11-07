@@ -170,3 +170,40 @@ case, but the buffer cannot handle this.
  As such we should work under the assumption, that unless there is a significant
  improvement of the algorithm fidelity within Mantid, they will require some sort of
  interactive, iterative work-flow.
+
+### Skype call with Esko and Simon 7/11/2017
+
+* Esko gave a detailed overview of how data reduction for SCD for macromolecular
+  structures works. It requires some sort of indexing and determination of the unit
+  cells. This includes of course peak finding but also peak prediction since some
+  reflections are expected to be very weak. Other parts involve scaling of the data
+  which I understood as some sort of normalization. Another important aspect is
+  peak integration.
+* All of this will have to operate in time-of-flight. Esko mentioned that when
+  unit cells become large (>50 A) one gets more reflections which are closer
+  to each other which can lead to errors in the Q space conversion (especially with
+  moving detectors). However other SCD beamlines will have to operate in Q space.
+* Data might be collected for weeks. It might well be that histograms are
+  sufficient. Data sizes are 10s of GBs per file (that is one rotation).
+* Visualization needs to be provided at least at the end of the reduction,
+  in order to inspect the quality of the peaks that were found. If methods
+  require user input/refinement then intermediate results need to be visualized,
+  especially if things take a long time.
+* The architecture they proposed carries meta-data along. This could include
+  settings for some algorithms. Also this information needs to be included
+  in the output of the data reduction, since data analysis might rely on this.
+  The visualization does not have to be in 3D (Paraview itself not really required),
+  but needs some *SliceViewer*-like feature, especially lambda-slices of the
+  detector bank are of interest.
+* Other solutions which are suitable for macromolecular SCD are:
+  * [XDS](http://xds.mpimf-heidelberg.mpg.de/)
+  * [MOSFLM](http://www.mrc-lmb.cam.ac.uk/harry/mosflm/)
+  * [HKL3000](http://www.hkl-xray.com/hkl-3000)
+  * [Dials](http://dials.diamond.ac.uk/about.html)
+  * This would take 10s of people several years to write
+* If there is an automated reduction pipeline then this has to be able to
+  evaluate how well it has found categorized its peaks. The level of false-positives
+  needs to be extremely low else users will loose trust.
+* Corrections for sample holder peaks (or more general peaks which are generated not
+  via the crystal) are normally handled by algorithms, i.e. automatically.
+* Other packages which apparently do a good job are SXD2001

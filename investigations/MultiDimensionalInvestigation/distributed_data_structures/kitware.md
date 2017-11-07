@@ -33,4 +33,21 @@ Here the elements cannot be a block themselves.
 From the documentation:
 > This filter redistributes data among processors in a parallel application into spatially contiguous vtkUnstructuredGrids. The execution model anticipated is that all processes read in part of a large vtkDataSet. Each process sets the input of filter to be that DataSet. When executed, this filter builds in parallel a k-d tree, decomposing the space occupied by the distributed DataSet into spatial regions. It assigns each spatial region to a processor. The data is then redistributed and the output is a single vtkUnstructuredGrid containing the cells in the process' assigned regions.
 
-TODO: Continue when appropriate
+The work of the *vtkDistributedDataFilter* is actually done in the *vtkPkdTree* which
+builds the tree in the *BuildLocator* method. The actual implementation is quite
+involved and makes use of a global index for each cell. The important path for
+the construction of the Parallel kd-tree is:
+* *vtkDistributedDataFilter::RequestDataInternal*
+* -> *vtkDistributedDataFilter::PartitionDataAndAssignToProcesses*
+* -> *vtkPkdTree::BuildLocator*
+* -> *vtkPkdTree::MultiProcessBuildLocator*
+* -> *vtkPkdTree::BreadthFirstDivide* (this performs the redistribution of cells)
+
+An important insight is that the tree will be rebuilt whenever something changes on
+any of the nodes. See [here](https://github.com/Kitware/VTK/blob/ab1d17f2a14dced8557b2dbd5b822f7f03db4716/Filters/Parallel/vtkPKdTree.cxx#L395:L403)
+
+The underlying approach is motivated by this paper [here](https://ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/19860010476.pdf) which
+desribes Recursive Coordinate Bisection.
+
+
+The approach is described on a high level in `ParallelVolRen.pdf`.
