@@ -47,7 +47,7 @@ An important insight is that the tree will be rebuilt whenever something changes
 any of the nodes. See [here](https://github.com/Kitware/VTK/blob/ab1d17f2a14dced8557b2dbd5b822f7f03db4716/Filters/Parallel/vtkPKdTree.cxx#L395:L403)
 
 The underlying approach is motivated by this paper [here](https://ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/19860010476.pdf) which
-desribes Recursive Coordinate Bisection.
-
-
-The approach is described on a high level in `ParallelVolRen.pdf`.
+desribes Recursive Coordinate Bisection (RCB). The approach is described on a high level in `ParallelVolRen.pdf`. The RCB method that has been implemented here has some particular features:
+* The kd-split of a region takes place perpendicular to the longest dimension, in order
+  to avoid elongated volumes
+* Median finding makes use of the [Floyd and Rivest algorithm](https://en.wikipedia.org/wiki/Floyd%E2%80%93Rivest_algorithm) which is related to quickselect. It also checks for duplicates to avoid the worst-case complexity.

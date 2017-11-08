@@ -207,3 +207,8 @@ case, but the buffer cannot handle this.
 * Corrections for sample holder peaks (or more general peaks which are generated not
   via the crystal) are normally handled by algorithms, i.e. automatically.
 * Other packages which apparently do a good job are SXD2001
+
+### Standup with Lamar, Simon and Owen 3/11/2017
+* Simon reminded us that we discussed a n% sampling approach to determine how
+  the data should be load-balanced. This seems like a good optimization for the
+  Recursive Coordinate Bisection method which would default to that if n=100.
