@@ -208,7 +208,35 @@ case, but the buffer cannot handle this.
   via the crystal) are normally handled by algorithms, i.e. automatically.
 * Other packages which apparently do a good job are SXD2001
 
-### Standup with Lamar, Simon and Owen 3/11/2017
+### Standup with Lamar, Simon and Owen 8/11/2017
 * Simon reminded us that we discussed a n% sampling approach to determine how
   the data should be load-balanced. This seems like a good optimization for the
   Recursive Coordinate Bisection method which would default to that if n=100.
+
+### Slack conversation with Simon 9/11/2017
+* The contacts for inelastic beam-lines are Jon Taylor (indirect) and
+  Pascale Deen (direct).
+
+### Discussion with Alex 9/11/2017
+* Alex explained the underlying data structure which is used in Horace to
+  represent multi-dimensional data. It is essentially evenly gridded
+  hypercube where each bin element points to a location of an event list.
+  This event list can be stored on memory if the list does not fit into memory.
+  The structure seems to be pretty much equivalent to an *MDEventWorkspace* where
+  we set the level depth to 1 and ask for forced first-level-binning.
+
+### Standup with Lamar and Simon 10/11/2017
+* It was mentioned that the Space Filing Curve approach requires an in initial
+  distributed structure. This is often an octree or some refinement mesh. constructing
+  this (unbalanced) data structure can actually exceed the memory resources on a
+  single node. Simon mentioned correctly that this might not be an issue, if
+  we only use 1% of the data. Depending on the actual file size he is correct
+  and we should therefore not discard this approach.
+
+### Xavier Email 10/11/2017
+* Xavier sent an email. Regarding the question if interactivity or auto-reduction
+  will be required, he replied:
+  >I think that both solution should be available. The way I see it, we will have a manual first pass on the data to constrain the reduction. In particular, automatic peak finding and UB matrix refinement often fails. This first pass allows to constrain the reduction. Once it is done, auto-reduction can kick in. It will end up in python scripting in the end (from the local contact point of view).
+
+ The documents `xavier_info1.pdf` and `xavier_info2.pdf` indicate that the work-flows
+ will be very similar to existing ones at other facilities.
