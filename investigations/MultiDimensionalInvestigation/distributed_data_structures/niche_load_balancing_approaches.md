@@ -121,6 +121,10 @@ boxes which can be represented by integer-multiples of a minimal box.
 Other ways of performing sorting via a space filling curve are presented [here](https://surface.syr.edu/cgi/viewcontent.cgi?article=1033&context=eecs). Note
 that this seems to be one of the most important papers in the field.  
 
+Very recently (08/2017), a paper has been published which seems to provide
+code to convert floating point values onto a Hilbert curve. See [here](https://arxiv.org/pdf/1708.01365.pdf). Note that this paper is only on the
+Arxiv and has not been published yet.
+
 
 #### n% approach
 
