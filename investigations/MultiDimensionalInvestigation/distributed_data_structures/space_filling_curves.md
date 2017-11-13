@@ -82,50 +82,30 @@ a total of N data points. The steps are:
    node it should be mapped.
 
    <img src="dist_oct_3.png" alt="Drawing" style="width: 600px;"/>
-
    In the example, we see that the terminal nodes on the ranks are labelled
    with the destination rank.
 
 4. `Redistribution`:
-   This is the hard (and messy) part. Data which has been assigned to an other
-   rank needs to be migrated to that rank. There are four steps to this:
-   1. The leaf nodes that need to migrate to the same rank are gathered and
-      the destination rank is notified.
-   2. The destination rank allocates the required memory and communicates the
-      new address back to the source rank. The source rank places (I assume)
-      a forwarding leaf into the place of the migrating leaf.
-   3. The leaves are sent to the destination rank and the deleted on the source
-      rank.
-   4. We need to update the booking-keeping. On the destination rank, the newly
-      migrated leaves are added to the root list. On the source rank the
-      a second list, the remote octant list is created. The addresses of the
-      migrated leaves are added here (in depth-first traversal order).
+   This is the hard (and messy) part. 
 
-   <img src="dist_oct_4.png" alt="Drawing" style="width: 600px;"/>
+Sending the data to the correct node. In general the receiving node needs
+   to be made aware that data will be sent. Depending on the tree, this set up
+   will also require inter-node references, which looks not completely straightforward.
 
-
-A similer approach with a refinement-tree partitioning is presented [here](http://math.nist.gov/~WMitchell/papers/reftree.pdf). From the limited
-details in the paper, it appears that the splitting approach is very similar.
-
-#### Traversal
 
 For the traversal of the leaves, several strategies can be applied. The Morton order
 is very commonly used but suffers from fairly large jumps. Hilbert ordering
 is more compute-intensive, but doesn't show the same jumping behaviour. However
-it is more compute intensive. They all suffer from the fact that they are very
-suitable for 2D, less so for 3D and for higher dimensions are still a subject of
-investigation. Nevertheless, there are some approaches which seem to make
-it possible to have Hilbert curves in 3D+ scenarios.See [here](https://arxiv.org/pdf/1601.01274.pdf). In the case described above, it is easy to have floating point coordinates for the events, since everything is ordered in a
-boxes which can be represented by integer-multiples of a minimal box.
+it is more compute intensive.
 
-Other ways of performing sorting via a space filling curve are presented [here](https://surface.syr.edu/cgi/viewcontent.cgi?article=1033&context=eecs). Note
-that this seems to be one of the most important papers in the field.  
+#### Dimensionality
+
+The space filling curve approach is ideal for 2D cases and has been extended to
+3D, e.g. in Zoltan. Higher-dimensional curves are still a subject of
+studies. However, there are implementations for them. See [here](https://arxiv.org/pdf/1601.01274.pdf).  
 
 
 #### n% approach
 
-The n% improvement strategy was suggested as an optimization. In the scenario
-above the space filling curve is defined by the box structure and not the
-position of the events. However, the events create the box structure. This means
-that raw data points, i.e. the remaining (1-n)% of our data don't map with their
-coordinates into the Hilbert curve.
+It is not very obvious that the n% sampling can be applied for this algorithm.
+TODO
