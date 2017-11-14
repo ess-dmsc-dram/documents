@@ -35,6 +35,11 @@ For the single crystal diffraction group the work-flow can be summarized as:
 10. Change settings, e.g. change peak radius and perform some steps again.
 10. Once the result is satisfactory save the *PeaksWorkspace* and combine with other orientations for processing in analysis software.
 
+
+##### NMX
+
+No will be not needing Q-space support
+
 ### Inelastic
 
 #### ISIS
@@ -55,3 +60,37 @@ This is mostly from Andrei and is in fact similar what Thomas reported:
 1. Create normalization workspace and get binned data using *MDNormSCD* (**MDEventWorkspace** in and **MDHistoWorkspace** out)
 1. Apply the normalization using *DivideMD* (**MDHistoWorkspace**)
 1. Extract signal and error arrays to work in Python
+
+#### CSPEC
+
+CSPEC will be operating in a verys similar way to CNCS and LET. From a sample
+script that Pascale sent us we have extracted the entire workflow. It has
+two parts. The actual reduction does not happen in the MD domain.
+
+The reduction can be described as
+1. Load vanadium data using *Load* (**MatrixWorkspace**)
+2. Apply masking to the vanadium data set using *MaskBTP* (**MatrixWorkspace**)
+3. For each measured run:
+  1. Load the data using *LoadEventNexus* (**MatrixWorkspace**)
+  2. Mask detectors using *MaskDetectors* (**MatrixWorkspace**). Note that the
+     Vanadium workspace is used for this.
+  3. Suggest background range for an incident energy *SuggestTibCNCS*. This
+     will most likely be different in the new work-flow since this is CNCS-specific.
+  4. Perform the actual reduction using *DgsReduction* (**MatrixWorkspace**)
+  5. Set the goniometer settings on the reduced data *SetGoniometer* (**MatrixWorkspace**)
+  6. Set the UB matrix *SetUB* (**MatrixWorkspace**)
+  7. Convert to Q space using *ConvertToQ* (**MDEventWorkspace** and **MatrixWorkspace**)
+  8. Save to file using *SaveMD* (**MDEventWorkspace**)
+
+At this point the user has a set of hdf5 files which store a serialized
+*MDEventWorkspace*. In the MD domain the following steps are performed:
+
+1. Load vanadium data using *Load* (**MatrixWorkspace**)
+2. Apply masking to the vanadium data set using *MaskBTP* (**MatrixWorkspace**)
+3. Load each saved file using *LoadMD* (**MDEventWorkspace**)
+4. Apply a normalization to each of the workspaces using *MDNormDirectSC* (**MDEventWorkspace** in and **MDHistoWorkspace** out). This step creates a binned data workspace and a normalization
+workspace. Note that per workspace there might be several slices to process. Also
+note that this algorithm essentially combines the workspaces, ie performs the merge
+operation.
+5. Divide the data by the normalization using *DivideMD* (**MDHistoWorkspace**)
+6. Save the data, normalization and divided workspaces to file using *SaveMD*(**MDHistoWorkspace**)

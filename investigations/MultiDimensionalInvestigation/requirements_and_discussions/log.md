@@ -233,6 +233,7 @@ case, but the buffer cannot handle this.
   we only use 1% of the data. Depending on the actual file size he is correct
   and we should therefore not discard this approach.
 
+
 ### Xavier Email 10/11/2017
 * Xavier sent an email. Regarding the question if interactivity or auto-reduction
   will be required, he replied:
@@ -240,3 +241,39 @@ case, but the buffer cannot handle this.
 
  The documents `xavier_info1.pdf` and `xavier_info2.pdf` indicate that the work-flows
  will be very similar to existing ones at other facilities.
+
+
+### Discussion with Pascale, Simon and Owen 14/11/2017
+* Pascale will be working on CSPEC which contains a 3D multigrid detector. She
+  mentioned that events should be produced at a rate of 10TB/day with a single
+  run taking up several TB. There are hundreds of runs that are stitched together,
+  which would imply that we are dealing with 100+TB files. This would also mean
+  that we would be collecting data on the order of tens of days. We need to
+  double-check this
+* The instrument specs are: 2.5x2.5x1cm^3 voxels on a 32m^2 detector area with
+  depth of 16 voxels. Each neutron can loose up to 90% of its energy. There are 7
+  to 14 incident wavelengths per pulse (either separated or combined)
+* Some sort of visualization will be absolutely important both for Q-space data
+  and data in instrument space. The later would be mainly used for diagnostic
+  purposes of the instrument. The former (in form of the *SliceViewer*) is used
+  to cut through the exitation spectrum. Of particular importance is the *LineViewer*. The visual inspection is used to determine when an experiment
+  can be stopped. Also auto-reduction is not really an option for them, however
+  everything up to the Q conversion can be done automatically.
+* Data merging takes 1h which is too long.
+* The way things are done at LET is a good indicator how CSPEC will be operating.
+* Users will want to inspect and work in Q space, however instrument scientists
+  will want to inspect the TOF workspaces too.
+* Pascale will think about visualization requirements for TOF.
+* It is very important to be able to look at sub-pulses.
+* Mantid has shown instabilites and crahsed which can waist a lot of beam time.
+* Pascale gave us an initial design specification document: `pascale_info_1.pdf`
+* The data production is about 10TB per day when all wavelengths are used (this
+  estimation is correct, when a wavelength width of 1Angstrom is assumed).
+
+### Call with Gagik 14/11/2017
+* `ROOT` stores data in the `TTree` data structure which is a heterogeneous
+  multi-purpose data structure. Scientists build their own histograms or
+  if they wanted other tree structures.
+* Data is initially stored in `POOL` where it is pre-reduced.
+* Does not look like `ROOT` has something like Mantid's MD system. That would
+  normally be left to the user, since `ROOT`'s `TTree`' is more general purpose.
