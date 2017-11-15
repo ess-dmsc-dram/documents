@@ -5,11 +5,15 @@ The Zoltan library provides some niche algorithms which might be of interest to
 us. The two approaches are Hilbert Space Filling Curve for (HSFC).
 and Refinement Tree Partitioning
 
-We only look at the HFSC method here. This algorithm is normally applied to octrees. A good description of the algorithm can be found [here](https://pdfs.semanticscholar.org/949f/0d4ea6d730f29aa11d42c061f3ddbd68888d.pdf)
+We only look at the HFSC method here. This algorithm is normally applied to
+ quadtrees/octrees. A good description of the algorithm can be
+found [here](https://pdfs.semanticscholar.org/949f/0d4ea6d730f29aa11d42c061f3ddbd68888d.pdf)
 Note that this algorithm will be able to produce a load-balanced distributed
 data structure, but it does not seem to be immune to load spikes when
 redistributing the data. The example which is illustrated below is taken
 from the referenced paper above.
+
+### Algorithm
 
 Here we will only have a look at the parallel case, where we have p nodes and
 a total of N data points. The steps are:
@@ -82,30 +86,121 @@ a total of N data points. The steps are:
    node it should be mapped.
 
    <img src="dist_oct_3.png" alt="Drawing" style="width: 600px;"/>
+
    In the example, we see that the terminal nodes on the ranks are labelled
    with the destination rank.
 
 4. `Redistribution`:
-   This is the hard (and messy) part. 
+   This is the hard (and messy) part. Data which has been assigned to an other
+   rank needs to be migrated to that rank. There are four steps to this:
+   1. The leaf nodes that need to migrate to the same rank are gathered and
+      the destination rank is notified.
+   2. The destination rank allocates the required memory and communicates the
+      new address back to the source rank. The source rank places (I assume)
+      a forwarding leaf into the place of the migrating leaf.
+   3. The leaves are sent to the destination rank and the deleted on the source
+      rank.
+   4. We need to update the booking-keeping. On the destination rank, the newly
+      migrated leaves are added to the root list. On the source rank the
+      a second list, the remote octant list is created. The addresses of the
+      migrated leaves are added here (in depth-first traversal order).
 
-Sending the data to the correct node. In general the receiving node needs
-   to be made aware that data will be sent. Depending on the tree, this set up
-   will also require inter-node references, which looks not completely straightforward.
+   <img src="dist_oct_4.png" alt="Drawing" style="width: 600px;"/>
 
+A similar approach with a refinement-tree partitioning is presented
+[here](http://math.nist.gov/~WMitchell/papers/reftree.pdf). From the limited
+details in the paper, it appears that the splitting approach is very similar.
+
+
+##### Traversal
 
 For the traversal of the leaves, several strategies can be applied. The Morton order
 is very commonly used but suffers from fairly large jumps. Hilbert ordering
 is more compute-intensive, but doesn't show the same jumping behaviour. However
-it is more compute intensive.
+it is more compute intensive. They all suffer from the fact that they are very
+suitable for 2D, less so for 3D and for higher dimensions are still a subject of
+investigation. Nevertheless, there are some approaches which seem to make
+it possible to have Hilbert curves in 3D+ scenarios.See
+[here](https://arxiv.org/pdf/1601.01274.pdf). In the case described above,
+it is easy to have floating point coordinates for the events, since everything is ordered in a
+boxes which can be represented by integer-multiples of a minimal box.
 
-#### Dimensionality
+Other ways of performing sorting via a space filling curve are presented
+[here](https://surface.syr.edu/cgi/viewcontent.cgi?article=1033&context=eecs). Note
+that this seems to be one of the most important papers in the field.  
 
-The space filling curve approach is ideal for 2D cases and has been extended to
-3D, e.g. in Zoltan. Higher-dimensional curves are still a subject of
-studies. However, there are implementations for them. See [here](https://arxiv.org/pdf/1601.01274.pdf).  
+Very recently (08/2017), a paper has been published which seems to provide
+code to convert floating point values onto a Hilbert curve. See
+[here](https://arxiv.org/pdf/1708.01365.pdf). Note that this paper is only on the
+Arxiv and has not been published yet.
 
 
-#### n% approach
+##### n% approach
 
-It is not very obvious that the n% sampling can be applied for this algorithm.
-TODO
+The n% improvement strategy was suggested as an optimization. In the scenario
+above the space filling curve is defined by the box structure and not the
+position of the events. However, the events create the box structure. This means
+that raw data points, i.e. the remaining (1-n)% of our data don't map with their
+coordinates into the Hilbert curve. If this [paper](https://arxiv.org/pdf/1708.01365.pdf)
+proves to be right, then there is a chance that this might work. However sorting
+adding these events locally might turn out to be tricky.
+
+
+### Final data structure
+
+The above scheme will create a fully-fledged quadtree/octree. The creation
+of refinement meshes is also possible with this approach.
+
+In order to understand the costs of the operations better we should run through
+some typical operations that we might perform on the distributed data structure.
+We will briefly look at Q space conversion and *IntegratePeaksMD*. In addition
+we want to have a look how we could visualize the data.
+
+#### Creation
+
+1. The raw event data is converted to Q space on each node. This is a runtime cost of O[N/p].
+2. The data is split in a simple manner and naively redistributed on a per quadrant
+   basis. If we assume random p ranks and p quadrants, and we assume homogeneous data
+   distribution then each rank has O[N/p] data of which the fraction 1/p will
+   be on the correct node. Hence we would have to transmit O[N/p(1-1/p)] data points per rank.
+3. The tree structures are locally built and the leaves which should be transferred
+   to other ranks are identified. Note that if we were dealing with homogeneous data,
+   we would not expect to have any required transfers. At this point it is hard to
+   estimate the total data transfer as it depends on the actual data set. An upper
+   bound is of course O[N/p]. Once we have exchanged the data and provided the links
+   we have a distributed tree structure, where some branches cross between ranks.
+
+
+#### Using the distributed data structure for spherical peak integration.
+
+Peak integration has one of its main algorithms operating in Q space, *IntegratePeaksMD*.
+This algorithm is described [here](../algorithm_categorization/pure_event_algorithm_description.md)
+
+The algorithm will take a peak position, radius and background radius as inputs
+(which it gets from the *PeaksWorkspace*). The algorithm calls `integreateSphere`
+on the top level box.  The `integreateSphere` method iterates over all child boxes
+and checks if their vertices are fully or partially contained in the integration
+region. If the box is fully contained in the integration region, then the box's
+signal is added to the integrated signal; if the box contributes partially,
+then the child box is recursively investigated.
+
+In our case each rank would start the search on the octant that it has assigned
+too it. Note that it would also search in each of the remote quadrants which
+it has a handle to. This would compare in a similar way to the other approaches.
+
+##### Visualizing data
+
+We assume again that we have to map the distributed event-based data structure
+to a file-backed workspace. The approach that we have current for Mantid would
+work similarly with this data structure since both are trees. Note again that
+the top level would have a different kind of splitting, than internal nodes,
+hence we would require again a new kind of box type. The same considerations
+as with RCB apply here.
+
+RCB has an issue when naively reloading data, since the initial rank structure
+is baked into the distributed data structure. This is not the case here. When
+traversing the global tree we would not need to store the cross-rank links
+themselves. This means that the serialized data structure would not have any
+information about the involved ranks baked in, however this would also mean
+that we could not easily reload the data into a cluster. How this could be
+achieved is not clear at all at the moment.

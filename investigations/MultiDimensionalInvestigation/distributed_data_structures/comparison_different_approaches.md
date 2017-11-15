@@ -4,13 +4,8 @@ Here we want to make a final comparison of the different approaches.
 
 ## Recursive Coordinate Bisection
 
-#### Creation
 
-#### Operation
-
-#### Visualization
-
-### Niche approaches
+### Space Filling Curve
 
 #### Creation
 
@@ -25,6 +20,5 @@ Here we want to make a final comparison of the different approaches.
 #### Operation
 
 #### Visualization
-
 
 ## Summary

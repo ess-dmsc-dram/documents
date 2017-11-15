@@ -14,10 +14,6 @@ library which offers this algorithm for load-balancing is [Zoltan](http://www.cs
 Unfortunately, this library is aimed at 1D-3D data structures, hence it is
 not quite suitable for us. Nevertheless, this can serve as a good reference, since
 it contains a range of different load-balancing options.
-We should also consider:
-* Recursive Inertial Bisection
-* Hilbert Space-Filing Curve Partitioning
-* Refinement Tree Based Partitioning
 
 ### Algorithm
 
@@ -170,7 +166,8 @@ this will be O[M/p\*Log(N/M)].
 #### Transfer of the remaining data
 
 Once we have set up the regions on the p nodes we need to transfer the remaining
-(1-f)\*N data points. Each event needs to go down the kd-tree to find its correct region/node. This should be O[Log(p)]. However, I assume we can optimize this to O[1] (we do something
+(1-f)\*N data points. Each event needs to go down the kd-tree to find its correct
+ region/node. This should be O[Log(p)]. However, I assume we can optimize this to O[1] (we do something
 similar for the current boxes). We have (1-f)\*N/p events to send per node. This
 means that we should end up with O[(1-f)\*N/p]\*(or O[(1-f)\*N/p*Log(p)]) transfers.
 

@@ -277,3 +277,26 @@ case, but the buffer cannot handle this.
 * Data is initially stored in `POOL` where it is pre-reduced.
 * Does not look like `ROOT` has something like Mantid's MD system. That would
   normally be left to the user, since `ROOT`'s `TTree`' is more general purpose.
+
+
+### Discussion with Alex 15/11/2017
+* He thinks that for his case merging *MDEventWorkspace* files is better than
+  merging *MDHistoWorkspace*, since at the required binning level, the event-based
+  structure is 30x sparser.
+* He also says that in the future people might want event-based workspaces for
+  resolution calcualations.
+* He mentioned that there is a concrete initiative to develop distributed
+  Horace, which apparently has funding and should go ahead next year.
+* Alex did have some ideas for a distributed event store. He suggests to
+  have a hash map which represents a n-dimensional grid. The binning is defined
+  by the number of representations that can be indexed with a `int64`. It is not
+  clear how load-balancing would work on this.
+
+### Discussion with Martyn 15/11/2017
+* Martyn confirmed what Alex was saying regarding distributed Horace. It seems
+  that users have a too long waiting time between measurements and publication.
+  The PACE initiative aims to reduce that time. One of the aims is to
+  look at a distributed Horace version, especially since instruments such as LET produce 500GB of merged data and with a new instrument in construction this will be 10x that amount. The reduction itself is happening on *MatrixWorkspace* objects,
+  but the data fitting happens on the Horace side. If we were to convert
+  the work that Horace does to Mantid, then we would have a conversion, merge
+  and fit step.

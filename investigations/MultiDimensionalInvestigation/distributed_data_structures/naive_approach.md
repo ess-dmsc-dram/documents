@@ -1,4 +1,4 @@
-# LocalMap-Reduce
+# Naive approach
 
 A simple way of performing a conversions to the MD domain is by mapping the spectra
 on each rank into a local MD data structure. Operations are performed locally.
