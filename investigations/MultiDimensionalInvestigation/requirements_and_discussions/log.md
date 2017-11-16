@@ -300,3 +300,16 @@ case, but the buffer cannot handle this.
   but the data fitting happens on the Horace side. If we were to convert
   the work that Horace does to Mantid, then we would have a conversion, merge
   and fit step.
+
+### Email from Pacale 16/11/2017
+* Answer to the question what the smallest resolutions are that are useful to her, she answered:
+  > This depends on the incident energy,Ei, and the energy resolution but in energy we will not require lower than deltaE/Ei < 0.005 (we estimate that we will provide an energy resolution of 1 % at 4 Angstrom and slightly higher for lower wavelengths.). In Q we estimate our Q resolution will not be better than 1 %.
+
+ This means we can work with a resolution of 0.5% for both the energy and momentum transfer.
+
+* Regarding the measurement time, the answer was:
+  > Typically one measures up to 5 minutes for each position of the rotation, with 1 degree positional steps rotating 180 degrees, but this very much depends on the sample size and the scattering intensity from the sample.
+
+ At a data rate of 10TB/day(=10TB/1440 minutes) this means that the data volume for the
+ entire merged data is 180 * 10TB/1440*5 = 6.25 TB or 35 GB per data set.
+ 

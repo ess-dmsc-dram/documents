@@ -42,3 +42,24 @@ previously been found using one of the peak-finding algorithms, e.g. *FindPeaksM
    The slice is returned and we can plot it. This essentially would be a client
    server approach with a long-living session. This should produce slices
    in the low tens of megabyte range. However this is a blue sky solution.
+
+
+#### Re Option 2
+This will most likely lead to unsatisfactory results with the instrument scientists.
+
+
+#### Re Option 3
+
+For CSEPC we have a resolution of about 0.5% for both then energy and the momentum transfer (see [here](../requirements_and_discussions/log.md)).
+The minimum Q value according to `CSPEC_resubmission.pdf` is $0.06 \AA^{-1}$ and the
+maximum Q value is around  $10 \AA^{-1}$. This with a resolution of 0.5% this means
+we have a binning interval of  $0.06*0.005 \AA^{-1}=0.0003\AA^{-1}$. This would lead
+to a number of about $3.7e13$ cells only for the momentum part. Hence this approach
+is not really feasible.
+![Q values](q_resolution_c_spec.png)
+
+#### Re Option 4
+From what Simon has said we need to be frugal with the compute resources and a
+user who wants to visualize data cannot claim a substantial part of the cluster
+for her visualization for a long time (which would happen if we made the
+cluster available in an interactive way.)

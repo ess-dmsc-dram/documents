@@ -1,4 +1,4 @@
-# Data structures which might lend them selves to the problem
+# Other data structures which might lend them selves to the problem
 
 ### To Look at
 

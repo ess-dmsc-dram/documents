@@ -16,6 +16,12 @@ Andrei, it appears that this would have taken from Horace.
 **GSAS**: Does not seem to have too much information. The project seems to be
           dead.
 
+**Stuart Campbell's group**: He is not aware of packages in the x-ray community.
+                             They use the `xarray` and `hyperspy` packages.
+                             `xarray` uses multi-dimensional (and labelled) arrays.
+                             It also looks like `hyperspy` uses a multi-dimensional
+                             array approach.
+
 ### X-Ray Software
 
 We want to have a look at x-ray software to check if groups in that area
