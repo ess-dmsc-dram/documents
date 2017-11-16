@@ -11,10 +11,10 @@ data-structure-specific features.
 ### Creation
 
 #### SaveMD
-Is this relevant for the ESS?
+This is discussed [here](./load_and_save.md)
 
 #### LoadMD
-Is this relevant for the ESS?
+This is discussed [here](./load_and_save.md)
 
 ### MDArithmetic
 ##### MinusMD

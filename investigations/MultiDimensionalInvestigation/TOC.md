@@ -15,7 +15,7 @@
 
 
 ### Categorization of the current multi-dimensional algorithms
-1. [General categoriztation of algorithms](./algorithm_categorization/categoriztation.md)
+1. [General categorization of algorithms](./algorithm_categorization/categoriztation.md)
 1. [Description of current file-backed approach](./algorithm_categorization/file_backed_operation.md)
 1. [Load and Saving of MD data](./algorithm_categorization/load_and_save.md)
 1. [Investigation of purely event-based algorithms](./algorithm_categorization/pure_event_algorithm_description.md)
@@ -25,8 +25,8 @@
 1. [The Kitware approach](./distributed_data_structures/kitware.md)
 1. [The naive approach](./distributed_data_structures/naive_approach.md)
 1. Load balancing algorithms
-  1. [Recursive Coordinate Bisection](./distributed_data_structures/recursive_coordinate_bisection.md)
-  1. [Space Filling Curves](./distributed_data_structures/space_filling_curves.md)
+   1. [Recursive Coordinate Bisection](./distributed_data_structures/recursive_coordinate_bisection.md)
+   1. [Space Filling Curves](./distributed_data_structures/space_filling_curves.md)
 1. [Other approaches](./distributed_data_structures/general.md)
 
 ### Other
@@ -36,7 +36,7 @@
 
 
 ### Visualization
-1. [How can visualization be achieved?](./other/visualizations.md)
+1. [How can visualization be achieved?](./user_interaction/visualizations.md)
 
 ### Other Documents
 1. [Information for CSPEC](./requirements_and_discussions/pascale_info_1.pdf)
