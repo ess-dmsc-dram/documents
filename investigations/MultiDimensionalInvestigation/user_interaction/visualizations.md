@@ -58,8 +58,20 @@ to a number of about $3.7e13$ cells only for the momentum part. Hence this appro
 is not really feasible.
 ![Q values](q_resolution_c_spec.png)
 
+In addition we need to consider the energy transfer, which is depicted below. From
+this we take the range to be 40meV (is this valid?) and from `CSPEC_resubmission.pdf`
+we take a smallest resolution of $8\mu eV$. This would lead to a grid of about
+5000 cells, which is similar to [other energy estimations](../other/instruments_and_resolutions.md).
+![Q values](energy_transfer.png)
+
 #### Re Option 4
 From what Simon has said we need to be frugal with the compute resources and a
 user who wants to visualize data cannot claim a substantial part of the cluster
 for her visualization for a long time (which would happen if we made the
 cluster available in an interactive way.)
+
+
+### Saving event data for visualization
+
+It becomes apparent that the main use case for event-based MD data structures
+are because

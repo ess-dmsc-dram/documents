@@ -21,6 +21,9 @@ One of the most insightful papers on the subject is ["Parallel Construction of M
 Binary SearchTrees"](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.96.6065&rep=rep1&type=pdf).
 We will use the algorithm description from there. There are variations to this algorithm, but the median-based method seems to provide the best performance.
 
+![RCB](rcb.png)
+
+
 #### Median-based method
 
 The general work-flow of the algorithm for N data points and p nodes is relatively simple.
@@ -187,3 +190,14 @@ calculation. This is of course only possible since we make certain assumptions
 regarding the data. If the sample is not representative of the total distribution
 of events, then we could end up with a heavily unbalanced spatial partitioning.
 How well this performs needs to be established experimentally.
+
+
+#### Pros of RCB
+* Easy to reason about
+* Standard approach
+
+
+#### Cons of RCB
+* Imprints the current node architecture onto the data structure
+* Works only out-of-the-box for node numbers which are a multiple of 2, but there
+  is also a multi-jagged approach which would relax this constraint. See [here](http://www.sandia.gov/~srajama/publications/mj_tpds.pdf)

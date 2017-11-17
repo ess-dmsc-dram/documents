@@ -38,7 +38,7 @@ For the single crystal diffraction group the work-flow can be summarized as:
 
 ##### NMX
 
-No will be not needing Q-space support
+Does not need Q-space support
 
 ### Inelastic
 

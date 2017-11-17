@@ -34,7 +34,6 @@
 1. [ESS instrument resolutions: Estimating if a binned approach is feasible](./other/instruments_and_resolutions.md)
 1. [Looking at other software packages](./other/other_software_packages.md)
 
-
 ### Visualization
 1. [How can visualization be achieved?](./user_interaction/visualizations.md)
 

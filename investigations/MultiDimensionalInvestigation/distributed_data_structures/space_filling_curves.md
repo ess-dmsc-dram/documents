@@ -129,14 +129,26 @@ Other ways of performing sorting via a space filling curve are presented
 [here](https://surface.syr.edu/cgi/viewcontent.cgi?article=1033&context=eecs). Note
 that this seems to be one of the most important papers in the field.  
 
+
+
+####### Mapping floating point coordinates to a Hilbert Curve
+
 Very recently (08/2017), a paper has been published which seems to provide
 code to convert floating point values onto a Hilbert curve. See
 [here](https://arxiv.org/pdf/1708.01365.pdf). Note that this paper is only on the
 Arxiv and has not been published yet.
 
+Another way might be the usage of integers for positions since we might not
+need the dynamic range of floating point descriptions. In the case of CSPEC
+the finest resolution is $0.06*0.005\AA^{-1}$ and we cover a range of $10\\A^{-1}$.
+This means that we have to cover a range of 5 to 6 orders of magnitude to describe
+the coordinates with sufficient precision. For 1e6 elements we require $log(1e6)/log(2)=20$ bits to have a sufficient representation. We would need this per
+coordinate. For a 3D momentum transfer case we would need 60bits. An additional
+energy coordinate seems to require around 1e4 elements for a sufficient description.
+This corresponds to 14 bits. This means for a typical Q-E coordinate of inelastic
+data we will need some sort of composite data.
 
 ##### n% approach
-
 The n% improvement strategy was suggested as an optimization. In the scenario
 above the space filling curve is defined by the box structure and not the
 position of the events. However, the events create the box structure. This means
