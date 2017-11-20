@@ -44,8 +44,50 @@ of file-backed execution this is not necessarily the case. Several things happen
    `DiskBuffer` is handled correctly and the data in memory is cleared.
 
 
-### Parallel file-backed read and write
+### Read and write for a distributed, visualization-optimized scenario
 
+Read and write are handled separately here. If we only have to support
+1. A dump of a distributed workspace to file
+2. Reading from a file in order to populate a workspace without modifying
+   the actual workspace
+then we can most likely simplify the current operation since we don't require
+a lot of the over head which is required to ensure that changes to a workspace
+are synced with the file.
 
+#### Read
+
+##### Initial read-in
+
+The initial read in *LoadMD* would be in principal
+identical to the current usage since we load only
+into a single machine. The box structure would be
+loaded into memory. The data itself is not loaded
+until it is being requested. It does not look like
+we need to worry about much here.
+
+##### Box updates
+
+Updating the data vector of the boxes will occur when data is being rebinned. *BinMD* will require
+precise knowledge of the distribution of events in the boxes to correctly calculate the bin signals. Currently *BinMD* does not operate in parallel for
+file-backed workspaces. The way parallelization is introduced into this problem is to create space chunks and bin them separately. Two chunks might have to access the same *MDBox*, i.e. load the release data. This could lead to all sort off
+odd behaviour. However, this should be avoidable by using a counter for the `busy` flag (treated atomically). In this way we should be able to allow for parallel
+binning with file-backed workspaces. In fact we should be able to demonstrate this
+with the current implementation.
+
+#### Write
+
+The *SaveMD* does not operate in a parallel manner. `HDF5` supports both
+data writing with multiple threads and multiple processors. See [here](https://support.hdfgroup.org/HDF5/doc1.6/TechNotes/openmp-hdf5.c) and
+ [here](https://support.hdfgroup.org/HDF5/Tutor/parallel.html). There is no
+obvious locking in place (at least for the first-time save) which would make
+data parallelism harder. Again this is something that would have to be tried out.
 
 ### Measurement of file-backed efficiency
+
+TODO:
+  1. Create script which generates *MDEvent* data of varying size.
+  1. Create script which loads MD workspace file-backed
+  1. Performs various Bin operations
+  1. Add measurement mechanism for the entire bin operation
+
+See [here](./md_dummy_generator.py)
