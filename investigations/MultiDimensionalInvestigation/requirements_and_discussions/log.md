@@ -312,4 +312,54 @@ case, but the buffer cannot handle this.
 
  At a data rate of 10TB/day(=10TB/1440 minutes) this means that the data volume for the
  entire merged data is 180 * 10TB/1440*5 = 6.25 TB or 35 GB per data set.
- 
+
+
+### Discussion with Simon and Owen 17/11/2017
+* We discussed the requirements and agreed that we will have to provide a
+  an `MDEventWorkspace` for visualization. It appears that with what we know
+  until now, we don' have to support multi-dimensional reductions which
+  make use of `MDEventWorkspace`.
+* We discussed Recursive Coordinate Bisection and Space-Filling-Curves. Both options
+  are still viable options, this will however depend on how feasible SFC is with
+  higher dimensions and floating point numbers.
+* Simon suggested a variant of the RCB which would not bake the topology of the
+  cluster into the data structure. Please find a schematic [here](simon_rcv.JPG).
+* We agreed to continue to look into:
+  * how the file-backed workspaces operate in detail.
+  * the limitations of file-backed workspaces, i.e. is there an issue with
+    very large data sets, is there an issue with varying hardware.
+  * understand the requirements of the interface between data reduction and
+    data analysis.
+  * Look into Simon's suggestion regarding RCB. An image of this can be found [here]()
+  * Understand what the role of `ExperimentInfo` info is
+
+
+### Discussion with Martyn 22/11/2017
+* Lazy-loading of `ExperimentInfo` was introduced for operations with
+  many merge files. Apparently that had a negative performance effect. This
+  should not change for us. We won't be merging more files. Both Pascale and
+  Alex have spoken of hundreds of files (not more).
+* `TobyFit` requires the data as `MDEvent` since it is required to know where
+   the events come from. Martyn also mentioned that `TobyFit` should probably
+   be removed since this is too specialist for Mantid and is better handled in
+   Horace.
+
+
+### Discussion with Xavier 23/11/2017
+* Xavier's workflow is very similar to the ISIS and SNS work-flow. They will
+  have their data available as both histogram and events. They convert to
+  Q space and then perform the usual operations. The steps are
+  * Convert to Q with Lorentz correction.
+  * Find peaks
+  * UB Matrix with indexing
+  * Peak integration
+* The data reduction is, at the moment, a manual process. By far the most useful
+  tool is the SliceViewer (including dynamic rebinning). The VSI is not as useful.
+* The measurements for a single run will take about 10 minutes at $10^7-10^8/s$.
+  In this time either a single measurement is performed or up to 15 different
+  rotations. We are looking at file sizes in the region of 120GB to 1.2TB if
+  we assume 20 bytes per event (which might well be less).
+* The 15 pieces need to be merged for generating publication images (histogram
+  might be fine.)
+* They will have continuous rotation measurements, which are currently not
+   being considered.

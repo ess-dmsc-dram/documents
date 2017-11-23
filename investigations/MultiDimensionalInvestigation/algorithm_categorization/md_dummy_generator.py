@@ -40,7 +40,7 @@ def provide_file_backed(multiples=1, number_of_events=1000, file_backed=True):
 
         file_path = os.getcwd()
         full_file_path = os.path.join(file_path, test_workspace_name)
-        
+        print("The file path is {}.".format(full_file_path))
         if not os.path.exists(full_file_path):
             print("Saving file")
             buffer_ws = create_md_dummy_workspace(multiples=multiples,number_of_events=number_of_events)
@@ -51,8 +51,11 @@ def provide_file_backed(multiples=1, number_of_events=1000, file_backed=True):
        
         start_time = time.time()
         file_backed_workspace = sapi.LoadMD(Filename=full_file_path, FileBackEnd=file_backed, Memory=300)
+        
+        print("The size of the loaded MD file is {}MB.".format(file_backed_workspace.getMemorySize()/1000/1000))
         print("Loading the data took: {}".format(time.time() - start_time))
         return file_backed_workspace
+
 
 def test_bin_md(original_workspace, repetitions):
     start_time = time.time()
@@ -65,13 +68,12 @@ def test_bin_md(original_workspace, repetitions):
 
 
 
-# ---------------------
+# ------------------------------------------
 # Settings
-# ---------------------
-data_multiples = 2
+# ------------------------------------------
+data_multiples = 1
 bin_reps = 3
-num_events=10000
-
+num_events=1000
 
 mtd.clear()
 print("+++++++++++++++")
@@ -82,3 +84,6 @@ mtd.clear()
 print("+++++++++++++++")
 out2 = provide_file_backed(multiples=data_multiples, number_of_events=num_events,  file_backed=False)
 test_bin_md(original_workspace=out2, repetitions=bin_reps)
+
+
+
