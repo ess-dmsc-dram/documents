@@ -46,7 +46,7 @@ class MDEventCreator(object):
             DeleteWorkspace("ws")
         return file_names
     
-    def create_event_workspace(self, number_events_background, number_events_per_peak, number_of_peaks, split_into=5, split_threshold=100, max_recursion_depth=5):
+    def create_event_workspace(self, number_events_background, number_events_per_peak, number_of_peaks, split_into=5, split_threshold=1000, max_recursion_depth=5):
         start_time = time.time()
         # Extents
         extents_string = "{},{},{},{},{},{}".format(self.x_min,  self.x_max, self. y_min,  self.y_max, self.z_min, self.z_max)
@@ -155,9 +155,11 @@ class MDLoadAndBinTest(object):
         number_of_md_boxes = []
         number_of_md_grid_boxes = []
         average_depth = []
+        bin_times = []
         
         for file_name in file_names:
             # Load the file
+            mtd.clear()
             ws, load_time = self.load_md(file_name, file_backed=file_backed)
             workspace_sizes.append(ws.getMemorySize()/1024./1024.)
             number_events.append(ws.getNEvents())
@@ -173,10 +175,11 @@ class MDLoadAndBinTest(object):
             file_sizes.append(self.get_file_size(file_name)/1024./1024.)
 
             # Perform binning measurement
-            average_bin_time,  std_bin_time, num_of_slices = self.bin(ws)
+            average_bin_time,  std_bin_time, num_of_slices, bin_time = self.bin(ws)
             average_bin_times.append(average_bin_time)
             std_bin_times.append(std_bin_time)
             number_of_slices.append(num_of_slices)
+            bin_times.append(bin_time)
               
         # Add to results dict
         result = {}
@@ -190,6 +193,7 @@ class MDLoadAndBinTest(object):
         result["NumBoxes"]=number_of_md_boxes
         result["NumGridBoxes"]=number_of_md_grid_boxes
         result["AvgDepth"]=average_depth
+        result["BinTimes"]=bin_times
         return result
           
     def load_md(self, file_name, file_backed):
@@ -217,15 +221,16 @@ class MDLoadAndBinTest(object):
         This is the actual test. We want to take several slices. The idea is to take a moving x-y slab.
         """
         thickness = 0.1
-        qz_values  = ["z,{},{}, 1".format(min_value, min_value+thickness) for min_value in range(-7, 7,1)]
+        z_position = np.linspace(-7,7,num=50)
+        qz_values  = ["z,{},{}, 1".format(min_value, min_value+thickness) for min_value in z_position]
         
         bin_times = []
         
         for qz_value in qz_values: 
              start_time = time.time()
              binned = BinMD(InputWorkspace=workspace, 
-                                     AlignedDim0='x,-7,7,200',
-                                     AlignedDim1='y,-7,7,200', 
+                                     AlignedDim0='x,-1.5,1.5,200',
+                                     AlignedDim1='y,-1.5,1.5,200', 
                                      AlignedDim2=qz_value)
              end_time = time.time()
              bin_times.append(end_time-start_time)
@@ -242,7 +247,7 @@ class MDLoadAndBinTest(object):
                        "Agerage time taken: {} s"
                        "\n++++++++++++++++++++++++++++++\n".format(len(qz_values), workspace.getMemorySize()/1024./1024., workspace.getNEvents(), average_time))
         self._report(message)
-        return average_time, std_time, len(qz_values)        
+        return average_time, std_time, len(qz_values) , bin_times       
         
     def _report(self, message):
         print(message)
@@ -267,21 +272,34 @@ class ResultAnalysis(object):
     def __init__(self):
         super(ResultAnalysis, self).__init__()
         
+    def get_plot_data(self, data_set):
+         bin_times = data_set["BinTimes"]
+         file_sizes = data_set["FileSize"]
+         
+         file_sizes = [[element]*len(bin_times[0]) for element in file_sizes ]
+         
+         bin_times = [e for l in bin_times for e in l]
+         file_sizes = [e for l in file_sizes for e in l]
+         return file_sizes, bin_times
+        
     def evaluate_load_and_bin(self, results_with_backend_file_name, resuls_without_backend_file_name):
         results_with_backend = JsonDump.read(results_with_backend_file_name)
         results_without_backend = JsonDump.read(resuls_without_backend_file_name)
         
+        file_sizes_with_backend, bin_times_with_backend = self.get_plot_data(results_with_backend)
+        file_sizes_without_backend, bin_times_without_backend = self.get_plot_data(results_without_backend)
+
         plt.close('all')
         
         # ----------------------------------------------
         # Generate file size plots
         # ----------------------------------------------
-        fig, axes = plt.subplots(3, 2, sharex=True)
+        fig, axes = plt.subplots(4, 2, sharex=True)
         fig.suptitle("File Size effects", fontsize=18)
         
         # BIN TIME vs FILE SIZE
         axes[0,0].errorbar(results_with_backend["FileSize"],  results_with_backend["BinTime"], yerr=results_with_backend["BinTimeStd"] ,fmt="ro", label="File-backed")
-        axes[0,0].errorbar(results_without_backend["FileSize"],  results_without_backend["BinTime"], yerr=results_with_backend["BinTimeStd"], fmt="bo", label="Not file-backed")
+        axes[0,0].errorbar(results_without_backend["FileSize"],  results_without_backend["BinTime"], yerr=results_without_backend["BinTimeStd"], fmt="bo", label="Not file-backed")
         axes[0,0].set_ylabel("Bin Time [s]")
         
         # WORKSPACE SIZE vs FILE SIZE
@@ -294,7 +312,18 @@ class ResultAnalysis(object):
         axes[2,0].plot(results_with_backend["FileSize"],  results_with_backend["LoadTime"], "ro", label="File-backed")
         axes[2,0].plot(results_without_backend["FileSize"],  results_without_backend["LoadTime"], "bo", label="Not file-backed")
         axes[2,0].set_xlabel("File Size [MB]")
-        axes[2,0].set_ylabel("Load Time [s]")
+        axes[2,0].set_ylabel("Load Time [s]")  
+               
+        # RAW vs FILE SIZE
+        axes[3,0].plot(file_sizes_with_backend,   bin_times_with_backend, "ro", label="File-backed")
+        axes[3,0].set_xlabel("File Size [MB]")
+        axes[3,0].set_ylabel("Raw Bin Time File-backed [s]")
+        
+        # RAW vs FILE SIZE
+        axes[3,1].plot(file_sizes_without_backend,   bin_times_without_backend, "bo", label="Not file-backed")
+        axes[3,1].set_xlabel("File Size [MB]")
+        axes[3,1].set_ylabel("Raw Bin Time non File-backed [s]")
+        
         
         # NUMBER OF BOXES vs FILE SIZE
         results_with_backend["NumBoxes"] = [element/1e6 for element in results_with_backend["NumBoxes"]]
@@ -328,7 +357,7 @@ class ResultAnalysis(object):
 # The save file path can be used to test the influence of a particular hard drive type.
 save_file_path = None
 load_and_bin_test = MDLoadAndBinTest()
-num_peaks_list = range(50,  201, 50)
+num_peaks_list = [30, 50, 90, 140, 150]  
 res_fb, res_no_fb = load_and_bin_test.run_test(num_peaks_list, use_cached=True, save_file_path=save_file_path)
 
 # Store the results asj json
@@ -340,3 +369,4 @@ JsonDump.write(res_no_fb, file_path_without_file_backed)
 # Evaluate
 analysis = ResultAnalysis()
 analysis.evaluate_load_and_bin(file_path_with_file_backed, file_path_without_file_backed)
+

@@ -4,31 +4,31 @@ Even at the current facilities data can become too large to hold all events in
 memory (especially when several workspaces are merged), this has led to the
 development of file-backed workspaces. The essence of these workspaces
 is that events are only loaded into memory when they are required and removed
-from memory when the are not longer needed. This can be done sine many
-operations only require the box structure, which in this scheme is always
-loaded into memory.
+from memory when the are not longer needed. This is possible since often it is
+sufficient to have the accumulated information of the *MDBox* itself. Note that
+the boxes and their structure are always loaded into memory.
 
-Below we want to discuss the basic mechanisms for file backed operation. As one
-would hope, most of this is abstracted into the data structure itself and the
-algorithms are not aware of it.
-
+Below we want to discuss the basic mechanisms for file-backed operation. Most of
+the mechanism is abstracted into the data structure. there are however
 
 ### Basic data structure enhancement
 
-The basic data structure which holds actual data, i.e. the *MDBox*, contain an *MDBoxSavable*
-instance which is an *ISaveable*. The *MDBoxSavable* contains a reference to its
-box will ask the box to write itself to memory when required via the *save* method
-or to release the events which are currently stored in memory via *clearDataFromMemory*.
-This method will clear the *data* vector which contains the events in an *MDBox*.
+The basic data structure which holds actual data, i.e. the *MDBox*, contains an
+*MDBoxSavable* instance which is an *ISaveable*. The *MDBoxSavable* contains a
+reference to its box will ask the box to write itself to memory when required
+via the *save* method or to release the events which are currently stored in
+memory via *clearDataFromMemory*. This method will clear the *data* vector which
+contains the events in an *MDBox*.
 
-Another thing to note is that events are given a boxId which is generated when
+Another thing to note is that events are given a `fileID` which is generated when
 a *MDGridBox* is split into the a set of *MDBox* instances. The *BoxController*
 provides a contiguous and incrementing index range for these boxes. This ID
 is used to sort the boxes when they are saved to file later on. This ensures
 that boxes which are children of the same grid and on the same level are
 very close to each other on disk. This is used for optimization and in some
-algorithms such as *SliceMD* and *BinMD* the binIDs are
-explicitly sorted before they are saved to file.
+algorithms such as *SliceMD* and *BinMD* the `fileID`s are
+explicitly sorted before they are saved to file. Note that traversing boxes
+in this order is effectively a breadth-first traversal.
 
 An implementation detail which is quite relevant is the *DiskBuffer* class. It
 stores boxes (or rather references to *MDBoxSavable* s) which we want to write
@@ -43,22 +43,25 @@ the *data* vector on the *MDBox* as mentioned above.
 
 
 #### 1. FileIDs
-FileIDs are associated with each box and are used to store boxes to specific
+`fileID`s are associated with each box and are used to store boxes to specific
 positions in the file. The idea here is to have *MDBox* elements from
-the same parent and at the same level to sit close to each other.  FileIDs are created when an *MDBox* splits into an *MDGridBox*. A new
-start FileID is provided by the *MDBoxController*. In fact the box controller
-will provide a contiguous block of FileIDs for the children. These are assigned
+the same parent and at the same level to sit close to each other. `fileID`s are
+created when an *MDBox* splits into an *MDGridBox*. A new start `fileID` is
+provided by the *MDBoxController*. In fact the box controller will provide a
+contiguous block of `fileID`s for the children. These are assigned
 to the child boxes. **Note that this is potentially a bottle-neck for parallelization.**
 
 
 #### 2. Save with file-backing enabled.
 
 The main way to store a workspace to file in a file-backed mode is to
-use the `MakeFileBacked` flat on *SaveMD*. Note that there is also the option
+use the `MakeFileBacked` option on *SaveMD*. Note that there is also the option
 to just update a file-backed workspace using `UpdateFileBackEnd`.
 
 An integral component for saving the workspace is *MDBoxFlatTree* which is
-discussed [here](./load_and_save.md). The *MDBoxFlatTree* will store a pair
+discussed [here](./load_and_save.md). The *MDBoxFlatTree* is essentially a
+serialization mechanism for the box structure. For each *MDBox*, the events are
+stored in a 
 for each box which consists of a position on the file and the number of events in that box. The position on the file is obtained using the FileID of the box.
 This information is also passed onto the box itself.
 
@@ -161,13 +164,3 @@ data writing with multiple threads and multiple processors. See [here](https://s
  [here](https://support.hdfgroup.org/HDF5/Tutor/parallel.html). There is no
 obvious locking in place (at least for the first-time save) which would make
 data parallelism harder. Again this is something that would have to be tried out.
-
-#### Measurement of file-backed efficiency
-
-TODO:
-  1. Create script which generates *MDEvent* data of varying size.
-  1. Create script which loads MD workspace file-backed
-  1. Performs various Bin operations
-  1. Add measurement mechanism for the entire bin operation
-
-See [here](./md_dummy_generator.py)

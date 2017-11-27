@@ -27,6 +27,7 @@
 1. Load balancing algorithms
    1. [Recursive Coordinate Bisection](./distributed_data_structures/recursive_coordinate_bisection.md)
    1. [Space Filling Curves](./distributed_data_structures/space_filling_curves.md)
+   1. [Simon's split](../distributed_data_structures/simon_split.md)
 1. [Other approaches](./distributed_data_structures/general.md)
 
 ### Other
@@ -36,6 +37,11 @@
 
 ### Visualization
 1. [How can visualization be achieved?](./user_interaction/visualizations.md)
+
+### Work Items
+1. [Implementation List](./to_implement/work_items.md)
+1. [How to implement *ConvertToMDHistoWorkspace*](./to_implement/how_to_implement_convert_to_md_histo.md)
+1. [How to implement *BinMD* for shared-memory-parallel file-backed operation](./to_implement/how_to_make_bin_md_parallel_for_file_backed.md)
 
 ### Other Documents
 1. [Information for CSPEC](./requirements_and_discussions/pascale_info_1.pdf)

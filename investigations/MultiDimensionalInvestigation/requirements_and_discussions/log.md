@@ -21,7 +21,7 @@
   1. Parallel workspaces which are easy, but don't have any computational scaling (to be investigated)
   1. Distributed workspaces which are hard to set up but might have a way of scaling horizontally.
 * We need to take into account computational cost since we have 10 million pixels.
-* We need to know how data reduction is performed for SCD, especially the protein case. Need to arrange a meeting with Fabio Orlandi ( I.P.)
+* We need to know how data reduction is performed for SCD, especially the protein case. Need to arrange a meeting with Fabio Orlandi.
 
 
 ### Interview with Sam 23/10/2017
@@ -363,3 +363,16 @@ case, but the buffer cannot handle this.
   might be fine.)
 * They will have continuous rotation measurements, which are currently not
    being considered.
+
+### Discussion with Thomas and Owen 27/11/2017
+* **Inelastic:** Thomas does not quite know how direct inealstic data analysis
+  will happen. However he has mentioned that a collaboration betwen Toby (ISIS)
+  and the PSI has started which could lead to using distributed Horace for data
+  analysis at the ESS. At the moment there don't seem to be any alternatives.
+  This also means for us that we don't have to worry about multi-dimensional
+  aspects for direct inelastic work-flows if they want to mimick the work-flow
+  of ISIS.
+* **Single Crystal Diffraction:** Thomas mentioned that peak integration might
+  not be required (or done) in Mantid since people have express doubt about
+  the corretness of the peak integration. Either way, this will not affect our
+  strategy of avoiding multi-dimensional data structures for reduction.

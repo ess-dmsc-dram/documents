@@ -19,8 +19,6 @@ better results. The *InstrumentView* requires the original *MatrixWorkspace* sin
 it displays the data in detector space. The scientists edit the peaks that have
 previously been found using one of the peak-finding algorithms, e.g. *FindPeaksMD*.
 
-
-
 ### Brainstorming: Solutions to make large data available in a viewer
 
 1. Save the multi-dimensional data to disk and load as a file-backed workspace into
@@ -71,7 +69,61 @@ for her visualization for a long time (which would happen if we made the
 cluster available in an interactive way.)
 
 
-### Saving event data for visualization
+### Investigation of SliceViewer performance for large data sets
 
-It becomes apparent that the main use case for event-based MD data structures
-are because
+We want to investigate the scaling behaviour of the SliceViewer on a single
+machine. We have used [this script](./file_backed_bin_md_evalution.py) and variations thereof to perform the
+measurements.
+
+##### Measurements on rotational disk machine (NoMachine)
+
+We were able to produce large files (up to 90GB). The relevant curve in the
+images below is in the left-hand top corner which shows the bin time vs. file size
+for a bin slice of $0.1\\A^{-1}$ in the z direction. The binning parameters
+were `-1.5,1.5,200` for both the x and y direction. We performed 50 bin operations at varying locations.
+
+Example runs are:
+
+![1000 events per box](./fb_threshold_1000_zoomed_1.png)
+
+![1000 events per box](./fb_threshold_1000_zoomed_2.png)
+
+
+The two measurements show quite a different picture. While the first one
+would suggest that the cost for binning does not increase the second one
+does. However this increase is not very large and suggests that it should be
+possible to allow binning for smaller (but realistic) window sizes. How this will
+truly perform with 100 times more data is not quite predicatable based on these
+measurements.
+
+##### Measuremnt on SSD machine (Owen's machine)
+
+The story is very similar on an SSD.
+![1000 events per box](./fb_threshold_1000_zoomed_ssd.png)
+
+##### Measurement on rotational disk machine with varying thresholds (Anton's machine)
+
+
+### MDVisualEvent
+
+Since we want to visualize the data on a single machine we need to fight for
+every byte of an event. A lot of the data which is stored in an *MDEvent* is
+not required for the visualization. In principle only the position and the
+signal value is of relevance. The following members could be removed:
+* `float errorSquared` (4 bytes)
+* `uint16_t runIndex`  (2 bytes)
+* `int32_t detectorId` (4 bytes)
+
+This would leave us with:
+* `float signal` (4 bytes)
+* `coord_t center[nd]` with `coord_t` mostly being `float` (nd * 4 bytes)
+
+Stripping out these parts will save 10 bytes which is about $30-40\%$ for typical events, i.e. 3D and 4D.
+
+### VisualBinMD
+
+A manual test with the *SliceViewer* on the 90GB sample data set showed that the bin operations can take a long time (seonds) when the region selected in the *SliceViewer* is large, i.e. comparable with the actual workspace extents. Similarly thick slices, on the order of the workspace extents are typically slow too. Typically the thickness is one percent of the extent or less. Similarly, rebinning normally only matters when the user zooms into the
+data set. This means that we could apply binning only once we have zoom to a level where we expect to have fewer than a certain number of events to fetch,
+at least in the dynamic rebin case. If there are more events, we either
+1. show the structure as it is. This is the default in the *SliceViewer*. We would provide the user with information, explaining that rebinning will start when viewer than a (user-set?) number of events is being displayed.
+2. provide "faux"-rebinning by using the boxes as event substitutes. However, this can lead to misleading representations of the distribution of events.
