@@ -38,9 +38,7 @@ if it has never been written out, if the number of events has changed or if the
 data has changed. If nothing has changed then the memory is freed by deleting
 the *data* vector on the *MDBox* as mentioned above.
 
-
 ## Life cycle of boxes
-
 
 #### 1. FileIDs
 `fileID`s are associated with each box and are used to store boxes to specific
@@ -61,12 +59,12 @@ to just update a file-backed workspace using `UpdateFileBackEnd`.
 An integral component for saving the workspace is *MDBoxFlatTree* which is
 discussed [here](./load_and_save.md). The *MDBoxFlatTree* is essentially a
 serialization mechanism for the box structure. For each *MDBox*, the events are
-stored in a 
-for each box which consists of a position on the file and the number of events in that box. The position on the file is obtained using the FileID of the box.
-This information is also passed onto the box itself.
+stored in a for each box which consists of a position on the file and the number
+of events in that box. The position on the file is obtained using the `fileID`
+of the box. This information is also passed onto the box itself.
 
 The *ISavable* member of each box is then queried. *MDGridBox* s are ignored.
-With data is then saved at the required position.
+The data is then saved at the required position.
 
 Strangely it seems that the same result is obtained when not enabling `MakeFileBacked`
 for the save algorithm. One thing to note is that the `ExperimentInfo` is stored out
@@ -77,15 +75,14 @@ separately as well.
 Basic information is extracted from the file and is used to create a simple
 *MDEventWorkspace*.
 
-TODO look at ExperimentInfo
-
-The box structure is loaded into Mantid and rebuilt as described [here](./load_and_save.md). When we request a file-backed load operation, then
+The box structure is loaded into Mantid and rebuilt as described
+[here](./load_and_save.md). When we request a file-backed load operation, then
 file position and the number of events are written into the *MDBox* which has been
-restored. When requesting a file-backed load, the file information and a *BoxControllerNeXusIO* object are stored with the *BoxController*. We also set up
+restored. When requesting a file-backed load, the file information and a
+*BoxControllerNeXusIO* object are stored with the *BoxController*. We also set up
 a maximum allowed cache.
 
-
-#### 4. Operate on the file-backed workspac (BinMD)
+#### 4. Operate on the file-backed workspace (BinMD)
 
 *BinMD* is an instructive example to understand how events are fetch and
 release from the file. It is also the only algorithm that is needed for
@@ -93,20 +90,20 @@ visualization in the *SliceViewer*.
 
 Remember that the entire box structure is stored in memory and that when a
 leaf node is reached the algorithm can query the events, for example, via
-`getEvents`. This will return an `std::vector` of the appropriate event
+`getEvents`. This will return a `vector` of the appropriate event
 type. In the standard case this is stored in memory. However in the case
-of file-backed execution this is not necessarily the case. Several things happen
+of file-backed execution this is not necessarily the case. Several things happen:
 
 1. The box is loaded via `MDBox::loadAndAddFrom`. The box knows how
-   many events it has stored and what the file position is. `BoxControllerNeXusIO::loadBlock` will retrieve the data from the
+   many events it has stored and what the file position is.
+   `BoxControllerNeXusIO::loadBlock` will retrieve the data from the
    NeXus file and the data is added to the `data` vector of the box.
-   Note that the loading is handled by the member of type `MDBoxSavable`.
+   Note that loading is handled by the member of type `MDBoxSavable`.
 2. The `MDBoxSavable` is set to `busy`. This essentially tells the "clean-up"
    logic to not clean the data vector for this box.
-3. The `MDBoxSavable` is added to the `DiskBuffer` (which is a member of the box
-   controller). It is added to an queue and processed. There are several
-   scnearios which deal with changes in the number of events for example. It
-   will save them out. There are two details which are of interest at this
+3. The `MDBoxSavable` is added to the `DiskBuffer` . It is added to a queue
+   and processed. There are several scnearios which deal with changes in the
+   number of events. There are two details which are of interest at this
    point.
    1. The processing of `MDBoxSavable` only occurs if there are sufficiently
       many `MDBoxSavable`s in the buffer (above a user-set threshold).
@@ -150,9 +147,12 @@ we need to worry about much here.
 
 ###### Box updates
 
-Updating the data vector of the boxes will occur when data is being rebinned. *BinMD* will require
-precise knowledge of the distribution of events in the boxes to correctly calculate the bin signals. Currently *BinMD* does not operate in parallel for
-file-backed workspaces. The way parallelization is introduced into this problem is to create space chunks and bin them separately. Two chunks might have to access the same *MDBox*, i.e. load the release data. This could lead to all sort off
+Updating the data vector of the boxes will occur when data is being rebinned.
+*BinMD* will require precise knowledge of the distribution of events in the 
+boxes to correctly calculate the bin signals. Currently *BinMD* does not operate
+in parallel for file-backed workspaces. The way parallelization is introduced
+into this problem is to create space chunks and bin them separately. Two chunks
+might have to access the same *MDBox*, i.e. load the release data. This could lead to all sort off
 odd behaviour. However, this should be avoidable by using a counter for the `busy` flag (treated atomically). In this way we should be able to allow for parallel
 binning with file-backed workspaces. In fact we should be able to demonstrate this
 with the current implementation.
