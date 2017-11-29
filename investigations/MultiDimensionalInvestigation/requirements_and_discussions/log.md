@@ -376,3 +376,12 @@ case, but the buffer cannot handle this.
   not be required (or done) in Mantid since people have express doubt about
   the corretness of the peak integration. Either way, this will not affect our
   strategy of avoiding multi-dimensional data structures for reduction.
+
+### Discussion with Andrei 28/7/2017
+* Confirmed with Andrei that the normalization algorithms don't need
+  event-based workspaces. However he said that normally he will run the
+  reduction with different input parameters, which means that the person
+  would have to reconvert the `EventWorkspace` to `MDHistoWorkspace` everytime.
+* Andrei mentioned that we should include the normalization into the
+  *ConvertTOMDHisto* step. This is in principle possible, since the normalization
+  workspace is additive. 

@@ -32,7 +32,7 @@ Time estimate: There are several levels of difficulty here.
 2. Porting *ConvertToMD* functionality
 3. Validation
 
-  The first part is estimated to be 3 to 6 months. The second part is estimated to be 2 to 6 months. The third part is estimated to be 1 month. This adds up to 6 to 12 months.
+  The first part is estimated to be 3 to 6 months. The second part is estimated to be 2 to 4 months. The third part is estimated to be 1 month. This adds up to 6 to 11 months.
 
 ### Create a distributed SaveMD
 
@@ -80,3 +80,14 @@ Difficulty: 7
 Time estimate: It is not clear that the suggested optimizations work. Due to the
                complexity fo the file-backed system, there could be subtle issues
                which we have not quite forseen. The estimate is between 1 to 2 months.
+
+## Summarized work
+
+| Work Item                             | Time                 | Priority  |
+|---------------------------------------|----------------------|-----------|
+| Write ConvertToMDVisualEventWorkspace | 6 to 11 months       | Very high |
+| Distributed SaveMD                    | 2 to 6 months        | Very high |
+| Performance BinMD                     | 1 to 2 months        | High      |
+| ConvertToMDHisto                      | 2 to 4 months        | High      |
+| Alternative Noramalization            | 1 to 2 days          | Medium    |
+| Spherical Peaks in TOF                | 2 to 4 weeks         | Medium    |
