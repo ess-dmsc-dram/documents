@@ -1,4 +1,4 @@
-## Draft Agenda for DMSC Visit in February 
+## Draft Agenda for DMSC Visit to ISIS February 12th-16th 2018
 
 Attendees, please update directly
 
