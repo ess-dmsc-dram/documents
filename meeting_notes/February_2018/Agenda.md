@@ -7,7 +7,7 @@ Attendees, please update directly
 * Simon Heybrock 12-16
 * Lamar Moore 14-16
 * Anton Piccardo-Selg 12-13
-* Thomas Rod 12-16
+* Thomas Rod 15 only
 
 ## Arrival, Departure times, Accomodation Details
 
