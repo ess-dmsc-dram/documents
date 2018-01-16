@@ -26,7 +26,7 @@ Attendees, please update directly
 | Project structure | Owen   |  Thomas | Project management plans | 0.5 day |
 | Instrument Plans | Owen, Simon   |  Thomas | Long-term plan. What needs to be done on instruments. Questions raised by Thomas | 2hrs
 | Update estimates.xml | Owen, Simon   | Thomas | Fresh estimates and updated 6-12 month plan | 2hrs  ||
-| Meet sponsors | Owen   |  Thomas | Meet with Debbie Greenfield and Tom Griffin | 1 day |
+| Meet sponsors | Owen   |  Thomas | Meet with Debbie Greenfield and Tom Griffin | 1hr |
 | Imaging Requirements | Owen/Thomas   |   | [flux normalisation](https://confluence.esss.lu.se/display/DAM/Imaging+-+Flux+normalisation), [calibration tools](https://confluence.esss.lu.se/display/DAM/Imaging+-+Calibration+tools) | 1 hour |
 
 
