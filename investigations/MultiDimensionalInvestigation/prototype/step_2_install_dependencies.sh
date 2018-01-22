@@ -57,6 +57,8 @@ declare -a rpms=("http://mirror.centos.org/centos/7/os/x86_64/Packages/openssl-d
 "http://dl.fedoraproject.org/pub/epel/7/x86_64/Packages/l/liblzf-3.6-7.el7.x86_64.rpm"
 "http://www.mirrorservice.org/sites/dl.fedoraproject.org/pub/epel/7/x86_64/Packages/l/librdkafka-0.11.1-1.el7.x86_64.rpm"
 "https://www.mirrorservice.org/sites/dl.fedoraproject.org/pub/epel/7/x86_64/Packages/l/librdkafka-devel-0.11.1-1.el7.x86_64.rpm"
+"http://dl.fedoraproject.org/pub/epel/7/x86_64/Packages/l/lz4-1.7.3-1.el7.x86_64.rpm"
+"ftp://mirror.switch.ch/pool/4/mirror/centos/7.4.1708/cloud/x86_64/openstack-newton/common/python2-cycler-0.10.0-2.el7.noarch.rpm"
 )
 
 download_rpm() {
@@ -71,7 +73,7 @@ download_rpm $i
 done
 
 
-#Unpack all rpms 
+#Unpack all rpms
 for entry in ./*.rpm
 do
 echo "Starting to extract ${entry}"
@@ -113,7 +115,6 @@ echo "using mpi : : <find-shared-library>mpiCC <find-shared-library>mpi <find-sh
 number_of_processors=$(nproc)
 export LIBRARY_PATH=$LIBRARY_PATH:/opt/ibm/platform_mpi/lib/linux_amd64
 ./b2 link=static,shared cxxflags=-fPIC include=/opt/ibm/platform_mpi/include/ -j ${number_of_processors} install
-
 cd ..
 
 

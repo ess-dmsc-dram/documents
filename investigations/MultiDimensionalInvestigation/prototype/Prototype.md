@@ -146,9 +146,15 @@ we don't have `sudo` rights, we need to run the five scripts in order:
 4. `step_4_build_mantid.sh`
 5. `step_5_set_env_var.sh`
 
-in a folder
-where we want our source, build and dependencies to be located. Note that this
+in a folder where we want our source, build and dependencies to be located. Note that this
 will take a while to complete.
+
+There are two remaining tasks left before we can concentrate on development:
+1. Ensure that the library paths are set by reloading the `bashrc` file, i.e. `source ~/.bashrc`
+2. We have any issue with importing matplotlib, which is also indirectly imported. We need
+   to comment that out in file in the build folder, i.e. in `ROOT_FOLDER/builds/bin/mantid/__init__.py`  comment out `import mantid.plots as plots`. Note that this hack might get overriden if you are doing a clean build or are pulling changes to that file.
+
+
 
 ### Run an example
 
