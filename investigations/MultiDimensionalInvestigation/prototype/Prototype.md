@@ -107,7 +107,7 @@ Split the data further on the local ranks.
 
 The `fileID`s on the local ranks will not be in sync, e.g. we expect to
 have duplicate `fileID`s on the different ranks. This is being consolidated
-in this step. 
+in this step.
 
 
 
@@ -138,7 +138,15 @@ bjobs
 ### Setup
 
 Make sure that you are in an interactive session as described above. Since most of our requirements to build Mantid are not met by Scarf and since
-we don't have `sudo` rights, we need to run the `install_script.sh` in a folder
+we don't have `sudo` rights, we need to run the five scripts in order:
+
+1. `step_1_download_mantid.sh`
+2. `step_2_install_dependencies.sh`
+3. `step_3_run_cmake.sh`
+4. `step_4_build_mantid.sh`
+5. `step_5_set_env_var.sh`
+
+in a folder
 where we want our source, build and dependencies to be located. Note that this
 will take a while to complete.
 
