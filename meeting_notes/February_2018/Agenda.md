@@ -26,7 +26,7 @@ Available all week except for Monday. I have been asked to talk about the ESS pr
 
 | Agenda Items        | Organiser           | Involves  | Details  | Duration
 | ------------- |:-------------:| -----:|---------:| ---------:|
-| Retrospective      | Owen | Simon, Lamar, Anton? | Hold a retrospective | 1 hr |
+| Retrospective      | Owen | Simon, Lamar, Anton, Mike | Hold a retrospective. Would like as many developers as possible working on the project to contribute to that | 1 hr |
 | MD Workspaces | Anton   |  Owen, Simon | Distributed md workspace review and planning | 1-2 days |
 | Project structure | Owen   |  Thomas | Project management plans | 0.5 day |
 | Instrument Plans | Owen, Simon   |  Thomas | Long-term plan. What needs to be done on instruments. Questions raised by Thomas | 2hrs
