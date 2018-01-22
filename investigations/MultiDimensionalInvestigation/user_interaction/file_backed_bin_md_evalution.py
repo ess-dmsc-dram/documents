@@ -358,13 +358,14 @@ class ResultAnalysis(object):
 save_file_path = None
 load_and_bin_test = MDLoadAndBinTest()
 num_peaks_list = [30, 50, 90, 140, 150]  
+num_peaks_list = [5, 10, 20, 40,  80, 130]  
 res_fb, res_no_fb = load_and_bin_test.run_test(num_peaks_list, use_cached=True, save_file_path=save_file_path)
 
 # Store the results asj json
 file_path_with_file_backed = os.path.join(os.getcwd(), "results_with_file_backed.json")
 file_path_without_file_backed = os.path.join(os.getcwd(), "results_without_file_backed.json")
-JsonDump.write(res_fb, file_path_with_file_backed)
-JsonDump.write(res_no_fb, file_path_without_file_backed)
+#JsonDump.write(res_fb, file_path_with_file_backed)
+#JsonDump.write(res_no_fb, file_path_without_file_backed)
 
 # Evaluate
 analysis = ResultAnalysis()
