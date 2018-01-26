@@ -2,22 +2,15 @@
 
 ## Scope
 
-This prototype takes a distributed event-type workspace, converts the events to MDEvents,
-partitions the events between all ranks (in a load-balanced manner) and places the
-events into a box strucure. As such each rank will contain a piece of a larger box structure.
-The top-most part of the box structure's toplogy will be identical between all ranks,
-but the different ranks will fill different parts of the box strucutre.
+This prototype takes a distributed event-type workspace, converts the events to `MDEvents`, partitions the events between all ranks (in a load-balanced manner) and places the events into a box structure.  The top-most part of the box structure's topology will be identical among all ranks,
+but the different ranks will fill different parts of the box structure, i.e. they are responsible for different spatial areas.
 
-The resulting data structure (if it can be called that at all), is not meant to be
-consumed by other algorithms, but this algorithms should save the data directly
-to disk. Hence it should probably renamed SaveMDEventDistributed or similarly.
+The resulting data structure (if it can be called that at all), is not meant to be consumed by other algorithms, rather this algorithm should save the data directly to disk. Hence it should probably be renamed `SaveMDEventDistributed` or similarly.
 
 
+## Where to find the prototype
 
-## Where to find prototype
-
-The prototype is a branch in the Mantid repo, it can be found [here](https://github.com/mantidproject/mantid/tree/distributed_md_event_prototype).
-
+The prototype is a branch in the Mantid's Github repository and can be found [here](https://github.com/mantidproject/mantid/tree/distributed_md_event_prototype).
 
 
 ## Explanation of the processing steps
@@ -37,37 +30,30 @@ The steps to achieve this are
 9. Ensure that the `fileID`s and the box controller stats are correct.
 10. Save the data (not implemented yet)
 
-
-We want to discuss each element individually
+We want to discuss each element of the algorithm individually below.
 
 ### 1. Get an n-percent fraction
 
-The works is done by the `EventToMDEventConverter` class. `EventToMDEventConverter::getEvents` allows us to return only those events
+The work is done by the `EventToMDEventConverter` class. `EventToMDEventConverter::getEvents` allows us to return only those events
 which are within a certain time fraction of the full measurement, i.e. if we
-specify to get the first `1%` then this means that we request the data which
-was measured in the first `1%` of the pulse time. This does not necessarily mean
-that we are requesting only the first 1% of the number of events that were measured, although that would be the same if the neutron flux was constant.
+specify to get the first `n%` then this means that we request the data which
+was measured in the first `n%` of the pulse time. This does not necessarily mean that we are requesting only the first `n%` of the number of events that were measured, although that would be the same if the neutron flux was constant.
 
-Note that this done on each rank.
+Note that this is done on each rank.
 
 ### 2. Build a preliminary box structure on the master rank
 
-This step has several sub steps which we need to execute:
-1. We need to send sampled n-percent data from all ranks to the master rank. For
-   this we use a combination of `boost::mpi::gather` to determine the array lengths
-   which will be sent and `MPI_IRecv`-`MPI-ISendv` pairs.
-2. The box structure is then built with the sample data from all the other ranks.
-   Under the hood we build an `MDEventWorkspace` and extract the underlying box
-     structure.
+This step has several sub-steps which we need to execute:
+1. We need to send the sampled n-percent data from all ranks to the master rank. For this we use a combination of `boost::mpi::gather` to determine the array lengths  which will be sent and `MPI_IRecv`-`MPI-ISendv` pairs.
+2. The box structure is then built with the sample data from all the other ranks. Under the hood we build an `MDEventWorkspace` and extract the underlying box structure.
 
-
-### 3. Determine the rank responisibility
+### 3. Determine the rank responsibility
 Based on the preliminary box structure we determine which ranks will be
  responsible for which boxes using the `RankResponsibility` class. When performing
- a `IMDNode::getBoxes` call we get the box structure in a flat, vectorized form, which is being crated by traversing the box tree in a depth-first manner. This
+ a `IMDNode::getBoxes` call we get the box structure in a flat, vectorized form, which is being created by traversing the box tree in a depth-first manner. This
  is similar to a space filling curve, i.e. boxes which are close to each other
  in momentum transfer space will be close to each other in the vector. Hence
- it makes sense to just assign contiguous segments of this vector to the different ranks. We make use of a box indices which is just the index of the vector.
+ it makes sense to just assign contiguous segments of this vector to the different ranks. We make use of box indices which are just the indices of the vector.
 
  We get a `RankResponsibility` object which is just a vector of pairs where
  vector's index corresponds to the rank and the pair represents the start
@@ -81,16 +67,13 @@ We then share this responsibility with all ranks, i.e. each rank knows which
 First we serialize the box structure using the `BoxStructureSerializer` class.
 The serialized box structure is subsequently sent to all ranks. Note that this serialized box structure does not contain any events. This uses a `boost::mpi::broadcast` communication. The box structure is then deserialized on all ranks using the `BoxStructureSerializer` class. This box structure is stored together with the  `BoxController` in a `BoxStructureInformation` struct.
 
-
 ### 5. Convert all events
 We convert all events on all ranks using the `EventToMDEventConverter` class.
 
 ### 6. Add events to preliminary box structure
-
 We add the events on each rank to the empty box structure. The events will
-trickle down the box structure until they hit a n `MDBox`. We don't ask the
-`BoxController` to split the boxes if required. This means that on each
-rank we still have the same box structure topology.
+trickle down the box structure until they hit an `MDBox`. We don't ask the
+`BoxController` to split the boxes. This means that we still have the same box structure topology on all ranks.
 
 ### 7. Send data from the each rank to the correct rank
 
@@ -153,7 +136,7 @@ There are two remaining tasks left before we can concentrate on development:
 1. Ensure that the library paths are set by reloading the `bashrc` file, i.e. `source ~/.bashrc`
 2. We have any issue with importing matplotlib, which is also indirectly imported. We need
    to comment that out in file in the build folder, i.e. in `ROOT_FOLDER/builds/bin/mantid/__init__.py`  comment out `import mantid.plots as plots`. Note that this hack might get overriden if you are doing a clean build or are pulling changes to that file.
-
+3. We have to disable file logging since this can cause a race condition between different ranks which try to access the same log file. In `~/.mantid/Mantid.user.properties` add the line `logging.loggers.root.channel.channel2=`. This should disable file logging.
 
 
 ### Run an example
