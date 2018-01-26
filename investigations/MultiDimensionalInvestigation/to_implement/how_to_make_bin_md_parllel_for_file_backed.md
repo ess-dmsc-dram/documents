@@ -15,8 +15,8 @@ In the file-backed case this can lead to the following issue:
 ### Potential solution
 In the current scenario each thread is responsible for a set of bins but all
 threads can access all boxes. One could think of a reversed scenario, where
-each thread is responsible for a set of boxes, but all threads cann accecss
-all boxes. The advantage here is that only one thead will ever request that
+each thread is responsible for a set of boxes, but all threads can access
+all boxes. The advantage here is that only one thread will ever request that
 events will be fetched from a box, hence allowing the disk buffer mechanism
 to operate without "data races".
 
@@ -24,9 +24,9 @@ The implementation of the binning algorithm would look like:
 1. Let the number of threads be T. Get all boxes (via depth-first search). We
 partition the boxes on to the T threads. The box chunks will be close to each
 other spatially, hence writing into the same box from several threads should be
-rare and only occur and the boundaries of the responsiblity of the threads.
-2. Each thread iterates through its threas and evaluates which bins intersect
-   with the box. There are three posibilities:
+rare and only occur and the boundaries of the responsibility of the threads.
+2. Each thread iterates through its threads and evaluates which bins intersect
+   with the box. There are three possibilities:
    * The box is not in the bin region, hence it cannot correspond to any bin
      of interest
    * The box is fully contained inside a bin. In this case the signal of the
@@ -36,4 +36,4 @@ rare and only occur and the boundaries of the responsiblity of the threads.
      events from file and iterate over all events. We have signal variables for
      each of the possible bins and the event's signal is added to the correct signal variable.
      Once all events have been processed, we add the signal variables are atomically
-     added to the bin signal. 
+     added to the bin signal.

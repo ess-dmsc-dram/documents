@@ -1,5 +1,7 @@
 # Table of Contents
 
+For an overview of the thematic have a look at our [project presentation](./presentation/distributed_data_reduction_of_multi_dimensional_data.pptx).
+
 ## Documents
 
 ### User Requirements
@@ -34,6 +36,9 @@
 1. [Investiation of event compression](./other/compress_event.md)
 1. [ESS instrument resolutions: Estimating if a binned approach is feasible](./other/instruments_and_resolutions.md)
 1. [Looking at other software packages](./other/other_software_packages.md)
+
+### Prototypes
+1. [Prototype for building distributed box strucutre](./prototype/Prototype.md)
 
 ### Visualization
 1. [How can visualization be achieved?](./user_interaction/visualizations.md)
