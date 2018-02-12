@@ -4,7 +4,7 @@ Attendees, please update directly
 
 ## Key People and Availability
 * Owen Arnold 12-16
-* Simon Heybrock 12-16
+* Simon Heybrock 12-15
 * Lamar Moore 14-16
 * Anton Piccardo-Selg 13-14
 * Thomas Rod 15 only
@@ -12,7 +12,7 @@ Attendees, please update directly
 ## Arrival, Departure times, Accomodation Details, Other restrictions
 
 ### Simon 
-Assumed to be arriving Monday, but not at the Lab until Tuesday 13th. Leaving midday on 16th. [Update required]
+Monday 12th until Thursday (full day).
 ### Thomas
 Assumed to be available all day on the 15th.
 ### Anton
