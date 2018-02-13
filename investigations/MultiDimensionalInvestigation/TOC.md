@@ -29,7 +29,7 @@ For an overview of the thematic have a look at our [project presentation](./pres
 1. Load balancing algorithms
    1. [Recursive Coordinate Bisection](./distributed_data_structures/recursive_coordinate_bisection.md)
    1. [Space Filling Curves](./distributed_data_structures/space_filling_curves.md)
-   1. [Simon's split](../distributed_data_structures/simon_split.md)
+   1. [Simon's split](./distributed_data_structures/simon_split.md)
 1. [Other approaches](./distributed_data_structures/general.md)
 
 ### Other
