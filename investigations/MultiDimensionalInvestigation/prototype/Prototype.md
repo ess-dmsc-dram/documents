@@ -10,7 +10,7 @@ The resulting data structure (if it can be called that at all), is not meant to 
 
 ## Where to find the prototype
 
-The prototype is a branch in the Mantid's Github repository and can be found [here](https://github.com/mantidproject/mantid/tree/distributed_md_event_prototype).
+The prototype is a branch in the DMSC's Github repository and can be found [here](https://github.com/DMSC-Instrument-Data/mantid/tree/DistributedMDEventPrototype). For browsing the code Github you can use the tag `DistributedMDEventPrototype`.
 
 
 ## Explanation of the processing steps
@@ -123,11 +123,11 @@ bjobs
 Make sure that you are in an interactive session as described above. Since most of our requirements to build Mantid are not met by Scarf and since
 we don't have `sudo` rights, we need to run the five scripts in order:
 
-1. `step_1_download_mantid.sh`
-2. `step_2_install_dependencies.sh`
-3. `step_3_run_cmake.sh`
-4. `step_4_build_mantid.sh`
-5. `step_5_set_env_var.sh`
+1. [`step_1_download_mantid.sh`](./step_1_download_mantid.sh)
+2. [`step_2_install_dependencies.sh`](./step_2_install_dependencies.sh)
+3. [`step_3_run_cmake.sh`](./step_3_run_cmake.sh)
+4. [`step_4_build_mantid.sh`](./step_4_build_mantid.sh)
+5. [`step_5_set_env_var.sh`](./step_5_set_env_var.sh)
 
 in a folder where we want our source, build and dependencies to be located. Note that this
 will take a while to complete.

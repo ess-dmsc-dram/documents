@@ -9,7 +9,7 @@ The difficulty of the work items is assessed on a scale from 1 to 10 where
 
 We need an algorithm which converts the distributed *EventWorkspace* into
 a *MDHistoWorkspace* which can be held on a single machine. This would then
-be used as the input for the normalziation algorithms. A detailed explanation
+be used as the input for the normalization algorithms. A detailed explanation
 how to build this is presented [here](./how_to_implement_convert_to_md_histo.md).
 
 Difficulty: 8
@@ -32,23 +32,25 @@ Time estimate: There are several levels of difficulty here.
 2. Porting *ConvertToMD* functionality
 3. Validation
 
-  The first part is estimated to be 3 to 6 months. The second part is estimated to be 2 to 4 months. The third part is estimated to be 1 month. This adds up to 6 to 11 months.
+  The first part is estimated to be 3 to 6 months. The second part is estimated
+  to be 2 to 4 months. The third part is estimated to be 1 month.
+  This adds up to 6 to 11 months.
 
 ### Create a distributed SaveMD
 
-We need to ensure that saving does not go through only a single rank, but that
-we can do this entirely in parallel on a distributed *MDEventWorkspace*. This
-should be possible as outlined at the end of
- [this](../distributed_data_structures/simon_split.md) document.
+We need to ensure that saving does not go through only a single rank, but that we can do this entirely in parallel on a distributed *MDEventWorkspace*. This should be possible as outlined at the end of
+ [this](../distributed_data_structures/simon_split.md) document. At this point there are quite a few unknowns:
+* What is the underlying file system? Will it actually make sense to
+  perform a parallel write operation with this?
+* How well does MPI work with our files for writing?
 
 Difficulty: 9
 
-Time estimate: Parallel writing should be possible, but is an unknown
-               and we could expect 2 to 6 months.
+Time estimate: Since there are quite a few and important unknowns we can expect 4 to 8 months of effort for this feature.
 
 ## Mantid enhancement
 
-### Alternative input for MDNormSCD adn MDNormDirectSC
+### Alternative input for MDNormSCD and MDNormDirectSC
 These algorithms take an `MDEventWorkspace` as the input but convert it
 directly to `MDHistoWorkspace`. We have to allow for a direct input of `MDEventWorkspace`
 into these two algorithms.
@@ -57,15 +59,32 @@ Difficulty: 1
 Time estimate: Since we only forsee to change the algorithm to accept *MDHistoWorkspace*,
                we expect the time to be little. The estimate is between 1 to 2 days.
 
+### Make *IntegrateEllipsoids*, *FindSXPeaks* and *IntegrateSpherical* MPI-proof
+
+*IntegrateEllipsoids*, *FindSXPeaks* and *IntegrateSpherical* (which needs to be written; see below)
+need to be made compatible with MPI. The main issue here is that data which is on
+different ranks will contribute to a common peak. For some implementation suggestions, please
+see [here](./how_to_make_some_TOF_algs_MPI_compatible.md).
+
+Difficulty: 6
+
+Time estimate: Developing this scheme for *IntegrateEllipsoids* and *IntegrateSpherical* should
+               be easier than developing *FindSXPeaks* and we would estimate 1 to 2 months for
+               *IntegrateEllipsoids* and *IntegrateSpherical* together. The *FindSXPeaks* work
+               would be estimated to be 1 to 3 months.
+
 ### Spherical peak integration in TOF
 *IntegratePeaksMD* is the main algorithm for spherical peak integration,
 but it operates in Q space. We can port this to TOF. No direct instructions are
-provided since will mainly have to copy the mechanism established in
-*IntegreateEllipsoids*.
+provided since will mainly have to copy the mechanism established in *IntegrateEllipsoids*.
+Additionally we need to ensure that it is MPI compatible. However, this difficulty
+would have been dealt with already in *IntegrateEllipsoids*.
 
 Difficulty: 4
 
-Time estimate: We have something similar already in place for elliptical peaks. However comparing the new algorithm results with the old one might take some extra time. The estimate is between 2 to 4 weeks.
+Time estimate: We have something similar already in place for elliptical peaks.
+However comparing the new algorithm results with the old one might take some
+extra time. The estimate is between 2 to 4 weeks.
 
 ## Peformance optimizations
 
@@ -78,7 +97,7 @@ for instructions.
 Difficulty: 7
 
 Time estimate: It is not clear that the suggested optimizations work. Due to the
-               complexity fo the file-backed system, there could be subtle issues
+               complexity of the file-backed system, there could be subtle issues
                which we have not quite forseen. The estimate is between 1 to 2 months.
 
 ## Summarized work
@@ -87,7 +106,8 @@ Time estimate: It is not clear that the suggested optimizations work. Due to the
 |---------------------------------------|----------------------|-----------|
 | Write ConvertToMDVisualEventWorkspace | 6 to 11 months       | Very high |
 | Distributed SaveMD                    | 2 to 6 months        | Very high |
-| Performance BinMD                     | 1 to 2 months        | High      |
+| Performance BinMD                     | 1 to 2 months        | Medium    |
 | ConvertToMDHisto                      | 2 to 4 months        | High      |
 | Alternative Noramalization            | 1 to 2 days          | Medium    |
+| MPI_compat IntegrateEllipsoids etc    | 2 to 5 months        | Medium    |
 | Spherical Peaks in TOF                | 2 to 4 weeks         | Medium    |
