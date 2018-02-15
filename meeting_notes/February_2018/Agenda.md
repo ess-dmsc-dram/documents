@@ -31,8 +31,8 @@ Available all week except for Monday. I have been asked to talk about the ESS pr
 | ~~Project structure~~ | Owen   |  Thomas | Project management plans | 0.5 day | PM 15th |
 | ~~Instrument Plans~~ | Owen, Simon   |  Thomas | Long-term plan. What needs to be done on instruments. Questions raised by Thomas | 0.5 - 2hrs | AM 15th |
 | ~~Update estimates.xml~~ | Owen, Simon   | Thomas | Fresh estimates and updated 6-12 month plan | 0.5 - 1 hrs  | AM 15th |
-| Meet sponsors | Owen   |  Thomas | Meet with Debbie Greenfield and Tom Griffin | 1 hr | 11:00-12:00 15th |
-| Imaging Requirements | Owen/Thomas   |   | [flux normalisation](https://confluence.esss.lu.se/display/DAM/Imaging+-+Flux+normalisation), [calibration tools](https://confluence.esss.lu.se/display/DAM/Imaging+-+Calibration+tools) | 1 hr | 15th |
+| ~~Meet sponsors~~ | Owen   |  Thomas | Meet with Debbie Greenfield and Tom Griffin | 1 hr | 11:00-12:00 15th |
+| ~~Imaging Requirements~~ | Owen/Thomas   |   | [flux normalisation](https://confluence.esss.lu.se/display/DAM/Imaging+-+Flux+normalisation), [calibration tools](https://confluence.esss.lu.se/display/DAM/Imaging+-+Calibration+tools) | 1 hr | 15th |
 | Milestone Planning | Owen/Thomas | Simon | Thomas suggested this based on [this](https://confluence.esss.lu.se/display/DMSC/Overview+of+Milestones). Owen Arnold not familar with how this is done within the DMSC/ESS, so maybe best that Thomas leads the session. | 2 hrs? | PM 15th |
 | ~~Workspaces~~      | Simon | Simon, Lamar| Simon working on this | 3 hr | 14th 13:00 |
 
