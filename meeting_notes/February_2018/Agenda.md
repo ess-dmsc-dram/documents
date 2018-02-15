@@ -36,4 +36,28 @@ Available all week except for Monday. I have been asked to talk about the ESS pr
 | Milestone Planning | Owen/Thomas | Simon | Thomas suggested this based on [this](https://confluence.esss.lu.se/display/DMSC/Overview+of+Milestones). Owen Arnold not familar with how this is done within the DMSC/ESS, so maybe best that Thomas leads the session. | 2 hrs? | PM 15th |
 | ~~Workspaces~~      | Simon | Simon, Lamar| Simon working on this | 3 hr | 14th 13:00 |
 
+## Meeting Notes
 
+### Instrument 15th February 2018
+
+- Because we calculate the ComponentInfo on the base instrument, we can calculate the offset in makeLegacyParameter map without the need for the old Instrument tree itself.
+- Can we get rid of scaleX, scaleY from Rectangular detectors. It looks like we could just use the existing scale factors in ComponentInfo to support this.
+- Probably 1+ years of work to completely eliminate Instrument 1.0 from the codebase. The ESS can't justify the cost of this even though it is very desirable.
+- Nexus Geometry means NOT creating Instrument 1.0 as the starting point. How do we do things like Instrument Ray tracing? Two possible approaches:
+  1. Create Instrument 1.0 from Instrument 2.0 (easiest but essentially a HACK)
+  1. Port code using Instrument 1.0 usage to 2.0. How much time would it take? Would be a significant task just to establish how much effort this would take.
+
+### MD Distributed Data Reduction
+
+- Are tomography and imaging interested in this approach?
+- New kitware tool?
+
+### Instrument Teams
+
+- Use mcstas simulations as next phase for data reduction workflows. 
+- Organised meetings at DMSC, with instrument scientists in 2018. Should ask about how familiar they are with Mantid.
+- Need to establish where the current state of Mantid does not support their workflows. Missing Algorithms.
+- May need to address the instrument teams 1:1, i.e. at next IKON. Maybe in Lund if not at IKON.
+- Should make effort to understand Imaging requirements from Robin. ODIN should be a challenge.
+- Are the errors going to be sqrt of counts?
+- Imaging requirements (see Agenda) is already part of the discussion about normalising to monitors at the ESS.
