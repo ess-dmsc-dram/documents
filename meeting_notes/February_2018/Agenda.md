@@ -65,7 +65,7 @@ Available all week except for Monday. I have been asked to talk about the ESS pr
 
 ## Retrospective 
 
-Agreed points:
+ Images [here](retrospective_images). Agreed points below.
 
 ### Continue
 
