@@ -38,6 +38,15 @@ Available all week except for Monday. I have been asked to talk about the ESS pr
 
 ## Meeting Notes
 
+### MD support 13th and 14th of Februaru 2018
+
+* Meeting notes [13th of February](https://github.com/DMSC-Instrument-Data/documents/blob/master/investigations/MultiDimensionalInvestigation/requirements_and_discussions/meeting_notes_2018_02_13.md)
+* Meeting notes [14th of February](https://github.com/DMSC-Instrument-Data/documents/blob/master/investigations/MultiDimensionalInvestigation/requirements_and_discussions/meeting_notes_2018_02_14.md)
+
+
+
+
+
 ### Instrument 2.0, with Simon Heybrock and Lamar Moore, 15th February 2018
 
 - Because we calculate the ComponentInfo on the base instrument, we can calculate the offset in makeLegacyParameter map without the need for the old Instrument tree itself.
