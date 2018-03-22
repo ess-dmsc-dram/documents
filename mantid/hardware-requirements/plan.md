@@ -18,10 +18,46 @@ Furthermore, we need to provide access to such resources before an experiment su
 
 ### Script-based reduction
 
-Reduction of data based an a (Python) script.
+Reduction of data based on a (Python) script.
 This covers auto reduction and batch reduction.
 
-## Variables
+## What do we need
+
+### Baseline
+
+To establish a baseline, we need to survey the hardware used for data reduction at existing facilities using Mantid.
+This should include computers at beamlines, laptops and desktop PCs used by instrument scientists and users, and cluster hardware resources.
+
+### From instrument teams
+
+- A similar reduction workflow (in Mantid) at an operating facility (should be ISIS or SNS) that we can use for benchmarking.
+  - Could be several if the instrument has different operating modes.
+- Listing of build-out phases including, for each phase:
+  - Detector pixel counts.
+  - Estimated typical event rates (should be given depending on accelerator power).
+  - Typical length of a single run (single measurement for a given sample).
+    Could be given as wall clock time or as event count.
+- Other:
+  - Are there large event-mode monitors?
+    This is known to have caused issues at SNS.
+
+## Result presentation
+
+The results will depend on a number of variables.
+Presentation as a spreadsheet is probably most useful, but auxiliary documentation is required.
+
+### Required information
+
+Most likely a heterogenos pool of hardware suits our needs best
+The foll
+
+- Disk I/O.
+- CPU cores.
+- RAM.
+- Network.
+- Do we need SSDs?
+
+We need peaks and averages!
 
 - Instrument.
   - Pixel counts
@@ -51,24 +87,10 @@ This covers auto reduction and batch reduction.
   - training and skills of the users
   - UX
 
-## What do we need
-
-### Baseline
-
-To establish a baseline, we need to survey the hardware used for data reduction at existing facilities using Mantid.
-This should include computers at beamlines, laptops and desktop PCs used by instrument scientists and users, and cluster hardware resources.
-
-### From instrument teams
-
-- A similar reduction workflow (in Mantid) at an operating facility (should be ISIS or SNS) that we can use for benchmarking.
-- Listing of build-out phases including, for each phase:
-  - Detector pixel counts.
-  - Estimated typical event rates (should be given depending on accelerator power).
-- Monitors!?? Large event-mode monitors?
-
 ## Tasks
 
 1. Come up with some sort of questionnaire and run it by some friendly instrument scientist(s).
+   Probably it would be better to run everything as interviews, i.e., *we* fill in the questionnaire?
 2. Get an MPI build of Mantid running on the DMSC cluster.
 3. Nexus event file loading benchmarks on the cluster.
 4. Benchmarks of individual workflows.
