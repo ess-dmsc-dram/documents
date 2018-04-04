@@ -34,7 +34,10 @@ This should include computers at beamlines, laptops and desktop PCs used by inst
   - Could be several if the instrument has different operating modes.
 - Listing of build-out phases including, for each phase:
   - Detector pixel counts.
-  - Estimated typical event rates (should be given depending on accelerator power).
+  - Estimated typical event rates, should be given depending on:
+    - Accelerator power.
+    - Initial vs. "final" moderator.
+    - Detector build-out / coverage.
   - Typical length of a single run (single measurement for a given sample).
     Could be given as wall clock time or as event count.
 - Other:
