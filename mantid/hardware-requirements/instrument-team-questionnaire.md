@@ -30,3 +30,5 @@
 3. Can you think of anything else that is "unusual" at your instrument?
    - Example: Are there large event-mode monitors?
      This is known to have caused issues at SNS.
+
+4. What number of users (including instrument scientists) do you expect to work and login per day?
