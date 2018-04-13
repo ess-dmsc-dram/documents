@@ -130,3 +130,5 @@ Furthermore, the required hardware depends on:
    - Benchmarks of individual workflows.
      Hopefully not needed for all instruments in all details, can estimate based on similar workflows in some cases?
 3. Survey hardware used at ISIS and SNS for data reduction.
+4. Establish limits (event rate) of non-MPI reduction, in particular live reduction.
+   If we can (initially) run live reduction without MPI things become easier and requirements become easier to estimate.
