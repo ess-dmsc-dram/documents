@@ -45,3 +45,11 @@
   I found that the later parts with detailed case studies are not so useful.
   Also, in some cases things seem to be pushed slightly too far, so not everything should be followed blindly to the extreme.
   Nevertheless this is absolutely recommended.
+
+## Travel
+
+- Getting from London Heathrow to ISIS (Harwell Campus):
+  1. Take the Rail-Air from Heathrow to Reading (usually good WiFi on the bus).
+     If at terminal 5 you can buy tickets at the National Express counter (turn left after exiting the baggage claim area, counter is on your left).
+  2. Short train ride from Reading to Didcot Parkway.
+  3. Taxi to Harwell Campus (ISIS) reception.
