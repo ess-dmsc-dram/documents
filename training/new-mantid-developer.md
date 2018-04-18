@@ -10,8 +10,10 @@
 
 - The Mantid collaboration uses Slack for team communication, join `mantid.slack.com`.
   - In addition to the default channels, `#tech-qa` is useful for technical questions.
+  
+- There are several Mantid Training courses that we offer to users covering the UI, scripting and extending Mantid. For a new developer to the team [Mantid Basic Course](http://www.mantidproject.org/Mantid_Basic_Course) probably offers the best holistic introduction to Mantid.
 
-- Detailed information on developing for Mantid can be found on its [homepage](http://www.mantidproject.org/Main_Page), in particular the [development section](http://www.mantidproject.org/Category:Development).
+- Detailed information on developing for Mantid can be found on its [homepage](http://www.mantidproject.org/Main_Page), in particular the [development section](http://www.mantidproject.org/Category:Development). You should in particular read [Git Workflow](http://www.mantidproject.org/Git_Workflow) as it describes the complete process or adding features to Mantid.
 
 - DMSC is running two Ubuntu build servers for the collaboration, one of the is dedicated for performance tests.
   The servers running in the DST VM environment.
