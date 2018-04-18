@@ -36,6 +36,10 @@
 
 ## Resources
 
+- [Accelerated C++](https://www.amazon.co.uk/Accelerated-Practical-Programming-Example-Depth/dp/020170353X) for C++ refresher. Lacking more modern aspects of the language but a good foothold.
+
+- [C++ Common Knowldge](https://www.amazon.co.uk/Common-Knowledge-Essential-Intermediate-Programming/dp/0321321928) is a very easy read and has very good explanations for traps and useful language features. Focuses on C++03, but much of it still relevant.
+
 - [What every programmer should know about memory](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=2&cad=rja&uact=8&ved=0ahUKEwjn2cX1jcPaAhUQKlAKHSIpAGUQFggyMAE&url=https%3A%2F%2Fpeople.freebsd.org%2F~lstewart%2Farticles%2Fcpumemory.pdf&usg=AOvVaw3VY2lnCBaI-B57Dric65cb) is the bible for basic understanding of CPUs and making efficient use of their capabilities.
 
 - *Effective Modern C++* by Scott Meyers is an excellent resource for getting up to date with C++11 and C++14.
@@ -45,6 +49,8 @@
   I found that the later parts with detailed case studies are not so useful.
   Also, in some cases things seem to be pushed slightly too far, so not everything should be followed blindly to the extreme.
   Nevertheless this is absolutely recommended.
+  
+- Ask on slack, lots of developers very happy to help out and discuss things
 
 ## Travel
 
