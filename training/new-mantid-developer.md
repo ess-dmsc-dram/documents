@@ -54,8 +54,13 @@
 
 ## Travel
 
+### Harwell (ISIS)
+
 - Getting from London Heathrow to ISIS (Harwell Campus):
   1. Take the Rail-Air from Heathrow to Reading (usually good WiFi on the bus).
      If at terminal 5 you can buy tickets at the National Express counter (turn left after exiting the baggage claim area, counter is on your left).
   2. Short train ride from Reading to Didcot Parkway.
   3. Taxi to Harwell Campus (ISIS) reception.
+- Accomodation 
+  Onsite there is [Ridgeway House](https://stfc.ukri.org/about-us/where-we-work/rutherford-appleton-laboratory/ridgeway-house/) this is the most convenient for access to the lab. There is however very little within walking distance of the hotel, so many visitors stay in one of the surrounding villages or towns. Best to ask advice from the ISIS team prior to booking.
+ 
