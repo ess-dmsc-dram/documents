@@ -1,9 +1,8 @@
 ## Draft Agenda
 
 * Planning around MDWorkspace project for Dan Nixon (Everyone)
-  * Outputs of Anton's work
+  * Outputs of Anton's work (in particular gathered requirements).
   * Ideas for single, ordered `MDEventList`
-  * Parallel writing of MDEventWorkspace Nexus files (direct continuation of Anton's work)
 * EventList problem, few events (ESS SANS)
 * Hardware requirements (Simon/Lamar)
 * Onboarding new staff (Owen/Simon)
