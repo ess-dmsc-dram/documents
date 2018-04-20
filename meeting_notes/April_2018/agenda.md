@@ -5,6 +5,7 @@
   * Ideas for single, ordered `MDEventList`
 * EventList problem, few events (ESS SANS)
 * Hardware requirements (Simon/Lamar)
+  * What information has been gathered, which instruments, how have metrics been calculated, how can we reproduce?
 * Onboarding new staff (Owen/Simon)
   * Plan projects, quite a few staff joining this year!
   * Organise meetings
