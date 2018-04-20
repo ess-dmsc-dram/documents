@@ -12,6 +12,7 @@
 * Group Meetings (Possibly All)
   * coverage for key and related events IKON, Nobugs, etc thoroughout the year
 * Push forward Instrument questions template, probably won't get done unless we push for it. (Owen/Simon)
+* Retrospective (see previous notes)
 * Look at [Iteration 4](https://jira.esss.lu.se/secure/RapidBoard.jspa?rapidView=501&projectKey=DR&view=planning.nodetail). Decide what tracking approach would work best.
 * Discuss mantid reevaluation 
   
