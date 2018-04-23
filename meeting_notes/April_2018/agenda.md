@@ -37,7 +37,8 @@
 * Neutron training course [Lamar to add link]
 * Understand Peak and PeaksWorkspace and use that in the context of the Workspace redesign. 
  * Could you represent a PeaksWorkspace in Dataset?
- * How could `Peak` be rewritten to better represent the physics needed
+ * How could `Peak` be rewritten to better represent the physics needed?
+ * Convert the `InstrumentRayTracer` to use `ComponentInfo`/`DetectorInfo`
 
 ## General 
 * Generate a good understanding of crystallography within the team.
