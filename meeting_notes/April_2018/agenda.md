@@ -33,6 +33,12 @@
 * Need to have some way of slicing the bank to view individual detectors (already known)
 * Intensity of individual detectors would likely be very low
 
+## New Starter
+Neutron training course [Lamar to add link]
+
+## General 
+* Generate a good understanding of crystallography within the team.
+* Need to look at imaging and gather requirements as these feed into the hardware needs.
 
 
 
