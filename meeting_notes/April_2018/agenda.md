@@ -43,6 +43,7 @@
 ## General 
 * Generate a good understanding of crystallography within the team.
 * Need to look at imaging and gather requirements as these feed into the hardware needs.
+* [Template needs updating](https://confluence.esss.lu.se/display/DAM/Template+for+DMSC+page+in+instrument+wiki) propose titles for other groups (Owen Arnold)
 
 
 
