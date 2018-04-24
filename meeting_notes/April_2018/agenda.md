@@ -109,6 +109,29 @@ Two examples that are done or in progress:
 
 - How do we balance resources between implementing `Dataset`, changes that would be usable in both old and new way, and changes that would becomes wasted if we transition to using `Dataset`?
   - Do a risk analysis.
+  
+- How does `Dataset` (and the rollout ideas discussed above) address or not address the items discussed in https://confluence.esss.lu.se/pages/viewpage.action?pageId=262417179?
+  1. 
+     - Better Python support.
+     - Should be reducing complexity by having fewer algorithms and simpler operations.
+     - Big question: How can we have algorithms for `MatrixWorkspace` and `Dataset` in parallel in the GUI without confusing users?
+  2.
+     - Item for core team work has already been prioritized by PMB.
+     - Current workspace type system not suitable for all science, Mantid has outgrown workspace type system.
+       Should be possible to get support.
+  3. See item 2.), but in principle problem may remain, unless core team actually gets resourced.
+  4. We are proposing an incremental change.
+     New code woulde slowly reach the point where more and more workflows can be supported.
+     However, ultimately there would be a breaking change or decision to not use algorithms based on old workspaces types anymore.
+  5. Will need to rewrite or refactor all basic algorithms to support `Dataset` as well as proving a better and more modular toolbox.
+  6. Unchanged.
+  7. How can we make sure that `Dataset` gets used, even before we reach to point of supporting the first "100" core algorithms and all important widgets?
+     - Workflows with many small files but multiple periods could benefit.
+     - Reactor sources (fixed wavelength workspaces).
+     - Find power users willing to work with basic `Dataset` without a lot of supporting algorithms, i.e., mainly based on lower-level Python scripts.
+     - Is development guided by and (partially) tested against existing algorithms and workflows sufficiently close to testing/running in production?
+     - We just change the workspace, but a lot of other components like instrument and meta-data handling would be unchanged.
+       That is, we should not compare the proposed changes to anything like a development from scratch.
 
 ## Harware Requirements for Live Reduction
 ### Main Task
