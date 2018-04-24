@@ -15,6 +15,7 @@
 * Retrospective (see previous notes)
 * Look at [Iteration 4](https://jira.esss.lu.se/secure/RapidBoard.jspa?rapidView=501&projectKey=DR&view=planning.nodetail). Decide what tracking approach would work best.
 * Discuss mantid reevaluation 
+* Workspace 2.0 rollout
 
 ## Plan for work for Dan
 
