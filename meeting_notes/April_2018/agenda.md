@@ -47,8 +47,8 @@
 * [Template needs updating](https://confluence.esss.lu.se/display/DAM/Template+for+DMSC+page+in+instrument+wiki) propose titles for other groups (Owen Arnold)
 
 
-# Harware Requirements for Live Reduction
-## Main Task
+## Harware Requirements for Live Reduction
+### Main Task
 * Lamar actioned to carry out this task
 * Main question to be answered is how far we can push the live reduction (in terms of data rate) before we need MPI
 * Pay attention to the following:
@@ -59,7 +59,7 @@
 * The idea is to start with skeleton reduction scripts which mimic each of the SANS, Powder Reduction and Inelastic reduction scripts. These will include the basic algorithms which are used.
 * The complexity will be incrementally updated to match real workflows
 
-## Background Task for general Hardware requirements
+### Background Task for general Hardware requirements
 * Talk to developers in various technique areas as first port of call about hardware used on beamline:
  * Number of beamline computers and/or hardware configurations (clusters, VMs, Nomachine etc.)
  * Laptops and other remote sessions available to users.
