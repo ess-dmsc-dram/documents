@@ -83,3 +83,12 @@ Two examples that are done or in progress:
   - Provide conversion from `Workspace2D` and `EventWorkspace` to `Dataset`.
     This implies that we can use important algorithms like `LoadEventNexus`.
 - Can we provide roadmap with intermediate tangible deliverables, such that we can motivate this for PMB and other facilities?
+- Lessons learned from `HistogramData` and Instrument-2.0 (see above):
+  - Philosophy: If it needs to be different from how it works currently, we will not bend to make it compatible with how things work currently in Mantid.
+  - Will not attempt to do a full rollout.
+    Only support/port what we need (*not* 900 algorithms).
+- Stages:
+  1. Implement `Dataset` with basic operations, Python support, and converters from existing workspaces to `Dataset`.
+     Probably useful for people doing scripting and just want to use Mantid for loading their data?
+  1. Support in basic widgets like `InstrumentView`.
+  1. 
