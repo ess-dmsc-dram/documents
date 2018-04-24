@@ -75,6 +75,11 @@ Two examples that are done or in progress:
   - Rollout the replace `MatrixWorkspace` everywhere is completely unrealistic and undesireable.
     If we intented to do a rollout it would probably influence the design of Workspace-2.0 negatively, since a lot of compromises would be required.
   - Target less used workspace types and workspaces that currently piggyback on `MatrixWorkspace`.
+    - Constant-wavelength (reactor) workspaces.
+    - `TableWorkspace`.
+    - `MaskWorkspace`, etc.?
   - Provide alternative to `Workspace2D` and `EventWorkspace` as well as alternative algorithms.
+    - Need to establish early on that this is possible and does not have performance issues.
   - Provide conversion from `Workspace2D` and `EventWorkspace` to `Dataset`.
     This implies that we can use important algorithms like `LoadEventNexus`.
+- Can we provide roadmap with intermediate tangible deliverables, such that we can motivate this for PMB and other facilities?
