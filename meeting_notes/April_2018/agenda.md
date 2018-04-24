@@ -60,8 +60,21 @@ Two examples that are done or in progress:
 2. Instrument-2.0
    - From the beginning we said that it is too much effort for ESS to carry out alone.
      - Nevertheless we did (apart from small contributions by others).
-   - Not complete:
+   - Not complete, despite having spent more ESS effort than planned:
      - Using old file format (converting back and forth when loading and saving).
      - `ParameterMap` still used.
      - Ray tracing, `Peak`, and `PeaksWorkspace` still used old instrument tree.
    - Majority of effort spent on integration with existing codebase and refactoring old code.
+   
+- How can we make the result better?
+  How can use ESS effort more efficiently?
+  - Rollout to algorithms of `HistogramData` and Instrument-2.0 maybe not necessary to full extent?
+    Could have done a partial rollout (old interface are still in use anyway).
+
+- `Dataset` rollout?
+  - Rollout the replace `MatrixWorkspace` everywhere is completely unrealistic and undesireable.
+    If we intented to do a rollout it would probably influence the design of Workspace-2.0 negatively, since a lot of compromises would be required.
+  - Target less used workspace types and workspaces that currently piggyback on `MatrixWorkspace`.
+  - Provide alternative to `Workspace2D` and `EventWorkspace` as well as alternative algorithms.
+  - Provide conversion from `Workspace2D` and `EventWorkspace` to `Dataset`.
+    This implies that we can use important algorithms like `LoadEventNexus`.
