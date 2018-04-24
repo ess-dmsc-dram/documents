@@ -46,23 +46,22 @@
 * Need to look at imaging and gather requirements as these feed into the hardware needs.
 * [Template needs updating](https://confluence.esss.lu.se/display/DAM/Template+for+DMSC+page+in+instrument+wiki) propose titles for other groups (Owen Arnold)
 
+## Workspace-2.0 (Dataset) rollout and ESS-Mantid strategy
 
-## Harware Requirements for Live Reduction
-### Main Task
-* Lamar actioned to carry out this task
-* Main question to be answered is how far we can push the live reduction (in terms of data rate) before we need MPI
-* Pay attention to the following:
- * Instrument View (usability, responsiveness) in the absence of any processing step
- * Processing live reduction scripts.
- * Combination
- * Test with and without multi-threading, make note of any scaling presented by threading.
-* The idea is to start with skeleton reduction scripts which mimic each of the SANS, Powder Reduction and Inelastic reduction scripts. These will include the basic algorithms which are used.
-* The complexity will be incrementally updated to match real workflows
-
-### Background Task for general Hardware requirements
-* Talk to developers in various technique areas as first port of call about hardware used on beamline:
- * Number of beamline computers and/or hardware configurations (clusters, VMs, Nomachine etc.)
- * Laptops and other remote sessions available to users.
- * Computer hardware used for reduction in offices.
- * Any other resources.
-
+Two examples that are done or in progress:
+1. `HistogramData`
+   - A lot of effort, but big part also carried by team as maintenance effort.
+   - Did not have the positive effect we had hoped for?
+     Design heavily influenced by fitting the current way `Workspace2D` works.
+     - `Workspace2D` not used for histograms.
+     - New interface equivalent to old interface allowed for 1:1 change.
+     - COW mechanism made interface complicated.
+     - ...
+2. Instrument-2.0
+   - From the beginning we said that it is too much effort for ESS to carry out alone.
+     - Nevertheless we did (apart from small contributions by others).
+   - Not complete:
+     - Using old file format (converting back and forth when loading and saving).
+     - `ParameterMap` still used.
+     - Ray tracing, `Peak`, and `PeaksWorkspace` still used old instrument tree.
+   - Majority of effort spent on integration with existing codebase and refactoring old code.
