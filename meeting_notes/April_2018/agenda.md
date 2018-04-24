@@ -65,7 +65,7 @@ Two examples that are done or in progress:
      - `ParameterMap` still used.
      - Ray tracing, `Peak`, and `PeaksWorkspace` still used old instrument tree.
    - Majority of effort spent on integration with existing codebase and refactoring old code.
-   
+
 - How can we make the result better?
   How can use ESS effort more efficiently?
   - Rollout to algorithms of `HistogramData` and Instrument-2.0 maybe not necessary to full extent?
@@ -90,5 +90,22 @@ Two examples that are done or in progress:
 - Stages:
   1. Implement `Dataset` with basic operations, Python support, and converters from existing workspaces to `Dataset`.
      Probably useful for people doing scripting and just want to use Mantid for loading their data?
+  1. Loading and saving `Dataset` (NeXus?).
   1. Support in basic widgets like `InstrumentView`.
-  1. 
+     - Widget to visually inspect arbitrary datasets (arbitrary number of dimensions, arbitrary variables).
+  1. Replace less used workspace types and provide new workspace types.
+     - Need ADS integration and algorithm support.
+     - Adding support for `Dataset` in existing algorithms may not be desirable.
+       Need new algorithms with potentially the same name, select right variant based in input (workspace vs. `Dataset`), similar to how the `Load` dialog changes and calls different algorithms depending on the type of the input workspace.
+- Can we realistically reach the point where we can support all ESS workflows based on `Dataset` and algorithm that support it?
+  Will we be able to do so by the time we start writing ESS reduction workflows, or would we be forced to do so based on `MatrixWorkspace` first?
+  - Do we need to support *all* existing widgets, including `mslice`, etc.?
+  - Plotting support.
+  - Basic algorithm toolbox.
+  - Diffifult to estimate effort for algorithms based on what we see currently (different implementations, too high-level non-generic algorithms).
+    Go with bottom-up approach:
+    - Compose list of basic elementary algorithms.
+    - Estimate how these can map to existing algorithm, how existing algorithm are split into multiple, or merged into a single one.
+
+- How do we balance resources between implementing `Dataset`, changes that would be usable in both old and new way, and changes that would becomes wasted if we transition to using `Dataset`?
+  - Do a risk analysis.
