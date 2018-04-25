@@ -152,3 +152,27 @@ Two examples that are done or in progress:
  * Laptops and other remote sessions available to users.
  * Computer hardware used for reduction in offices.
  * Any other resources.
+
+## Retrospective
+
+### Start Doing 
+
+* Informal chats at ISIS. Include Dan in with this.
+* With more data reduction people might make sense to to do every other week as the DR group meeting separate from the DA group meeting.
+
+### Stop Doing 
+
+* Try to keep on topic. Avoid irrelevant noise.
+
+### Continue 
+
+- Good to continue every day
+- Ensure that longer discussions happen offline
+- Keep timings of meetings
+- Doing on a need to meet basis
+
+## Changes to Project Execution
+
+* Backlog grooming agreed. Every 3 weeks.
+* 4 column kanban board
+* Done items pushed into "Release"
