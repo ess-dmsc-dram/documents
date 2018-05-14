@@ -11,4 +11,8 @@
 ## Exposing Info Layers to Python
 * Read working with Instrument Access Layers (TODO link needed)
 
-## Long-term Project
+## Long-term Project (Ideas)
+
+* Removing MRU list from EventList
+* Writing nexus geometry files
+* Assisting with requirements gathering for Hardware specifications?
