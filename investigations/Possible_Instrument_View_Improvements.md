@@ -1,4 +1,9 @@
-# Investigation of Performance Bottlenecks in the Instrument View.
+# Technical Report: Investigation of Performance Bottlenecks in the Instrument View.
+
+### Author: Lamar Moore
+### Date: 23/08/2017
+
+## Introduction
 This document outlines the performance bottlenecks in the instrument view loading which are a direct result of Instrument 1.0 geometry access. Tests were carried out using the Microsoft Visual Studio debugger and profiling tools in conjunction with `Callgrind` on Linux which provided information on which Instrument 1.0 methods are most heavily used when interacting with the instrument view. The instrumentation was taken for the duration of the creation of the `InstrumentWidget`.
 
 ## Findings
