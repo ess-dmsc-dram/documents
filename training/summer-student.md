@@ -1,5 +1,6 @@
 ## Induction ~1 week
 
+* **Health and Safety Display Screen Equipment (Online Training)** - follow [this](https://staff.she.stfc.ac.uk/Pages/Staff/On-line-training.aspx) link
 * Set up PC
 * Read Mantid Induction training Course and Mantid in python course
   * [Mantid Introductory Course](http://www.mantidproject.org/Mantid_Basic_Course)
