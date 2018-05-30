@@ -31,4 +31,16 @@
    - Example: Are there large event-mode monitors?
      This is known to have caused issues at SNS.
 
-4. What number of users (including instrument scientists) do you expect to work and login per day?
+4. What number of users (including instrument scientists) do you expect to work and login per day to use the remote-desktop service?
+
+5. Is it essential that remote-desktop sessions can be suspended and resumed?
+   - Yes (workflow similar to closing and reopening your laptop lid):
+     - For how long after the experiment would this be required?
+       [ ] 1 day
+       [ ] 1 week
+       [ ] other
+   - No (workflow similar to shutting down and rebooting your laptop):
+     - What is an acceptable boot time?
+       [ ] < 10 s
+       [ ] < 1 min
+       [ ] < 5 min
