@@ -19,7 +19,10 @@
   
 ## Improving code quality
 * pick up maintenance issues from backlog. Not necessarily in this order:
+  * https://github.com/mantidproject/mantid/issues/15284
   * https://github.com/mantidproject/mantid/issues/17927
+  * https://github.com/mantidproject/mantid/issues/12994
+  * https://github.com/mantidproject/mantid/issues/15267
   * https://github.com/mantidproject/mantid/issues/17372
   * https://github.com/mantidproject/mantid/issues/18937
 * Assist with new workbench rollout
