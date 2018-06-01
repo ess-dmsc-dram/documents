@@ -2,9 +2,9 @@
 
 ## Developers
 
-- Lamar Moore (ISIS in-kind)
-- Owen Arnold (ISIS in-kind)
-- Simon Heybrock (ESS/DMSC)
+- Lamar Moore (ISIS in-kind, primarily Windows user)
+- Owen Arnold (ISIS in-kind, primarily OSX user)
+- Simon Heybrock (ESS/DMSC, primarily Linux user)
 
 ## General
 
