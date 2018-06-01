@@ -19,6 +19,7 @@
   
 ## Improving code quality
 * pick up maintenance issues from backlog
+* Assist with new workbench rollout
 
 ## Exposing Info Layers to Python
 * Read working with [Instrument Access Layers](http://docs.mantidproject.org/nightly/concepts/InstrumentAccessLayers.html)
