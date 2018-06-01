@@ -18,7 +18,10 @@
   * [MSVC 2017 Community Edition IDE](https://www.visualstudio.com/downloads/)
   
 ## Improving code quality
-* pick up maintenance issues from backlog
+* pick up maintenance issues from backlog. Not necessarily in this order:
+  * https://github.com/mantidproject/mantid/issues/17927
+  * https://github.com/mantidproject/mantid/issues/17372
+  * https://github.com/mantidproject/mantid/issues/18937
 * Assist with new workbench rollout
 
 ## Exposing Info Layers to Python
@@ -28,6 +31,7 @@
 
 ## Long-term Project (Ideas)
 
+* Port InstrumentRayTracer to work directly with "Instrument2.0", `ComponentInfo` etc. i.e have no dependance on `Instrument` type.
 * Removing MRU list from EventList
 * Writing nexus geometry files
 * Assisting with requirements gathering for Hardware specifications?
