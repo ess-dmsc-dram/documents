@@ -5,6 +5,7 @@ mantid-build02 | -                           | old attempt to get other OS (Wind
 mantid-build03 | -                           | old attempt to get other OS (Windows?) build server running?
 mantid-build04 | ess-ubuntu-builder-1        |
 mantid-build05 | -                           | old attempt to get other OS (OSX?) build server running?
+mantid-build06 | ess-ubuntu-builder-2        |
 
 ssh config to reach builder servers from within DMSC:
 
