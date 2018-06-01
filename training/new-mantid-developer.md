@@ -6,6 +6,8 @@
 - Owen Arnold (ISIS in-kind, primarily OSX user)
 - Simon Heybrock (ESS/DMSC, primarily Linux user)
 
+Our Kanban board can be found on [Confluence](https://jira.esss.lu.se/secure/RapidBoard.jspa?rapidView=355&projectKey=DR).
+
 ## General
 
 - The Mantid collaboration uses Slack for team communication, join `mantid.slack.com`.
