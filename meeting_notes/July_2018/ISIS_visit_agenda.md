@@ -4,7 +4,7 @@
   * New plan to include new staff if possible
   * Check plan over with Jon Taylor
 * Instrument Team Requirements
-  * Imaging [sine2020](https://github.com/DanNixon/documents/blob/8f3abf8cbc951a23e1d3eeeec0285c039cded9ed/meeting_notes/June_2018_Italy/imaging_questions.md)
+  * Imaging [sine2020](https://github.com/DMSC-Instrument-Data/documents/blob/8f3abf8cbc951a23e1d3eeeec0285c039cded9ed/meeting_notes/June_2018_Italy/imaging_questions.md)
 * Workspace2
 * Hardware Requirements 
 * Other Core Team Discussions
