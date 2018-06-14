@@ -9,9 +9,27 @@
 * Hardware Requirements 
 * Other Core Team Discussions
 * How to continue MD Work? should have Dan Nixon involved for this
+* The DAaaS Model - this has wider scope than Data Reduction. Should be discussed with Jon. For detailed discussion would need to involve SCD
+* Crystallography
 
 ## Other Activities 
 
 * ISIS Tour
 * Meet ISIS Mantid Dev Team
 * Meet ISIS IBEX Dev Team
+
+## Room Bookings
+
+### 2rd July
+CR 24 10:00 - 18:00
+
+### 3rd July
+
+* CR 22 08:00 - 11:00
+* CR 24 11:00 - 18:00
+
+### 4th July
+CR 11 08:00 - 15:00
+
+
+
