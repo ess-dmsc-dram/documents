@@ -16,8 +16,13 @@ WISH (10 panel)|778'245
 ### Results
 ![Trend1](figure_1.png)
 
-The figure above shows the trend in event rate versus message consumption rate. The live listener GUI timeout was set to one second. SANS2D was able to maintain a 23Hz consumption rate at 10<sup>7</sup> event rate with a 1 second refresh rate of the live listener. Enabling the instrument view for inspection did not seem to affect the message consumption rate for any of the instruments. Both MERLIN and WISH were unable to support rates of 10<sup>7</sup> with consumption rates of 7Hz and 3hz respectively. At 10<sup>6</sup>, MERLIN consumed Kafka messages at a rate of 93Hz and WISH at 38Hz.
+The figure above shows the trend in event rate versus message consumption rate. The `MonitorLiveData` timeout was set to one second. SANS2D was able to maintain a 23Hz consumption rate at 10<sup>7</sup> event rate with a 1 second refresh rate of the live listener. Enabling the instrument view for inspection did not seem to affect the message consumption rate for any of the instruments. Both MERLIN and WISH were unable to support rates of 10<sup>7</sup> with consumption rates of 7Hz and 3hz respectively. At 10<sup>6</sup>, MERLIN consumed Kafka messages at a rate of 93Hz and WISH at 38Hz.
 
 ![Trend2](figure_2.png)
 
-The above figure shows that increasing the gui timeout can result in a slight improvement in performance. This is however very limited and efforts to improve the listener design for performance should not depend too heavily on this.
+The above figure shows that increasing the `MonitorLiveData` timeout can result in a slight improvement in performance. This is however very limited and efforts to improve the listener design for performance should not depend too heavily on this.
+
+## Effects of Live Processing
+
+### Rebin
+Running the `Rebin` algorithm on a chunk-by-chunk basis seems to have no deleterious effects on rates. 
