@@ -25,4 +25,23 @@ The above figure shows that increasing the `MonitorLiveData` timeout can result 
 ## Effects of Live Processing
 
 ### Rebin
-Running the `Rebin` algorithm on a chunk-by-chunk basis seems to have no deleterious effects on rates. 
+#### Effects of Bin Size
+Running the `Rebin` algorithm on a chunk-by-chunk basis seems to have no deleterious effects on rates when running in event mode. When adding events and rebinning to histograms discarding events (e.g the code snippet below for clarity):
+
+```
+StartLiveData(Instrument='Sans2D', OutputWorkspace='SANS_Live',
+              FromNow=False, FromStartOfRun=True, Listener='KafkaLiveLister',
+              Address='localhost:9092', UpdateEver=3,
+              ProcessingAlgorithm='Rebin',
+              ProcessingProperties='PreserveEvents=0;Params1,1000,100006',
+              AccumulationMethod='Add', PreserveEvents=False,
+              RunTransitionBehaviour='Stop')
+```
+
+increasing the number of bins hugely impacts performance. For SANS2D at ~10<sup>6</sup>Hz, performance dropped from **120Hz** (messages/s) at 100 bins to **38Hz** at 10000 bins. With `AccumulationMethod=Replace` the performance decreases to **40Hz**.   
+
+#### Effects of Timeout
+Increasing the `MonitorLiveData` timeout naturally increases the memory overhead, however it does not seem to have any noticeable effect on performance.
+
+#### Note on Using Instrument View in Histogram Mode
+Whilst in histogram mode as described in the above section, heavy use of the instrument view (picking, instrument manipulation etc), resulted in performance dropping from **120** to **100Hz** with 100 bins.
