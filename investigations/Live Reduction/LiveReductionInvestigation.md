@@ -49,19 +49,25 @@ When adding events and rebinning to histograms discarding events (e.g the code s
 ```python
 StartLiveData(Instrument='Sans2D', OutputWorkspace='SANS_Live',
               FromNow=False, FromStartOfRun=True, Listener='KafkaLiveLister',
-              Address='localhost:9092', UpdateEver=3,
+              Address='localhost:9092', UpdateEvery=3,
               ProcessingAlgorithm='Rebin',
-              ProcessingProperties='PreserveEvents=0;Params1,1000,100006',
+              ProcessingProperties='PreserveEvents=0;Params=1,1000,100006',
               AccumulationMethod='Add', PreserveEvents=False,
               RunTransitionBehaviour='Stop')
 ```
 
 increasing the number of bins hugely impacts performance. 
-For SANS2D at ~10<sup>6</sup>Hz, performance dropped from **120Hz** (messages/s) at 100 bins to **38Hz** at 10000 bins. 
+For SANS2D at ~10<sup>6</sup>Hz, performance dropped from **120Hz** (messages/s) at 100 bins, to **100Hz** at 1000 bins and finally **38Hz** at 10000 bins. 
 With `AccumulationMethod=Replace` the performance decreases to **40Hz**.   
 
 #### Effects of Timeout
 Increasing the `MonitorLiveData` timeout naturally increases the memory overhead, however it does not seem to have any noticeable effect on performance.
 
+#### Effects of Available Cores
+
+Rebin itself scales linearly with the number of available cores (until after hyperthreading where gains are minimal).
+There does not seem to be any interference with the decoder thread even when the number of cores is set to the maximum number available on the machine which suggests there may be some room to improve performance in the decoder itself.
+A simple modification of sorting the events by detectorID in the decoder before adding to event lists boosted speeds from **120Hz** to **155Hz**
+
 #### Note on Using Instrument View in Histogram Mode
-Whilst in histogram mode as described in the above section, heavy use of the instrument view (picking, instrument manipulation etc), resulted in performance dropping from **120** to **100Hz** with 100 bins.
+Whilst in histogram mode as described in the above section, heavy use of the instrument view (picking, instrument manipulation etc), resulted in performance dropping from **120Hz** to **100Hz** with 100 bins.
