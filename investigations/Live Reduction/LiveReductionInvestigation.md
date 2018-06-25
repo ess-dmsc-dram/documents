@@ -18,6 +18,8 @@ Three instruments with varying numbers of detectors were chosen for this investi
 Due, to the limitations of the current implementation of the `main_nexusPublisher` we were restricted to using ISIS nexus files. 
 The selected instruments were:
 
+**Table 1: Selected instruments and their corresponding pixel count**
+
 Instrument|Number of Detectors
 ---|---
 SANS2D|122'888
@@ -25,6 +27,14 @@ MERLIN|286'729
 WISH (10 panel)|778'245
 
 ### Results
+**Table 2: Event rate versus message consumption rate for each instrument**
+
+Event Rate|SANS2D|MERLIN|WISH
+:-:|--:|--:|--:
+10<sup>5</sup>Hz|1379Hz|915Hz|400Hz
+10<sup>6</sup>Hz|284Hz|93Hz|38Hz
+10<sup>7</sup>Hz|23Hz|8Hz|3Hz
+
 ![Trend1](figure_1.png)
 
 The figure above shows the trend in event rate versus message consumption rate. 
@@ -33,6 +43,15 @@ SANS2D was able to maintain a 23Hz consumption rate at 10<sup>7</sup> event rate
 Enabling the instrument view for inspection did not seem to affect the message consumption rate for any of the instruments. 
 Both MERLIN and WISH were unable to support rates of 10<sup>7</sup> with consumption rates of 7Hz and 3hz respectively. 
 At 10<sup>6</sup>, MERLIN consumed Kafka messages at a rate of 93Hz and WISH at 38Hz.
+
+**Table 3: Effect of `MonitorLiveData` refresh rate on message consumption rate where the event rate is fixed at 10<sup>7</sup>Hz**
+
+Timeout (seconds)|MERLIN|WISH
+--:|--:|--:
+1|8Hz|3Hz 
+30|11Hz|7Hz
+60|11Hz|8Hz
+180|11Hz|8Hz
 
 ![Trend2](figure_2.png)
 
