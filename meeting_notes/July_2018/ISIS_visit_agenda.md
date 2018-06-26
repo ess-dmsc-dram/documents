@@ -11,6 +11,7 @@
 
 * Instrument Team Requirements
   * Imaging [sine2020](https://github.com/DMSC-Instrument-Data/documents/blob/8f3abf8cbc951a23e1d3eeeec0285c039cded9ed/meeting_notes/June_2018_Italy/imaging_questions.md)
+  * Engineering [Beer](https://indico.esss.lu.se/event/1023/)
   
 ### Workspace2
 * Overview of Type Erasure (best design so far)
