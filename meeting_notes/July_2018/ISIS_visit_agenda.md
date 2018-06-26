@@ -47,5 +47,8 @@ CR 24 10:00 - 18:00
 ### 4th July
 CR 11 08:00 - 15:00
 
+## Dinner
+Would depend on where everyone ends up staying, but Tuesday evening is reserved for this.
+
 
 
