@@ -27,7 +27,7 @@
 * The [DAaaS](https://github.com/DMSC-Instrument-Data/documents/blob/master/meeting_notes/May_2018/DAaaS.md) Model - this has wider scope than Data Reduction. Should be discussed with Jon. For detailed discussion would need to involve SXD 
 
 ### Mantid Workbench
-[TODO] will probably involve Martyn and Nick Draper in this.
+Martyn to lead discussion on this
 
 ### Crystallography
 * Discuss a shared resource pool (Sam will be absent). General agreement within SXD dev teams that concept development would be very useful and is badly lacking in Mantid.
@@ -46,7 +46,7 @@ CR 24 10:00 - 18:00
 
 ### 3rd July
 
-* CR 22 08:00 - 11:00
+* CR 22 08:00 - 11:00 (Mantid Workbench)
 * CR 24 11:00 - 18:00
 
 ### 4th July
