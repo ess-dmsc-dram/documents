@@ -17,8 +17,8 @@
 * Discuss roadmap to complete design and get in front of PMB for resourcing
 
 ### Hardware Requirements 
-* Probably best led by Simon and Lamar
-* The DAaaS Model - this has wider scope than Data Reduction. Should be discussed with Jon. For detailed discussion would need to involve SCD
+* Live Data measurements (Lamar)
+* The [DAaaS](https://github.com/DMSC-Instrument-Data/documents/blob/master/meeting_notes/May_2018/DAaaS.md) Model - this has wider scope than Data Reduction. Should be discussed with Jon. For detailed discussion would need to involve SCD 
 
 ### Mantid Workbench
 [TODO] will probably involve Martyn and Nick Draper in this.
