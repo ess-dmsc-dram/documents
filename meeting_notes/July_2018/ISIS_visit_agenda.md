@@ -4,6 +4,11 @@
 * Overview by Dan Nixon 
 * How to continue resourcing this. PACE crossover etc. MD Work? 
 
+### Tours (mainly for Neil)
+* Tour of ISIS
+* ISIS SANS demo with Matthew 
+* ISIS Reflectometry demo with Gemma 
+
 ### Planning
 * Look at [plan](https://docs.google.com/spreadsheets/d/16z5WiGysXqssw5GFhP05LpfEnmoU-sBeT-HiZSGOzAA/edit#gid=669025093) with Jon Taylor
   * New plan to include new staff if possible
