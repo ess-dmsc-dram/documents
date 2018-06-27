@@ -90,3 +90,19 @@ A simple modification of sorting the events by detectorID in the decoder before 
 
 #### Note on Using Instrument View in Histogram Mode
 Whilst in histogram mode as described in the above section, heavy use of the instrument view (picking, instrument manipulation etc), resulted in performance dropping from **120Hz** to **100Hz** with 100 bins.
+
+#### Test Optimization
+
+The table below shows the effects of introducing multi-threading to the eventlist population. 
+The event data is first sorted by `spectrum index` and ranges which contain duplicate spectrum numbers are grouped, these ranges are then used in conjunction with OMP threads to populate the event lists asynchronously.
+
+**Table 4: Effects of Introducing Multi-threading to decoder EventList population.**
+Number of OMP Threads|SANS2D (3s timeout)|WISH (60s timeout)
+--:|--:|--:
+1 (No TBB Sort)|119Hz|9Hz 
+1|170Hz|11Hz
+2|211Hz|13Hz
+4|264Hz|15Hz
+8|269Hz|14Hz
+12|278Hz|15Hz
+20|293Hz|15Hz
