@@ -1,13 +1,13 @@
 ## Discussions
 
 ### MD Work
-* Overview by Dan Nixon 
+* Overview by Dan Nixon (Monday afternoon)
 * How to continue resourcing this. PACE crossover etc. MD Work? 
 
 ### Tours (mainly for Neil)
-* Tour of ISIS
-* ISIS SANS demo with Matthew 
-* ISIS Reflectometry demo with Gemma 
+* Tour of ISIS (Wednesday 10:15)
+* ISIS SANS demo with Matthew (Monday afternoon)
+* ISIS Reflectometry demo with Gemma (Monday afternoon)
 
 ### Planning
 * Look at [plan](https://docs.google.com/spreadsheets/d/16z5WiGysXqssw5GFhP05LpfEnmoU-sBeT-HiZSGOzAA/edit#gid=669025093) with Jon Taylor
@@ -51,6 +51,7 @@ CR 24 10:00 - 18:00
 
 ### 4th July
 CR 11 08:00 - 15:00
+TOUR with Freddie 10:15-11:00
 
 ## Dinner
 Would depend on where everyone ends up staying, but Tuesday evening is reserved for this.
