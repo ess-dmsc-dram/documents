@@ -97,6 +97,7 @@ The table below shows the effects of introducing multi-threading to the eventlis
 The event data is first sorted by `spectrum index` and ranges which contain duplicate spectrum numbers are grouped, these ranges are then used in conjunction with OMP threads to populate the event lists asynchronously.
 
 **Table 4: Effects of Introducing Multi-threading to decoder EventList population.**
+
 Number of OMP Threads|SANS2D (3s timeout)|WISH (60s timeout)
 --:|--:|--:
 1 (No TBB Sort)|119Hz|9Hz 
