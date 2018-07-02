@@ -40,7 +40,7 @@ Martyn to lead discussion on this
 * The [DAaaS](https://github.com/DMSC-Instrument-Data/documents/blob/master/meeting_notes/May_2018/DAaaS.md) Model - this has wider scope than Data Reduction. Should be discussed with Jon. For detailed discussion would need to involve SXD 
 
 #### Dinner
-Would depend on where everyone ends up staying, but Tuesday evening is reserved for this.
+The Wheatsheaf Inn, East Hendred, 6pm
 
 ### Wednesday 4th July
 CR 11 08:00 - 15:00
