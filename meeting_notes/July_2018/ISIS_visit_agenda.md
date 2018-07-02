@@ -4,7 +4,7 @@
 CR 24 10:00 - 18:00
 
 #### Hardware Requirements 
-* Live Data measurements (Lamar)
+* [Live Data measurements](https://github.com/DMSC-Instrument-Data/documents/blob/34b89eef0a9d064c6f0bb4746365ba3ed104d7ca/investigations/Live%20Reduction/LiveReductionInvestigation.md) and [PR](https://github.com/mantidproject/mantid/pull/22691) (Lamar)
 
 #### Instrument Team Requirements
   * Imaging [sine2020](https://github.com/DMSC-Instrument-Data/documents/blob/8f3abf8cbc951a23e1d3eeeec0285c039cded9ed/meeting_notes/June_2018_Italy/imaging_questions.md)
