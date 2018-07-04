@@ -62,6 +62,10 @@ Martyn to lead discussion on this. Slides [here](https://docs.google.com/present
 * Overview by Dan Nixon 
 * How to continue resourcing this. PACE crossover etc. MD Work? 
 
+##### Discussions and Actions
+1. Keep pace team up to date with Dan's outputs
+1. Use new resource in DMSC to continue with this if it seems to have potential
+
 #### Hardware Setup
 * The [DAaaS](https://github.com/DMSC-Instrument-Data/documents/blob/master/meeting_notes/May_2018/DAaaS.md) Model - this has wider scope than Data Reduction. Should be discussed with Jon. For detailed discussion would need to involve SXD 
 
