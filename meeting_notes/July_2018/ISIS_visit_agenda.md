@@ -1,4 +1,4 @@
-## Rough Agenda
+## Agenda
 
 ### Monday 2rd July
 CR 24 10:00 - 18:00
@@ -29,6 +29,22 @@ CR 24 10:00 - 18:00
 * Overview of Type Erasure (best design so far)
 * Discuss roadmap to complete design and get in front of PMB for resourcing
 
+##### Discussions and Actions
+
+1. Type-erased prototype agreed to be the most promising design and future prototyping effort will focus on this design possibility.
+1. Agreed that it is natural to combine the Instrument 2.0 (`ComponentInfo`, `DetectorInfo`, `SpectrumInfo`) concepts into `Dataset` would need an equivalent/replaced `ParameterMap`
+1. Algorithms
+    1. Based on [rollout strategy](https://confluence.esss.lu.se/pages/viewpage.action?spaceKey=DAM&title=Workspace-2.0+rollout) new "Algorithm" concept will be required. We could/should use this opportunity to rollout a new naming.
+    1. We would like to get away from using Algorithms directly. Would much prefer to call plain-old-functions. Would need to ensure that logging, reporting, locking etc is handled automatically somehow.
+1. Workspace 2.0 prototype intended for completion for end of 2018. 
+    1. Ideally design should be screened by TSC. Not PMB job to comment on design, but benefits of new design will need to be explained
+    1. Good argument for how rollout should happen. TSC should be involved in what that preferred strategy should be.
+    1. Resource Estimates for first phases
+    1. More examples needed for preferred use of `dataset` as there are several ways of doing things.
+1. There is already a [TODO](https://github.com/mantidproject/workspace-sandbox/blob/dataset/doc/type-erased-prototype.md) however many performance benchmarks are still required.
+1. Need to prototype numpy array exports
+
+
 #### Mantid Workbench
 Martyn to lead discussion on this
 
@@ -52,6 +68,7 @@ CR 11 08:00 - 15:00
 * Look at [plan](https://docs.google.com/spreadsheets/d/16z5WiGysXqssw5GFhP05LpfEnmoU-sBeT-HiZSGOzAA/edit#gid=669025093) with Jon Taylor
   * New plan to include new staff if possible
   * Check plan over with everyone including Jon Taylor
+
 
 
 
