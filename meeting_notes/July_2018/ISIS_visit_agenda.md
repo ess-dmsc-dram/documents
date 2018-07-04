@@ -14,6 +14,11 @@ CR 24 10:00 - 18:00
 * Discuss a shared resource pool (Sam will be absent). General agreement within SXD dev teams that concept development would be very useful and is badly lacking in Mantid.
 * NXTools?
 
+##### Discussions and Actions
+1. See updated project plan
+1. Need to build an understanding of this domain
+1. Invest time in building necessary concepts for this domain
+
 #### Introductions 
 
 * ISIS SANS demo with Matthew (Monday afternoon)
@@ -74,7 +79,17 @@ CR 11 08:00 - 15:00
   * New plan to include new staff if possible
   * Check plan over with everyone including Jon Taylor
 
-
+##### Discussions and Actions
+1. Regarding testing of `LoadEventNexus` MPI - Lamar to talk to Tobias about file system. Might be possible for Lamar to test on Diamond file system too. (2019) we should try to use Diamond setup.
+1. Run through matrix of day 1 requirements for instruments and turn into plan before end of 2018? We can reprioritise based on instrument schedule over the summer. (See Master Schedule). Should have a better plan at the end of the year based on this. 
+1. We need to understand things like State Objects carried through scripts in data reduction.
+1. Need to establish if `dataset` helps with the reduction workflows themselves. Does time invested into dataset mitigate time spent dealing with for example State Object above which are probably unecessary with `dataset`.
+1. Soft veto quite important need to find a way to work on that. 
+    1. Need to work on Choppers and any other number of things. Accellerator terminated while generating pulse. Veto on target segment? On moderator temperature or state of moderator. 
+    1. Live listener soft vetoing. Veto as part of the decoder as can be more efficient before Workpace creation? 
+    1. How do you construct the filters - Does this come from Experiment control? Probably a good question for next workshop.
+    1. Need to generate list of things that we would want as a standard filter.
+1. See updated project plan.
 
 
 
