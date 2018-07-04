@@ -46,7 +46,12 @@ CR 24 10:00 - 18:00
 
 
 #### Mantid Workbench
-Martyn to lead discussion on this
+Martyn to lead discussion on this. Slides [here](https://docs.google.com/presentation/d/15xS9bZqqOzbeoNatkrybtKfLSO-ytdtHbkWd8fe2SPA/edit?usp=sharing)
+
+##### Discussions and Actions
+1. Usability testing for workbench could be found from Thomas's group.
+1. No immediate plans allowing us to switch to python 3.
+1. Aiming for a January 2019 release of Workbench. Would include essential tools like SliceViewer as well as Scientific Custom Interfaces
 
 #### MD Work
 * Overview by Dan Nixon 
