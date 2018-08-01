@@ -15,7 +15,7 @@ Our Kanban board can be found on [Confluence](https://jira.esss.lu.se/secure/Rap
   
 - There are several Mantid Training courses that we offer to users covering the UI, scripting and extending Mantid. For a new developer to the team [Mantid Basic Course](http://www.mantidproject.org/Mantid_Basic_Course) probably offers the best holistic introduction to Mantid.
 
-- Detailed information on developing for Mantid can be found on its [homepage](http://www.mantidproject.org/Main_Page), in particular the [development section](http://www.mantidproject.org/Category:Development). You should in particular read [Git Workflow](http://www.mantidproject.org/Git_Workflow) as it describes the complete process or adding features to Mantid.
+- Detailed information on developing for Mantid can be found on its [homepage](http://www.mantidproject.org/Main_Page), in particular the [development section](http://developer.mantidproject.org/). You should in particular read [Git Workflow](http://developer.mantidproject.org/GitWorkflow.html) as it describes the complete process or adding features to Mantid.
 
 - DMSC is running two Ubuntu build servers for the collaboration, one of the is dedicated for performance tests.
   The servers running in the DST VM environment.
