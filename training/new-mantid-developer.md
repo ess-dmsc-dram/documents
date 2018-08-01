@@ -5,6 +5,8 @@
 - Lamar Moore (ISIS in-kind, primarily Windows user)
 - Owen Arnold (ISIS in-kind, primarily OSX user)
 - Simon Heybrock (ESS/DMSC, primarily Linux user)
+- Neil Vaytet (ESS/DMSC)
+- Igor Gudich (ESS/DMSC)
 
 Our Kanban board can be found on [Confluence](https://jira.esss.lu.se/secure/RapidBoard.jspa?rapidView=355&projectKey=DR).
 
