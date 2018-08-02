@@ -107,3 +107,66 @@ Number of OMP Threads|SANS2D (3s timeout)|WISH (60s timeout)
 8|269Hz|14Hz
 12|278Hz|15Hz
 20|293Hz|15Hz
+
+
+## Effects of Reduction Steps
+
+For this test, two technique areas were chosen to determine how performance degrades with an increasing number of algorithms. Each area, SANS and Powder Diffraction, were tested with a very basic and skeletal reduction script which contained around 3 algorithms and then with a more realistic script with >= 6 algorithm. Below are the scripts used for the tests.
+
+### SANS
+```python
+# SANSScript.py
+# SANS Reduction Basic
+Rebin(InputWorkspace="accum_events", OutputWorkspace="ws", Params="1,100,100006", PreserveEvents=False)
+ConvertUnits(InputWorkspace="ws", OutputWorkspace="ws", Target="Wavelength", AlignBins=True)
+Q1D(DetBankWorkspace="ws", OutputWorkspace="SANSReduced", OutputBinning="1,0.05,100")
+
+# SANS Reduction Realistic
+ConvertUnits(InputWorkspace="accum_events", OutputWorkspace="ws", Target="Wavelength")
+FindCenterOfMassPosition(InputWorkspace="ws", Output="CentreOfMass")
+com = mtd["CentreOfMass"]
+beam = com.column(1)
+MoveInstrumentComponent(Workspace="ws", ComponentName="rear-detector", X=beam[0], Y=beam[1], RelativePosition=True)
+MoveInstrumentComponent(Workspace="ws", ComponentName="front-detector", X=beam[0], Y=beam[1], RelativePosition=True)
+SANSSolidAngleCorrection(InputWorkspace="ws", OutputWorkspace="ws", DetectorTubes=True)
+SANSAbsoluteScale(InputWorkspace="ws", OutputWorkspace="ws", ScalingFactor=0.99)
+Rebin(InputWorkspace="ws", OutputWorkspace="ws", Params="1,100,100006", PreserveEvents=False)
+Q1D(DetBankWorkspace="ws", OutputWorkspace="SANSReduced", OutputBinning="1,0.05,100")
+```
+
+### Powder Diffraction
+```python
+# PowderDiffractionScript.py
+# Powder Diffraction Basic
+CompressEvents(InputWorkspace="accum_events", OutputWorkspace="ws")
+ConvertUnits(InputWorkspace="accum_events", OutputWorkspace="dspaced", Target="dSpacing")
+DiffractionFocussing(InputWorkspace="dspaced", OutputWorkspace="ws", GroupingFileName="/path/to/35922_h00_RW.cal", PreserveEvents=True)
+
+# Powder Diffraction Realistic
+CompressEvents(InputWorkspace="accum_events", OutputWorkspace="ws")
+RemovePromptPulse(InputWorkspace="ws", OutputWorkspace="ws", Width=100, Frequency=20)
+AlignDetectors(InputWorkspace="ws", OutputWorkspace="ws", CalibrationFile="/path/to/35922_h00.cal")
+ConvertUnits(InputWorkspace="ws", OutputWorkspace="dspaced", Target="dSpacing")
+DiffractionFocussing(InputWorkspace="dspaced", OutputWorkspace="ws", GroupingFileName="/path/to/35922_h00_RW.cal", PreserveEvents=True)
+SortEvents(InputWorkspace="ws")
+ConvertUnits(InputWorkspace="ws", OutputWorkspace="DiffractionFocussingReduced", Target="TOF")
+```
+
+### Sample Start Script
+```python
+StartLiveData(Instrument='SANS2D', OutputWorkspace='SANSReduced', 
+                    FromNow=False, FromStartOfRun=True, Listener='KafkaEventListener', 
+                    Address='localhost:9092', UpdateEvery=10,
+                    PostProcessingScriptFilename="/path/to/SANSScript.py",
+                    AccumulationWorkspace="accum_events",
+                    AccumulationMethod='Replace', PreserveEvents=True,
+                    RunTransitionBehavior='Stop')
+```
+**NB: These scripts do not produce sensible results and were constructed solely to probe performance.**
+
+### Performance Results
+
+Instrument|Technique|No Processing|3 Reduction Steps| Realistic Reduction (>= 6 steps)
+--:|--:|--:|--:|--:
+SANS2D|SANS|271Hz|250Hz|188Hz
+WISH|Powder Diffraction|15Hz|15Hz|14Hz
