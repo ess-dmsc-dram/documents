@@ -111,7 +111,7 @@ Number of OMP Threads|SANS2D (3s timeout)|WISH (60s timeout)
 
 ## Effects of Reduction Steps
 
-For this test, two technique areas were chosen to determine how performance degrades with an increasing number of algorithms. Each area, SANS and Powder Diffraction, were tested with a very basic and skeletal reduction script which contained around 3 algorithms and then with a more realistic script with >= 6 algorithm. Below are the scripts used for the tests.
+For this test, two technique areas were chosen to determine how performance degrades with an increasing number of algorithms. Each area, SANS and Powder Diffraction, were tested with a very basic and skeletal reduction script which contained around 3 algorithms and then with a more realistic script with >= 6 algorithm. Below are the scripts used for the tests:
 
 ### SANS
 ```python
@@ -165,6 +165,15 @@ StartLiveData(Instrument='SANS2D', OutputWorkspace='SANSReduced',
 **NB: These scripts do not produce sensible results and were constructed solely to probe performance.**
 
 ### Performance Results
+
+**Table 5: Effects of Live Reduction (without sorting/threading optimizations).**
+
+Instrument|Technique|No Processing|3 Reduction Steps| Realistic Reduction (>= 6 steps)
+--:|--:|--:|--:|--:
+SANS2D|SANS|132Hz|117Hz|117Hz
+WISH|Powder Diffraction|8Hz|8Hz|7Hz
+
+**Table 6: Effects of Live Reduction (optimised).**
 
 Instrument|Technique|No Processing|3 Reduction Steps| Realistic Reduction (>= 6 steps)
 --:|--:|--:|--:|--:
