@@ -50,7 +50,7 @@ sections when running the tests.
 Finally, I also tried going a little further in `-j`, and I was able to squeeze a little more 
 performance that way (not shown in Figure 1). The fastest runtime I achieved was 237 s by using
 `-j 24` and 2 threads. Doing the same with 4-6 threads slowed things down again. A close second,
-at 239 s was `-j 22` and 2 threads.
+at 239 s, was `-j 22` and 2 threads.
 
 ## Conclusion
 
@@ -64,4 +64,4 @@ have a cap on the number of threads of about `Total_N_threads_available / 4`.
 One could also go all in with the `-j` option and set that number to `Total_N_threads_available`.
 In that case I would choose a small fixed number for `MultiThreaded.MaxCores=2` (or maybe 4), just 
 to make sure OpenMP is still being used in the builds. Timings on a different machine (my laptop)
-confirm that this is the most optimal solution.
+confirm that this is the fastest solution.
