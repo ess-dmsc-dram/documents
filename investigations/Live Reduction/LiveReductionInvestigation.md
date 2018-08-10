@@ -6,7 +6,13 @@ The ESS will make use of a Kafka architecture which produces messages at a rate 
 Therefore, any live streaming mechanism in Mantid should be able to support the consumption of kafka messages at or above 14Hz for sensible event detection rates. 
 ESS instruments are expected to produce detection rates in the 10<sup>7</sup>Hz range or ~714286 events per kafka message.
 
+## Hardware
+The hardware used for this test was a Dell Optiplex 7050:
+- 64GB RAM
+- 7th Gen Intel Core i7 Quad Core (8 threads) 8MB SmartCache
+
 ## Live Consumption Tests
+
 The first stage of testing involved the scenario where the instrument data is inspected in the absence of any data reduction. 
 A single workstation was used to run a docker image which contained the configuration for a Kafka broker. 
 Data was published to the broker using the `main_nexusPublisher` which can be found [here](https://github.com/ess-dmsc/NeXus-Streamer). 
@@ -38,6 +44,7 @@ Event Rate|SANS2D|MERLIN|WISH
 ![Trend1](figure_1.png)
 
 The figure above shows the trend in event rate versus message consumption rate. 
+The `main_nexusPublisher` script was used in random event mode which represents a flood fill of the whole instrument with noise at the given rate.
 The `MonitorLiveData` timeout was set to one second. 
 SANS2D was able to maintain a 23Hz consumption rate at 10<sup>7</sup> event rate with a 1 second refresh rate of the live listener. 
 Enabling the instrument view for inspection did not seem to affect the message consumption rate for any of the instruments. 
@@ -59,6 +66,8 @@ The above figure shows that increasing the `MonitorLiveData` timeout can result 
 This is however very limited and efforts to improve the listener design for performance should not depend too heavily on this.
 
 ## Effects of Live Processing
+For the live processing tests, real datasets where used to produce realistic results. In order to achieve the average event rate per frame, files were modified using the `grow.py` script in the [nexus sandbox](https://github.com/DMSC-Instrument-Data/nexus-sandbox).
+These datasets were tested as ~10<sup>6</sup> due to time and hard-disk space limitations.
 
 ### Rebin
 #### Effects of Bin Size
@@ -168,10 +177,10 @@ StartLiveData(Instrument='SANS2D', OutputWorkspace='SANSReduced',
 
 **Table 5: Effects of Live Reduction (without sorting/threading optimizations).**
 
-Instrument|Technique|No Processing|3 Reduction Steps| Realistic Reduction (>= 6 steps)
---:|--:|--:|--:|--:
-SANS2D|SANS|132Hz|117Hz|117Hz
-WISH|Powder Diffraction|8Hz|8Hz|7Hz
+Instrument|Technique|No Processing|3 Reduction Steps|Realistic Reduction (>= 6 steps)|>= 15 steps|>= 20 steps 
+--:|--:|--:|--:|--:|--:|--:
+SANS2D|SANS|132Hz|117Hz|117Hz|115Hz|100Hz
+WISH|Powder Diffraction|8Hz|8Hz|7Hz|6.9Hz|6.5Hz
 
 **Table 6: Effects of Live Reduction (optimised).**
 
