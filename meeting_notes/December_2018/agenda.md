@@ -124,8 +124,8 @@ BENCHMARK(BM_EventInsertion_sorted)
     ->Ranges({{100000, 10000000}, {2 << 16, 2 << 23}});
 
 static void BM_EventInsertion_sorted_threaded_insert(benchmark::State &state) {
-  size_t nSpec = state.range(0);
-  size_t nEvent = state.range(1);
+  const size_t nSpec = state.range(0);
+  const size_t nEvent = state.range(1);
 
   std::random_device rd;
   std::mt19937 mt(rd());
@@ -134,7 +134,7 @@ static void BM_EventInsertion_sorted_threaded_insert(benchmark::State &state) {
 
   std::vector<std::tuple<int64_t, double, int64_t>> events;
   events.reserve(nEvent);
-  for (size_t i = 0; i < nEvent; ++i) {
+  for (int64_t i = 0; i < nEvent; ++i) {
     if (i < 0.9 * nEvent)
       events.emplace_back(peak_dist(mt), 0.0, 0);
     else
@@ -147,32 +147,27 @@ static void BM_EventInsertion_sorted_threaded_insert(benchmark::State &state) {
                        [](const auto &a, const auto &b) {
                          return std::get<0>(a) < std::get<0>(b);
                        });
+
     constexpr int n_thread = 24;
-    std::array<size_t, n_thread + 1> bounds;
+    std::vector<size_t> bounds(n_thread + 1);
     bounds[0] = 0;
     for (int thread = 1; thread < n_thread; ++thread) {
       bounds[thread] = events.size() / n_thread * thread;
       while (bounds[thread] + 1 < events.size() &&
-             std::get<0>(events[bounds[thread]]) ==
-                 std::get<0>(events[bounds[thread] + 1]))
+             (std::get<0>(events[bounds[thread]]) ==
+              std::get<0>(events[bounds[thread] + 1])))
         ++bounds[thread];
+      ++bounds[thread];
     }
     bounds[n_thread] = events.size();
 
 #pragma omp parallel for num_threads(24)
     for (int thread = 0; thread < n_thread; ++thread) {
-      for (size_t i = bounds[thread]; i < bounds[thread + 1]; ++i) {
+      for (int64_t i = bounds[thread]; i < bounds[thread + 1]; ++i) {
         const auto &event = events[i];
         eventLists[std::get<0>(event)].emplace_back(std::get<1>(event),
                                                     std::get<2>(event));
       }
-    }
-    size_t count = 0;
-    for (const auto &list : eventLists)
-      count += list.size();
-    if (count != events.size()) {
-      fprintf(stderr, "%lu %lu\n", count, events.size());
-      throw std::runtime_error("lost events.");
     }
   }
   state.SetItemsProcessed(state.iterations() * nEvent);
@@ -275,6 +270,31 @@ BM_EventInsertion_sorted/262144/16777216                    297690694 ns  297686
 BM_EventInsertion_sorted/1048576/16777216                   362840655 ns  362834239 ns         15   44.0973M items/s
 BM_EventInsertion_sorted/4194304/16777216                   809394322 ns  809290720 ns          7   19.7704M items/s
 BM_EventInsertion_sorted/10000000/16777216                 1124704540 ns 1124678170 ns          5   14.2263M items/s
+BM_EventInsertion_sorted_threaded_insert/100000/131072/real_time        3080210 ns    2508770 ns       2049   40.5816M items/s
+BM_EventInsertion_sorted_threaded_insert/262144/131072/real_time        4259512 ns    4220624 ns       1445   29.3461M items/s
+BM_EventInsertion_sorted_threaded_insert/1048576/131072/real_time      14048273 ns   13754257 ns        411   8.89789M items/s
+BM_EventInsertion_sorted_threaded_insert/4194304/131072/real_time      74738164 ns   74283450 ns         66   1.67251M items/s
+BM_EventInsertion_sorted_threaded_insert/10000000/131072/real_time    173301279 ns  171998570 ns         33   738.598k items/s
+BM_EventInsertion_sorted_threaded_insert/100000/262144/real_time        4626833 ns    4016757 ns       1305   54.0326M items/s
+BM_EventInsertion_sorted_threaded_insert/262144/262144/real_time        5609113 ns    5525612 ns       1008   44.5703M items/s
+BM_EventInsertion_sorted_threaded_insert/1048576/262144/real_time      20957803 ns   19763440 ns        328   11.9287M items/s
+BM_EventInsertion_sorted_threaded_insert/4194304/262144/real_time      92466621 ns   90334942 ns         56   2.70368M items/s
+BM_EventInsertion_sorted_threaded_insert/10000000/262144/real_time    195503418 ns  190504059 ns         30   1.27875M items/s
+BM_EventInsertion_sorted_threaded_insert/100000/1048576/real_time       8214727 ns    7097104 ns        652   121.733M items/s
+BM_EventInsertion_sorted_threaded_insert/262144/1048576/real_time      12753631 ns   10980835 ns        491    78.409M items/s
+BM_EventInsertion_sorted_threaded_insert/1048576/1048576/real_time     33286627 ns   27172217 ns        182   30.0421M items/s
+BM_EventInsertion_sorted_threaded_insert/4194304/1048576/real_time    104498510 ns   94657263 ns         47   9.56951M items/s
+BM_EventInsertion_sorted_threaded_insert/10000000/1048576/real_time   208737862 ns  195971973 ns         26    4.7907M items/s
+BM_EventInsertion_sorted_threaded_insert/100000/4194304/real_time      29675235 ns   20790371 ns        200   134.793M items/s
+BM_EventInsertion_sorted_threaded_insert/262144/4194304/real_time      39074455 ns   24349251 ns        145   102.369M items/s
+BM_EventInsertion_sorted_threaded_insert/1048576/4194304/real_time     72481221 ns   48494043 ns         70   55.1867M items/s
+BM_EventInsertion_sorted_threaded_insert/4194304/4194304/real_time    150650042 ns  136491556 ns         32   26.5516M items/s
+BM_EventInsertion_sorted_threaded_insert/10000000/4194304/real_time   269244951 ns  234387406 ns         21   14.8564M items/s
+BM_EventInsertion_sorted_threaded_insert/100000/16777216/real_time     83112291 ns   51234516 ns         66   192.511M items/s
+BM_EventInsertion_sorted_threaded_insert/262144/16777216/real_time     91952061 ns   70081003 ns         56   174.004M items/s
+BM_EventInsertion_sorted_threaded_insert/1048576/16777216/real_time   154355106 ns  111164757 ns         33   103.657M items/s
+BM_EventInsertion_sorted_threaded_insert/4194304/16777216/real_time   322584898 ns  251543445 ns         15   49.5993M items/s
+BM_EventInsertion_sorted_threaded_insert/10000000/16777216/real_time  442339109 ns  379935976 ns         11   36.1713M items/s
 ```
 
 
