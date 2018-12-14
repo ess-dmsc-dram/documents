@@ -277,3 +277,26 @@ BM_EventInsertion_sorted/4194304/16777216                   809394322 ns  809290
 BM_EventInsertion_sorted/10000000/16777216                 1124704540 ns 1124678170 ns          5   14.2263M items/s
 ```
 
+
+### Driving and proving `Dataset` by implementing a real workflow
+
+- Need to understand single-node performance limits.
+  This is diffifult within Mantid, because any change takes to long, so substantial changes for improving performance are impossible.
+- Need to understand how to handle instruments with more than 1 million pixels, in particular also with event lists.
+- Demonstrate how much performance we could gain using `Dataset`.
+- Demonstrate ease or difficulty of implementing real workflows with `Dataset`.
+
+##### Strategy:
+
+Use either simulated data for DREAM or existing data from POWGEN with equivalent number of fake pixels.
+
+After April (when `Dataset` is ready for a first demo):
+
+- Implement event-handling in `Dataset`.
+- Implement powder-diffraction-specific algorithms for `Dataset` (similar to workflow `SNSPowderDiffraction`).
+  - Start with very simple model, refine.
+- Write/read custom raw event file format (avoid performance issues of Nexus/HDF5).
+  Either a custom binary format or solutions like TileTB.
+- Create fake data.
+- Optimize `Dataset`, e.g., event handling, optimize workflow.
+- Conclude, decide on future strategy.
