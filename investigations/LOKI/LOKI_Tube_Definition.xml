@@ -1,0 +1,451 @@
+<?xml version='1.0' encoding='ASCII'?>
+<!-- For help on the notation used to specify an Instrument Definition File 
+     see http://www.mantidproject.org/IDF -->
+<instrument xmlns="http://www.mantidproject.org/IDF/1.0" 
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://www.mantidproject.org/IDF/1.0 http://schema.mantidproject.org/IDF/1.0/IDFSchema.xsd"
+ name="LOKI" valid-from   ="1900-01-31 23:59:59"
+                         valid-to     ="2100-01-31 23:59:59"
+		          last-modified="2010-11-16 12:02:05">
+<!---->
+<defaults>
+	<length unit="metre"/>
+	<angle unit="degree"/>
+	<reference-frame>
+		<along-beam axis="z"/>
+		<pointing-up axis="y"/>
+		<handedness val="right"/>
+	</reference-frame>
+		<default-view axis-view="z-"/></defaults>
+        
+<!--SOURCE AND SAMPLE POSITION-->
+  <component type="moderator">
+    <location z="-8.64"/>
+  </component>
+  
+  <type is="Source" name="moderator"/>
+  <component type="sample-position">
+    <location y="0.0" x="0.0" z="0.0"/>
+  </component>
+  <type is="SamplePos" name="sample-position"/>
+  
+  
+  
+<component name="Bank_1_vert_1200_right" type="bank_1200_vert_right" idlist="Bank_1_Ids_vert_right">
+    <location x="-0.75615" y="0.0" z="1.57821" />
+</component> 
+
+<component name="Bank_1_vert_1200_left" type="bank_1200_vert_left" idlist="Bank_1_Ids_vert_left">
+    <location x="0.75615" y="0.0" z="1.57821" /> 
+</component> 
+
+<component name="Bank_1_horz_1200_top" type="bank_1200_horz_top" idlist="Bank_1_Ids_horz_top">
+    <location x="0" y="0.629" z="1.1831" /> 
+</component> 
+
+<component name="Bank_1_horz_1200_bottom" type="bank_1200_horz_bottom" idlist="Bank_1_Ids_horz_bottom">
+    <location x="0" y="-0.629" z="1.1831" /> 
+</component> 
+
+<component name="Bank_2_vert_500_right" type="bank_500_vert_right" idlist="Bank_2_Ids_vert_right">
+    <location x="-0.374" y="0.0" z="3.2788" />
+</component> 
+
+<component name="Bank_2_vert_500_left" type="bank_500_vert_left" idlist="Bank_2_Ids_vert_left">
+    <location x="0.374" y="0.0" z="3.2788" /> 
+</component> 
+
+<component name="Bank_2_horz_1000_top" type="bank_1000_horz_top" idlist="Bank_2_Ids_horz_top">
+    <location x="0" y="0.497" z="2.9095" /> 
+</component> 
+
+<component name="Bank_2_horz_1000_bottom" type="bank_1000_horz_bottom" idlist="Bank_2_Ids_horz_bottom">
+    <location x="0" y="-0.497" z="2.9095" /> 
+</component> 
+
+<component name="Bank_3_horz_1000" type="bank_1000_horz_back_1" idlist="Bank_3_Ids">
+    <location x="0" y="0" z="5" rot="13.45" axis-x="1" axis-y="0" axis-z="0"/> 
+</component> 
+
+<!--
+Single bank of each type which will be duplicated and repositioned.
+-->
+<type name="bank_1200_vert_right">
+<component type="detector_module_vert_1200_right">
+    <location x="-0.381" z="0" />
+    <location x="-0.3316" z="0.0118" />
+    <location x="-0.2822" z="0.0236" />
+    <location x="-0.2328" z="0.0354" />
+    <location x="-0.1834" z="0.0472" />
+    <location x="-0.134" z="0.059" />
+    <location x="-0.0846" z="0.0708" />
+    <location x="-0.0352" z="0.0826" />
+    <location x="0.0142" z="0.0944" />
+    <location x="0.0636" z="0.1062" />
+    <location x="0.113" z="0.118" />
+    <location x="0.1624" z="0.1298" />
+    <location x="0.2118" z="0.1416" />
+    <location x="0.2612" z="0.1534" />
+    <location x="0.3106" z="0.1652" />
+    <location x="0.36" z="0.177" />
+</component>
+</type>
+
+<type name="bank_1200_vert_left">
+<component type="detector_module_vert_1200_left">
+    <location x="0.381" z="0" />
+    <location x="0.3316" z="0.0118" />
+    <location x="0.2822" z="0.0236" />
+    <location x="0.2328" z="0.0354" />
+    <location x="0.1834" z="0.0472" />
+    <location x="0.134" z="0.059" />
+    <location x="0.0846" z="0.0708" />
+    <location x="0.0352" z="0.0826" />
+    <location x="-0.0142" z="0.0944" />
+    <location x="-0.0636" z="0.1062" />
+    <location x="-0.113" z="0.118" />
+    <location x="-0.1624" z="0.1298" />
+    <location x="-0.2118" z="0.1416" />
+    <location x="-0.2612" z="0.1534" />
+    <location x="-0.3106" z="0.1652" />
+    <location x="-0.36" z="0.177" />
+</component>
+</type>
+
+<type name="bank_1200_horz_top">
+<component type="detector_module_horz_1200_top">
+    <location y="0.2286" z="0" />
+    <location y="0.1792" z="0.0118" />
+    <location y="0.1298" z="0.0236" />
+    <location y="0.0804" z="0.0354" />
+    <location y="0.031" z="0.0472" />
+    <location y="-0.0184" z="0.059" />
+    <location y="-0.0678" z="0.0708" />
+    <location y="-0.1172" z="0.0826" />
+    <location y="-0.1666" z="0.0944" />
+    <location y="-0.216" z="0.1062" />
+</component>
+</type>
+
+<type name="bank_1200_horz_bottom">
+<component type="detector_module_horz_1200_bottom">
+    <location y="-0.2286" z="0" />
+    <location y="-0.1792" z="0.0118" />
+    <location y="-0.1298" z="0.0236" />
+    <location y="-0.0804" z="0.0354" />
+    <location y="-0.031" z="0.0472" />
+    <location y="0.0184" z="0.059" />
+    <location y="0.0678" z="0.0708" />
+    <location y="0.1172" z="0.0826" />
+    <location y="0.1666" z="0.0944" />
+    <location y="0.216" z="0.1062" />
+</component>
+</type>
+
+<type name="bank_500_vert_right">
+<component type="detector_module_vert_500_right">
+    <location x="-0.127" z="0" />
+    <location x="-0.0776" z="0.0118" />
+    <location x="-0.0282" z="0.0236" />
+    <location x="0.0212" z="0.0354" />
+    <location x="0.0706" z="0.0472" />
+    <location x="0.120" z="0.059" />
+</component>
+</type>
+
+<type name="bank_500_vert_left">
+<component type="detector_module_vert_500_left">
+    <location x="0.127" z="0" />
+    <location x="0.0776" z="0.0118" />
+    <location x="0.0282" z="0.0236" />
+    <location x="-0.0212" z="0.0354" />
+    <location x="-0.0706" z="0.0472" />
+    <location x="-0.120" z="0.059" />
+</component>
+</type>
+
+<type name="bank_1000_horz_top">
+<component type="detector_module_horz_1000_top">
+    <location y="0.1778" z="0" />
+    <location y="0.1284" z="0.0118" />
+    <location y="0.079" z="0.0236" />
+    <location y="0.0296" z="0.0354" />
+    <location y="-0.0198" z="0.0472" />
+    <location y="-0.0692" z="0.059" />
+    <location y="-0.1186" z="0.0708" />
+    <location y="-0.168" z="0.0826" />
+</component>
+</type>
+
+<type name="bank_1000_horz_bottom">
+<component type="detector_module_horz_1000_bottom">
+    <location y="-0.1778" z="0" />
+    <location y="-0.1284" z="0.0118" />
+    <location y="-0.079" z="0.0236" />
+    <location y="-0.0296" z="0.0354" />
+    <location y="0.0198" z="0.0472" />
+    <location y="0.0692" z="0.059" />
+    <location y="0.1186" z="0.0708" />
+    <location y="0.168" z="0.0826" />
+</component>
+</type>
+
+<type name="bank_1000_horz_back_1">
+<component type="detector_module_horz_1000_back">
+    <location y="-0.6858" z="0" />
+    <location y="-0.6364" z="-0.0118" />
+    <location y="-0.587" z="-0.0236" />
+    <location y="-0.5376" z="-0.0354" />
+    <location y="-0.4882" z="-0.0472" />
+    <location y="-0.4388" z="-0.059" />
+    <location y="-0.3894" z="-0.0708" />
+    <location y="-0.34" z="-0.0826" />
+    <location y="-0.2906" z="-0.0944" />
+    <location y="-0.2412" z="-0.1062" />
+    <location y="-0.1918" z="-0.118" />
+    <location y="-0.1424" z="-0.1298" />
+    <location y="-0.093" z="-0.1418" />
+    <location y="-0.0436" z="-0.1534" />
+    <location y="0.0058" z="-0.1652" />
+    <location y="0.0552" z="-0.177" />
+    <location y="0.1046" z="-0.1888" />
+    <location y="0.154" z="-0.2006" />
+    <location y="0.2034" z="-0.2124" />
+    <location y="0.2528" z="-0.2242" />
+    <location y="0.3022" z="-0.236" />
+    <location y="0.3516" z="-0.2478" />
+    <location y="0.401" z="-0.2596" />
+    <location y="0.4504" z="-0.2714" />
+    <location y="0.4998" z="-0.2832" />
+    <location y="0.5492" z="-0.295" />
+    <location y="0.5986" z="-0.3068" />
+    <location y="0.648" z="-0.3186" />
+</component>
+</type>
+ 
+ 
+<!-- 
+Detector module which contains two groups of 4 tubes
+-->
+<type name="detector_module_vert_1200_left">
+ <component type="vert_tube_1200">
+    <locations x="-0.0127" z="-0.0381" z-end="0.0381" n-elements="4" name="detector_module_layer_1" rot="8.45" axis-x="0" axis-y="1" axis-z="0"/>
+    <locations x="0.01235" z="-0.04401" z-end="0.03219" n-elements="4" name="detector_module_layer_2" rot="8.45" axis-x="0" axis-y="1" axis-z="0"/>
+ </component>   
+</type>
+<type name="detector_module_vert_1200_right">
+ <component type="vert_tube_1200">
+    <locations x="-0.0127" z="-0.0381" z-end="0.0381" n-elements="4" name="detector_module_layer_1" rot="8.45" axis-x="0" axis-y="1" axis-z="0"/>
+    <locations x="0.01235" z="-0.03219" z-end="0.04401" n-elements="4" name="detector_module_layer_2" rot="8.45" axis-x="0" axis-y="1" axis-z="0"/>
+ </component>   
+</type>
+ 
+<type name="detector_module_vert_500_left">
+ <component type="vert_tube_500">
+    <locations x="-0.0127" z="-0.0381" z-end="0.0381" n-elements="4" name="detector_module_layer_1" rot="8.45" axis-x="0" axis-y="1" axis-z="0"/>
+    <locations x="0.01235" z="-0.04401" z-end="0.03219" n-elements="4" name="detector_module_layer_2" rot="8.45" axis-x="0" axis-y="1" axis-z="0"/>
+ </component>   
+</type>
+
+<type name="detector_module_vert_500_right">
+ <component type="vert_tube_500">
+    <locations x="-0.0127" z="-0.0381" z-end="0.0381" n-elements="4" name="detector_module_layer_1" rot="8.45" axis-x="0" axis-y="1" axis-z="0"/>
+    <locations x="0.01235" z="-0.03219" z-end="0.04401" n-elements="4" name="detector_module_layer_2" rot="8.45" axis-x="0" axis-y="1" axis-z="0"/>
+ </component>   
+</type>
+
+<type name="detector_module_horz_1200_top">
+ <component type="horz_tube_1200">
+    <locations y="-0.0127" z="-0.0381" z-end="0.0381" n-elements="4" name="detector_module_layer_1" rot="8.45" axis-x="1" axis-y="0" axis-z="0"/>
+    <locations y="0.01235" z="-0.04401" z-end="0.03219" n-elements="4" name="detector_module_layer_2" rot="8.45" axis-x="1" axis-y="0" axis-z="0"/>
+ </component>   
+</type>
+
+<type name="detector_module_horz_1200_bottom">
+ <component type="horz_tube_1200">
+    <locations y="-0.0127" z="-0.0381" z-end="0.0381" n-elements="4" name="detector_module_layer_1" rot="8.45" axis-x="1" axis-y="0" axis-z="0"/>
+    <locations y="0.01235" z="-0.03219" z-end="0.04401" n-elements="4" name="detector_module_layer_2" rot="8.45" axis-x="1" axis-y="0" axis-z="0"/>
+ </component>   
+</type>
+
+<type name="detector_module_horz_1000_top">
+ <component type="horz_tube_1000">
+    <locations y="-0.0127" z="-0.0381" z-end="0.0381" n-elements="4" name="detector_module_layer_1" rot="8.45" axis-x="1" axis-y="0" axis-z="0"/>
+    <locations y="0.01235" z="-0.04401" z-end="0.03219" n-elements="4" name="detector_module_layer_2" rot="8.45" axis-x="1" axis-y="0" axis-z="0"/>
+ </component>   
+</type>
+
+<type name="detector_module_horz_1000_bottom">
+ <component type="horz_tube_1000">
+    <locations y="-0.0127" z="-0.0381" z-end="0.0381" n-elements="4" name="detector_module_layer_1" rot="8.45" axis-x="1" axis-y="0" axis-z="0"/>
+    <locations y="0.01235" z="-0.03219" z-end="0.04401" n-elements="4" name="detector_module_layer_2" rot="8.45" axis-x="1" axis-y="0" axis-z="0"/>
+ </component>   
+</type>
+
+<type name="detector_module_horz_1000_back">
+ <component type="horz_tube_1000">
+    <locations y="0.0127" z="-0.0381" z-end="0.0381" n-elements="4" name="detector_module_layer_1" rot="8.45" axis-x="1" axis-y="0" axis-z="0"/>
+    <locations y="-0.01235" z="-0.03219" z-end="0.04401" n-elements="4" name="detector_module_layer_2" rot="8.45" axis-x="1" axis-y="0" axis-z="0"/>
+ </component>   
+</type>
+ 
+ <!--
+ Tubes present in detector panels. Each panel contains 7 straws.
+ -->
+<type name="vert_tube_1200">
+<component type="vert_straw_1200">
+    <location x="0.0" z="0.0" name="straw_1"/>
+    <location x="0.0" z="0.0075" name="straw_2"/>
+    <location x="0.0" z="-0.0075" name="straw_3"/>
+    <location x="0.0065" z="0.00375" name="straw_4"/>
+    <location x="0.0065" z="-0.00375" name="straw_5"/>
+    <location x="-0.0065" z="-0.00375" name="straw_6"/>
+    <location x="-0.0065" z="0.00375" name="straw_7"/>
+</component>
+</type>
+
+<type name="vert_tube_500">
+<component type="vert_straw_500">
+    <location x="0.0" z="0.0" name="straw_1"/>
+    <location x="0.0" z="0.0075" name="straw_2"/>
+    <location x="0.0" z="-0.0075" name="straw_3"/>
+    <location x="0.0065" z="0.00375" name="straw_4"/>
+    <location x="0.0065" z="-0.00375" name="straw_5"/>
+    <location x="-0.0065" z="-0.00375" name="straw_6"/>
+    <location x="-0.0065" z="0.00375" name="straw_7"/>
+</component>
+</type>
+
+<type name="horz_tube_1200">
+<component type="horz_straw_1200">
+    <location y="0.0" z="0.0" name="straw_1"/>
+    <location y="0.0" z="0.0075" name="straw_2"/>
+    <location y="0.0" z="-0.0075" name="straw_3"/>
+    <location y="0.0065" z="0.00375" name="straw_4"/>
+    <location y="0.0065" z="-0.00375" name="straw_5"/>
+    <location y="-0.0065" z="-0.00375" name="straw_6"/>
+    <location y="-0.0065" z="0.00375" name="straw_7"/>
+</component>
+</type>
+
+<type name="horz_tube_1000">
+<component type="horz_straw_1000">
+    <location y="0.0" z="0.0" name="straw_1"/>
+    <location y="0.0" z="0.0075" name="straw_2"/>
+    <location y="0.0" z="-0.0075" name="straw_3"/>
+    <location y="0.0065" z="0.00375" name="straw_4"/>
+    <location y="0.0065" z="-0.00375" name="straw_5"/>
+    <location y="-0.0065" z="-0.00375" name="straw_6"/>
+    <location y="-0.0065" z="0.00375" name="straw_7"/>
+</component>
+</type>
+
+<!--
+Straw definitions for each tube length
+-->
+<type name="vert_straw_1200" outline="yes">
+ <component type="v-pixel-1200">
+   <locations y="-0.6" y-end="0.6" n-elements="200" />
+ </component>
+</type>
+
+<type name="vert_straw_500" outline="yes">
+ <component type="v-pixel-500">
+   <locations y="-0.5" y-end="0.5" n-elements="100" />
+ </component>
+</type>
+
+<type name="horz_straw_1200" outline="yes">
+ <component type="h-pixel-1200">
+   <locations x="-0.6" x-end="0.6" n-elements="200" />
+ </component>
+</type>
+
+<type name="horz_straw_1000" outline="yes">
+ <component type="h-pixel-1000">
+   <locations x="-0.5" x-end="0.5" n-elements="200" />
+ </component>
+</type>
+
+<!--
+Pixel definitions for each straw length, varying pixel heights means each must be defined individually.
+-->
+<type name="v-pixel-1200" is="detector">
+<cylinder id="cyl-approx">
+  <centre-of-bottom-base r="0.0" t="0.0" p="0.0" />
+  <axis x="0.0" y="1.0" z="0.0" />
+  <radius val="0.00375" />
+  <height val="0.006" />
+</cylinder>
+<algebra val="cyl-approx" />
+</type>
+
+<type name="v-pixel-500" is="detector">
+<cylinder id="cyl-approx">
+  <centre-of-bottom-base r="0.0" t="0.0" p="0.0" />
+  <axis x="0.0" y="1.0" z="0.0" />
+  <radius val="0.00375" />
+  <height val="0.005" />
+</cylinder>
+<algebra val="cyl-approx" />
+</type>
+
+<type name="h-pixel-1200" is="detector">
+<cylinder id="cyl-approx">
+  <centre-of-bottom-base r="0.0" t="0.0" p="0.0" />
+  <axis x="1.0" y="0.0" z="0.0" />
+  <radius val="0.00375" />
+  <height val="0.006" />
+</cylinder>
+<algebra val="cyl-approx" />
+</type>
+
+<type name="h-pixel-1000" is="detector">
+<cylinder id="cyl-approx">
+  <centre-of-bottom-base r="0.0" t="0.0" p="0.0" />
+  <axis x="1.0" y="0.0" z="0.0" />
+  <radius val="0.00375" />
+  <height val="0.005" />
+</cylinder>
+<algebra val="cyl-approx" />
+</type>
+ 
+    <idlist idname="Bank_1_Ids_vert_right">
+        <id start="1" end="179200" />  
+    </idlist>
+    <idlist idname="Bank_1_Ids_vert_left">
+        <id start="179201" end="358400" />  
+    </idlist>
+    <idlist idname="Bank_1_Ids_horz_top">
+        <id start="358401" end="470400" />  
+    </idlist>
+    <idlist idname="Bank_1_Ids_horz_bottom">
+        <id start="470401" end="582400" />  
+    </idlist>
+    <idlist idname="Bank_2_Ids_vert_right">
+        <id start="582401" end="616000" />  
+    </idlist>
+    <idlist idname="Bank_2_Ids_vert_left">
+        <id start="616001" end="649600" />  
+    </idlist>
+    <idlist idname="Bank_2_Ids_horz_top">
+        <id start="649601" end="739200" />  
+    </idlist>
+    <idlist idname="Bank_2_Ids_horz_bottom">
+        <id start="739201" end="828800" />  
+    </idlist>
+    <idlist idname="Bank_3_Ids">
+        <id start="828801" end="1142400" />  
+    </idlist>
+
+    <!--
+    <idlist idname="Bank_1_Ids_horz">
+        <id start="262145" end="425984" />  
+    </idlist>
+    
+    <idlist idname="Bank_2_Ids_vert">
+        <id start="425985" end="466880" />  
+    </idlist>
+    -->
+  
+</instrument>
