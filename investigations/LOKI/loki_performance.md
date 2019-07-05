@@ -6,6 +6,7 @@ The [LOKI instrument](https://europeanspallationsource.se/instruments/loki) for 
 
 ## Scope
 This document only covers performance benchmarks for the LOKI instrument based on the geometry described in the proceeding section. A general benchmarking exercise of the live data reduction in Mantid was performed [here](https://github.com/DMSC-Instrument-Data/documents/blob/master/investigations/Live%20Reduction/LiveReductionInvestigation.md) and this document may be referenced within. 
+Additionaly, this document only explores performance at a target rate of 10<sup>7</sup>events/s which corresponds to the predicted initial operational flux to 2MW. See [ess-hardware-requirements-report-v1.pdf](report.pdf) produced by Simon Heybrock for details.
 
 ## LOKI Geometry
 The LOKI Geometry used for these tests are as specified in the engineering diagrams below. This design supersedes the initial BandGEM approach and will be utilizing a straw tube implementation. This decision to use straw tubes was fixed in early 2018. The instrument consists of 864 tubes (6048 straws) with an intrinsic resolution of 5mm. Straw lengths vary between 1.2m and 0.5m which gives a total pixel count of 1,245,880pixels.
@@ -24,12 +25,41 @@ The hardware used for these tests is as follows:
 - Intel(R) Core(TM) i9-9920X CPU @ 3.50GHz
 - Target Linux Platform (OpenMP is a hard requirement)
 
-## Live Consumption Tests
-### Event rates
-This document only explores performance at a target rate of 10<sup>7</sup>events/s as a worst case since day 1 instrument flux of 1MW, ramping up to 2MW, will not result in an incident flux beyond this for LOKI. See [ess-hardware-requirements-report-v1.pdf](report.pdf) produced by Simon Heybrock.
+## Outcomes
 
 ### Measurement Interpretation
 The ESS pulse rate for neutrons is expected to be **14Hz**. This will be the rate at which messaged will be produced in the Kafka system and therefore consumed by Mantid. Measurements are taken in this context. If Mantid is capable of processing events (writing events to in-memory data structures and performing basic reduction) at this rate at a target neutron flux, this indicates that Mantid can cope with the event rate.
+
+### Data ingest into Mantid
+
+Data consumption into Mantid using realistic SANS data generated using GEANT4 resulted in an average consumption rate of ~24Hz. This was performed at an event flux of ~1.4e<sup>7</sup> events per message. This clearly shows that Mantid can comfortably deal with the ingest of data at these high rates.
+
+##### Scaling
+There was previous work done in investigating how well the live streamer in Mantid scales and was presented in this document [LiveReductionInvestigation](https://github.com/DMSC-Instrument-Data/documents/blob/master/investigations/Live%20Reduction/LiveReductionInvestigation.md). Scaling for LOKI ingesting the simulated data showed the following trend:
+
+`#` of threads|Message Consumption Rate (Hz)
+---|---
+1|8
+4|26
+8|33
+16|52
+24 (Hyperthreading)|21
+
+Note that at 24 threads it is assumed the host system is oversubscribed due to running Mantid, Kafka broker and NeXus publisher simultaneously as well as hyperthreading.
+
+### SANS Data Reduction
+The Data reduction used for these performance investigations was the ISIS SANS Reduction workflow which was decided in 2018 as part of the DMSC milestones (see [here](https://confluence.esss.lu.se/pages/viewpage.action?pageId=262411283)). Profiling on this workflow was performed by Neil Vaytet (ESS)> The data for this test was produced using Geant4 and converted into a Mantid data structure for processing. The results are shown below:
+
+![Sans Reduction Profile](sansreductionprofile.png)
+
+In this test, 12 CPU cores were allocated to the data reduction, we see the reduction is mostly using all allocated cores most of the time. This suggests this workflow is currently optimised to make use of parallel CPU architectures. However, `ConvertUnits` seems to be entirely single threaded and half of the `Rebin` operation is single-threaded. Recommendations are presented at the end of this document.
+
+### Ingest with ISIS SANS Workflow
+
+The ingest of data into Mantid was coupled with the ISIS SANS Workflow to assess the impact on the message consumption rate. Mantid reported an average consumption rate of ~18Hz. This is still above the 14Hz target but there is the possibility of optimizing the SANS workflow algorithms to obtain better performance.
+
+## Live Consumption Tests
+
 ### Previous Efforts
 The performance of Mantid for live data streaming/reduction was evaluated and results presented in the following document [LiveReductionInvestigation](https://github.com/DMSC-Instrument-Data/documents/blob/master/investigations/Live%20Reduction/LiveReductionInvestigation.md). Following from this work Lamar Moore (ISIS), Dan Nixon (ISIS/ESS-in-kind) and Simon Heybrock (ESS) met December 2018 in Copenhagen to discuss and prototype strategies for addressing performance bottlenecks in this area. The result of this work can be found [here](https://github.com/DMSC-Instrument-Data/documents/blob/master/meeting_notes/December_2018/agenda.md). After this meeting the team reached the following conclusions:
 
@@ -77,19 +107,6 @@ The data file contained ~1M events which represented a single pulse. In order to
 
 Data consumption rates averaged ~24Hz (messages) at an event rate of ~1.4e<sup>7</sup>Hz. This utilized a 30s timeout for `MonitorLiveData` and a basic `Rebin` operation for displaying data on the instrument. The event buffer stored 2.5e<sup>7</sup> events before writing to the workspace.
 
-##### Scaling
-There was previous work done in investigating how well the live streamer in Mantid scales and was presented in this document [LiveReductionInvestigation](https://github.com/DMSC-Instrument-Data/documents/blob/master/investigations/Live%20Reduction/LiveReductionInvestigation.md). Scaling for LOKI ingesting the simulated data showed the following trend:
-
-`#` of threads|Message Consumption Rate (Hz)
----|---
-1|80
-4|234
-8|299
-16|472
-24|194
-
-Note that at 24 threads it is assumed the host system is oversubscribed due to running Mantid, Kafka broker and NeXus publisher simultaneously.
-
 #### With Live Reduction Script
 
 The test for live reduction was carried out using the following basic script (taken from previous tests):
@@ -114,12 +131,7 @@ Data consumption rates averaged ~18Hz (messages) at an event rate of ~1.4e<sup>7
 ### Summary and Final Conclusions
 The final optimizations added to Mantid have facilitated live streaming which will meet expected requirements for coping with projected instrument flux. The scalability of the solution also demonstrates that as processor architectures improve and scale in future, iterations, we will be in a good position to manage increasing flux. There are currently no recommended actions required for parallelisation/distribution of Mantid for live streaming.
 
-#### SANS Workflow Recommendation
-The profiling tools developed by Neil Vaytet (ESS) highlighted that the SANS workflow does not seem to make effective use of multi-threaded architectures (figure below).  
-
-![Sans Reduction Profile](sansreductionprofile.png)
-
-An investigation into parallelising Mantid algorithms used in the SANS workflow may allow us to squeeze some extra performance out of the live reduction pipeline. However, the performance rate is currently limited by the ingest into Mantid.
+#### Recommendations
 
 
  
