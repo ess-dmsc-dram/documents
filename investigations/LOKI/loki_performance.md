@@ -2,13 +2,13 @@
 
 ## Motivation
 
-The LOKI instrument for small angle neutron scattering is scheduled to be one of the first instruments to come online for the ESS. As such, it is important that the day 1 requirements for the software are satisfied before the instrument enters the commissioning phase. LOKI will be ~1Mpixels with an incident flux between 10<sup>5</sup>Hz and 10<sup>8</sup>Hz (worst case). This represents a significant processing and storage challenge for the ESS. Since Mantid has been chosen as the data-reduction platform at the ESS, it is critical that the software can cope with these data rates. This document outlines the current performance of the Mantid framework and recommendations for improvements which may allow performance to meet the requirements.
+The [LOKI instrument](https://europeanspallationsource.se/instruments/loki) for small angle neutron scattering is scheduled to be one of the first instruments to come online for the ESS. As such, one of the [High Level DMSC Milestones](https://confluence.esss.lu.se/pages/viewpage.action?pageId=262411283) is to ensure the data reduction software can cope with the proposed instrument flux in a live data reduction scenario. LOKI will be ~1Mpixels with an incident flux between 10<sup>5</sup>Hz and 10<sup>8</sup>Hz (worst case). This represents a significant processing and storage challenge for the ESS. Since Mantid has been chosen as the data-reduction platform at the ESS, it is critical that the software can cope with the expected data rates in preparation for hot comissioning and early science in mid 2023. The maximum instrument flux during these phases is set to be ~10<sup>7</sup>Hz. This document outlines the current performance of the Mantid framework and recommendations for improvements which may allow performance to meet the requirements.
 
 ## Scope
-This document only covers performance benchmarks for the LOKI instrument based on the geometry described in the proceeding section. A general benchmarking exercise of the live data reduction in Mantid was performed [here](https://github.com/DMSC-Instrument-Data/documents/blob/master/investigations/Live%20Reduction/LiveReductionInvestigation.md) and this document may be referenced within.
+This document only covers performance benchmarks for the LOKI instrument based on the geometry described in the proceeding section. A general benchmarking exercise of the live data reduction in Mantid was performed [here](https://github.com/DMSC-Instrument-Data/documents/blob/master/investigations/Live%20Reduction/LiveReductionInvestigation.md) and this document may be referenced within. 
 
 ## LOKI Geometry
-The LOKI Geometry used for these tests are as specified in the engineering diagrams below. The instrument consists of 864 tubes (6048 straws) with an intrinsic resolution of 5mm. Straw lengths vary between 1.2m and 0.5m which gives a total pixel count of 1,245,880pixels.
+The LOKI Geometry used for these tests are as specified in the engineering diagrams below. This design supersedes the initial BandGEM approach and will be utilizing a straw tube implementation. This decision to use straw tubes was fixed in early 2018. The instrument consists of 864 tubes (6048 straws) with an intrinsic resolution of 5mm. Straw lengths vary between 1.2m and 0.5m which gives a total pixel count of 1,245,880pixels.
 ![geometry](loki_geometry.png)
 ![mantid](loki_mantid.png)
 
@@ -22,6 +22,7 @@ The hardware used for these tests is as follows:
 
 - 128GB RAM
 - Intel(R) Core(TM) i9-9920X CPU @ 3.50GHz
+- Target Linux Platform (OpenMP is a hard requirement)
 
 ## Live Consumption Tests
 ### Event rates
@@ -34,9 +35,9 @@ The performance of Mantid for live data streaming/reduction was evaluated and re
 
 - Optimizing Mantid to satisfy ESS performance requirements is achievable with current time and resource.
 - The optimization effort can be carried out without the need for MPI (distribution of the event stream for use on a HPC Cluster).
-- The optimizations are straightforward. 
+- The optimizations can be implemented within 2-3 person months.
 
-**There were previous small optimizations made as part of the live reduction investigation which resulted in a small performance improvement. Tests conducted in this investigation are from that basis.**
+**There were previous small optimizations made as part of the live reduction investigation which resulted in small performance improvements in the live streamer. Tests conducted in this investigation started with these small optimizations as opposed to the state of the current Mantid release.**
 ### Random Data Test (Writing to Workspace)
 #### Data
 The data was generated using the following tools ESS-based tools:
@@ -109,7 +110,7 @@ Q1D(DetBankWorkspace="ws", OutputWorkspace="SANSReduced", SolidAngleWeighting=Fa
 Data consumption rates averaged ~18Hz (messages) at an event rate of ~1.4e<sup>7</sup>Hz. All other configurations were fixed as in the previous case.
 
 ### Summary and Final Conclusions
-The final optimizations added to Mantid have facilitated live streaming which will be exceedingly capable of coping with projected instrument flux. The scalability of the solution also demonstrates that as processor architectures improve and scale in future, iterations, we will be in a good position to manage increasing flux. There are currently no recommended actions required for parallelisation/distribution of Mantid for live streaming.
+The final optimizations added to Mantid have facilitated live streaming which will meet expected requirements for coping with projected instrument flux. The scalability of the solution also demonstrates that as processor architectures improve and scale in future, iterations, we will be in a good position to manage increasing flux. There are currently no recommended actions required for parallelisation/distribution of Mantid for live streaming.
 
 #### SANS Workflow Recommendation
 The profiling tools developed by Neil Vaytet (ESS) highlighted that the SANS workflow does not seem to make effective use of multi-threaded architectures (figure below).  
