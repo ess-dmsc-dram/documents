@@ -80,13 +80,15 @@ Data consumption rates averaged ~24Hz (messages) at an event rate of ~1.4e<sup>7
 ##### Scaling
 There was previous work done in investigating how well the live streamer in Mantid scales and was presented in this document [LiveReductionInvestigation](https://github.com/DMSC-Instrument-Data/documents/blob/master/investigations/Live%20Reduction/LiveReductionInvestigation.md). Scaling for LOKI ingesting the simulated data showed the following trend:
 
-`#` of threads|Message Consumption Rate
+`#` of threads|Message Consumption Rate (Hz)
 ---|---
-1|TBC
-4|TBC
-8|TBC
-16|TBC
-24|TBC
+1|80
+4|234
+8|299
+16|472
+24|194
+
+Note that at 24 threads it is assumed the host system is oversubscribed due to running Mantid, Kafka broker and NeXus publisher simultaneously.
 
 #### With Live Reduction Script
 
