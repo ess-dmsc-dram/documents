@@ -43,7 +43,7 @@ There was previous work done in investigating how well the live streamer in Mant
 4|26
 8|33
 16|52
-24 (Hyperthreading)|21
+24|21
 
 Note that at 24 threads it is assumed the host system is oversubscribed due to running Mantid, Kafka broker and NeXus publisher simultaneously as well as hyperthreading.
 
@@ -52,7 +52,7 @@ The Data reduction used for these performance investigations was the ISIS SANS R
 
 ![Sans Reduction Profile](sansreductionprofile.png)
 
-In this test, 12 CPU cores were allocated to the data reduction, we see the reduction is mostly using all allocated cores most of the time. This suggests this workflow is currently optimised to make use of parallel CPU architectures. However, `ConvertUnits` seems to be entirely single threaded and half of the `Rebin` operation is single-threaded. Recommendations are presented at the end of this document.
+In this test, 12 CPU cores were allocated to the data reduction, we see the reduction is mostly using all allocated cores most of the time. This suggests this workflow is currently optimised to make use of parallel CPU architectures. However, `ConvertUnits` seems to be entirely single threaded and half of the `Rebin` operation is single-threaded. Recommendations for optimizing the workflow are presented in the last section of this document.
 
 ### Ingest with ISIS SANS Workflow
 
@@ -129,9 +129,50 @@ Q1D(DetBankWorkspace="ws", OutputWorkspace="SANSReduced", SolidAngleWeighting=Fa
 Data consumption rates averaged ~18Hz (messages) at an event rate of ~1.4e<sup>7</sup>Hz. All other configurations were fixed as in the previous case.
 
 ### Summary and Final Conclusions
-The final optimizations added to Mantid have facilitated live streaming which will meet expected requirements for coping with projected instrument flux. The scalability of the solution also demonstrates that as processor architectures improve and scale in future, iterations, we will be in a good position to manage increasing flux. There are currently no recommended actions required for parallelisation/distribution of Mantid for live streaming.
+The final optimizations added to Mantid have facilitated live streaming which will meet expected requirements for coping with projected instrument flux. The scalability of the solution also demonstrates that as processor architectures improve and scale in future iterations, we will be in a good position to handle increasing flux. There are currently no recommended actions required for parallelisation/distribution of Mantid for live streaming. There are however recommendations for improving the SANS reduction workflow itself.
 
 #### Recommendations
 
+**Optimizing the reduction workflow**
+
+`ConvertUnits`:
+
+There are several ways the `ConvertUnits` algorithm can be optimized, if its
+runtime becomes a bottleneck for the reduction.
+
+First, the profiling shows that threading is unused for the entire execution of
+the algorithm. A closer look at the source code revealed that threading is
+only enabled in the `convertQuickly` [function](https://github.com/mantidproject/mantid/blob/master/Framework/Algorithms/src/ConvertUnits.cpp#L331)
+which is used for simple conversions where only a single factor or a power is
+to be applied to the values.
+In all other cases, where conversion is performed via the time-of-flight unit,
+threading is not in use. We do not see any major stumbling blocks in the way
+of threading being extended to the more complex conversions in the future.
+
+Second, a virtual function call is made for every data element, and removing
+this could also be a potential avenue for optimization. Some work on this was
+started in 2017 by Simon Heybrock
+(see [here](https://github.com/mantidproject/mantid/tree/ConvertUnits_performance)).
+
+
+`Rebin`:
+
+The first half of the execution of the `Rebin` algorithm uses only a single
+thread. The source code for `Rebin` is relatively compact and finding the
+locations of the non-threaded sections should be straightforward.
+
+
+`FindCenterOfMassPosition`:
+
+The first part of this algorithm uses threading, but everything after the call
+to `CreateWorkspace` is not. Parallelising the [loop](https://github.com/mantidproject/mantid/blob/master/Framework/Algorithms/src/FindCenterOfMassPosition2.cpp#L157) on the number of spectra
+should give a good performance boost.
+
+
+
+`CreateWorkspace`:
+
+A large part of the `CreateWorkspace` algorithm is non-threaded. It is not
+immediately clear how easy it would be to remedy this.
 
  
