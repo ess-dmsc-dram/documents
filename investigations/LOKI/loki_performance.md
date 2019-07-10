@@ -2,7 +2,25 @@
 
 ## Motivation
 
-The [LOKI instrument](https://europeanspallationsource.se/instruments/loki) for small angle neutron scattering is scheduled to be one of the first instruments to come online for the ESS. As such, one of the [High Level DMSC Milestones](https://confluence.esss.lu.se/pages/viewpage.action?pageId=262411283) is to ensure the data reduction software can cope with the proposed instrument flux in a live data reduction scenario. LOKI will be ~1Mpixels with an incident flux between 10<sup>5</sup>Hz and 10<sup>8</sup>Hz (worst case). This represents a significant processing and storage challenge for the ESS. Since Mantid has been chosen as the data-reduction platform at the ESS, it is critical that the software can cope with the expected data rates in preparation for hot comissioning and early science in mid 2023. The maximum instrument flux during these phases is set to be ~10<sup>7</sup>Hz. This document outlines the current performance of the Mantid framework and recommendations for improvements which may allow performance to meet the requirements.
+The [LOKI instrument](https://europeanspallationsource.se/instruments/loki) for small angle neutron scattering is scheduled to be one of the first instruments to come online for the ESS. As such, one of the [High Level DMSC Milestones](https://confluence.esss.lu.se/pages/viewpage.action?pageId=262411283) is to ensure the data reduction software can cope with the proposed instrument flux in a live data reduction scenario. LOKI will be ~1Mpixels with an incident flux between 10<sup>5</sup>events/s and 10<sup>8</sup>events/s (worst case). This represents a significant processing and storage challenge for the ESS. Since Mantid has been chosen as the data-reduction platform at the ESS, it is critical that the software can cope with the expected data rates in preparation for hot comissioning and early science in mid 2023. The maximum instrument flux during these phases is set to be ~10<sup>7</sup>events/s. This document outlines the current performance of the Mantid framework and recommendations for improvements which may allow performance to meet the requirements.
+
+## Summary 
+
+The Transition to Operations Milestone for the DMSC requires exactly:
+
+```
+1. Data can be reduced on the fly for expected flux of <INSTR> when in full operation. Data are received from DAQ & Streaming system.
+2. Data can be post rereduced on cluster
+3. Need to be able to define the scaling parameter for the acrhtecture rather than actually physically demonstrate
+```
+
+LOKI at 10<sup>7</sup>events/s at 14Hz is the target rate and `LOKI` is the DMSC agreed substitution for `<INSTR>`
+
+1. The target rate for both ingest and full data reduction using the best available analogue to the LOKI data reduction workflow (ISIS SANS). The target rates were met for both on the hardware described below. See details in following sections.
+1. The data was not post rereduced on a cluster in these experiments. However a single workstation proved able to deal with the Data in "Live Mode". Live and post collection Data Reduction is the subject of forthcoming experiments at V20 September 2019, and we intend to demonstrate those capabilities, though a cluster will not be required. 
+1. The measurements for ingest show we achieve scaling [TODO more details] will number of threads. The Mantid specific profiling shown below shows some good thread utilisation, with other algoritmic areas which should be subject of attention as part of planned future work.
+
+
 
 ## Scope
 This document only covers performance benchmarks for the LOKI instrument based on the geometry described in the proceeding section. A general benchmarking exercise of the live data reduction in Mantid was performed [here](https://github.com/DMSC-Instrument-Data/documents/blob/master/investigations/Live%20Reduction/LiveReductionInvestigation.md) and this document may be referenced within. 
