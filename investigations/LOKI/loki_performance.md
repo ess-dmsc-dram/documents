@@ -49,7 +49,7 @@ LOKI at 10<sup>7</sup>events/s at 14Hz is the target rate and `LOKI` is the DMSC
 
 1. The target rate for both ingest and full data reduction using the best available analogue to the LOKI data reduction workflow (ISIS SANS). The target rates were met for both on the hardware described below. See details in following sections.
 1. The data was not post rereduced on a cluster in these experiments. However a single workstation proved able to deal with the Data in "Live Mode". Live and post collection Data Reduction is the subject of forthcoming experiments at V20 September 2019, and we intend to demonstrate those capabilities, though a cluster will not be required. 
-1. The measurements for ingest show we achieve scaling [TODO more details] will number of threads. The Mantid specific profiling shown below shows some good thread utilisation, with other algoritmic areas which should be subject of attention as part of planned future work.
+1. The measurements for ingest show we achieve linear scaling will number of threads. The Mantid specific profiling shown below shows some good thread utilisation, with other algoritmic areas which should be subject of attention as part of planned future work.
 
 
 
