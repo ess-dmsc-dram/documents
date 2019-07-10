@@ -63,6 +63,8 @@ There was previous work done in investigating how well the live streamer in Mant
 16|52
 24|21
 
+![scaling](scaling.png)
+
 Note that at 24 threads it is assumed the host system is oversubscribed due to running Mantid, Kafka broker and NeXus publisher simultaneously as well as hyperthreading.
 
 ### SANS Data Reduction
