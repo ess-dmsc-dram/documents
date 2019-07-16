@@ -1,6 +1,6 @@
 # Go/No-Go Streamed Geometry
 ### Why not use filewriter?
-The Json geometry is essentially in the nexus format. The filewrite is simply writing what it finds in the JSON string out to the nexus file (see below).
+The Json geometry is essentially in the nexus format. The filewriter is simply writing what it finds in the JSON string out to the nexus file (see below).
 ```json
 {
   "nexus_structure": {
@@ -474,10 +474,10 @@ The Json geometry is essentially in the nexus format. The filewrite is simply wr
 }
 ```
 
- There is no sophisticated parsing are conversion to Nexus in memory. As such, there is no in-memory representation of instrument geometry. In order to re-use what is in the filewriter we will either need to write to file first the read, which will defeat the purpose of the exercise, or we will need to make invasive changes to both the filewriter and Mantid to create/parse an in-memory representation of the nexus geometry. It is far simpler to just go directly from JSON to the in-memory instrument.
+ There is no sophisticated parsing or conversion to Nexus in memory. As such, there is no in-memory representation of instrument geometry. In order to re-use what is in the filewriter we will either need to write to file first the read, which will defeat the purpose of the exercise, or we will need to make invasive changes to both the filewriter and Mantid to create/parse an in-memory representation of the nexus geometry. It is far simpler and likely more performant to just go directly from JSON to the in-memory instrument.
 
 ### Initial impressions
-So far a few unit tests have been written to probe the general structure of the JSON file and extact basic geometry components. It seems as though extraction of the detector information is relatively straightforward and will be able to make use of the `InstrumentBuilder` and `NexusFactory` without modification of either to produce the instrument. This is using the `JSONCpp` library which is relatively simple to use, although it is not the best library to work with. 
+So far a few unit tests have been written to probe the general structure of the JSON file and extract basic geometry components. It seems as though extraction of the detector information is relatively straightforward and we will be able to make use of the `InstrumentBuilder` and `NexusFactory` without modification of either to produce the instrument. This is using the `JSONCpp` library which is relatively simple to use, although it is not the best library to work with. 
 
 ### Estimates
 Given current progress on exploratory unit tests as well as the availability of the `NexusGeometry` builders, creating a `JSONGeometryParser` could take between 2-4 weeks of a single, experienced developer's time. This includes testing and integration into the `KafkaEventStreamDecoder`. This will all be subject to the availability of an actual stream of the instrument Geometry.
