@@ -42,6 +42,27 @@ Figure 2 shows an example of neutron scattering data collected at V20 (Si sample
 
 ### Short-comings of the peak-finding method
 
+There are a number of short-comings of the peak finding method for finding the frame boundaries and applying the conversion to time-of-flight, which have led us to develop a second method, which is described in the next section.
+
+#### Peak-finding algorithms are unpredictable
+
+Peak-finding algorithms are notoriously unstable, often requiring tuning to work on a case-by-case basis [Ref needed], which defies the point to trying to automate the task of finding frame edges. For instance, the values for the peak prominence and background estimation will almost certainly need to be adjusted if a large diffraction spike is present in the data (see an example in Fig. 3).
+
+#### Peak-finding requires enough signal-to-noise
+
+Enough signal-to-noise is required to be able to perform peak finding, meaning that it will most probably fail on noisy data. In addition, this implies that it is not possible to perform on-the-fly stitching on live data acquisition, as all the data needs to be collected before it can be stitched.
+
+#### Excessive grouping of detector pixels leads to blurring
+
+The signal-to-noise requirement also poses another problem; the data for V20 were histogrammed into a single spectrum to obtain most optimal signal-to-noise, and this was a reasonable simplification of the data as the DENEX delay-line detector at V20 was a single square panel 30cm across. The small size and shape of the panel meant that the distance from the sample was similar for all detector pixels, and little blurring was observed in the single spectrum that grouped all the detector pixels.
+
+However, this will not be true for all the instruments at ESS that are planning to make use of WFM. In some extreme cases, it might even be required to compute slightly different frame boundaries for each detector pixel.
 
 
 ## Method 2: Using TOF diagrams in a post-processing step
+
+The second method was developed as an attempt to solve the issues listed above. In principle, 
+
+![tof-diagram](tof_diagram.png)
+**Figure 4:** Time-of-flight diagram for V20 in WFM mode.
+
