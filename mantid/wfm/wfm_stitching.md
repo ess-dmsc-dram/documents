@@ -30,6 +30,7 @@ Because WFM is essentially making 6 new pulses from a single long pulse, the pos
 Each frame needs to be shifted by a different value, as described in [Woracek et al. (2016)](https://doi.org/10.1016/j.nima.2016.09.034). This article also outlines the method used to compute the different frame shifts, and this will thus not be repeated here. We simply list the numbers by which the frames were shifted:
 
 | Frame number | 1 | 2 | 3 | 4 | 5 | 6 |
+| --- | --- | --- | --- | --- | --- | --- |
 | Tof shift [&mu;s] | -6630 | -9050 | -11303 | -13398 | -15344 | -17154 |
 
 As explained in Woracek et al. (2016), the shifts for frames 2-6 are computed from the WFM chopper cut-out angles and rotation frequency, but depend on a initial frame shift for the first frame, which is free parameter. The value of the first frame shift (given in the table), was computed by fitting a Bragg edge to the WFM signal from an iron plate, using the same expenrimental set-up.
