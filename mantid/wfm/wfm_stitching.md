@@ -63,6 +63,6 @@ However, this will not be true for all the instruments at ESS that are planning 
 
 The second method was developed as an attempt to solve the issues listed above. In principle, 
 
-![tof-diagram](tof_diagram.png)
+![tof-diagram](tof_diagram_v20.png)
 **Figure 4:** Time-of-flight diagram for V20 in WFM mode.
 
