@@ -21,6 +21,7 @@ The procedure employed to find the WFM frames in the recorded data is the follow
 1. The leading (blue dot) and trailing (yellow dot) edges complete the set of frame boundaries.
 
 ![peak-finding](peak_finding.png)
+**Figure 1:** Left: raw data from a diffraction experiment at V20, showing the 6 WFM frames in different colours, as well as various markers that illustrate the steps in the frame finding algorithm (see text). Right: Histogramming of counts in amplitude bins to detect the background as the most common count occurence.
 
 ### Applying the conversion to time-of-flight
 
@@ -33,9 +34,10 @@ Each frame needs to be shifted by a different value, as described in [Woracek et
 
 As explained in Woracek et al. (2016), the shifts for frames 2-6 are computed from the WFM chopper cut-out angles and rotation frequency, but depend on a initial frame shift for the first frame, which is free parameter. The value of the first frame shift (given in the table), was computed by fitting a Bragg edge to the WFM signal from an iron plate, using the same expenrimental set-up.
 
-Figure 2 shows an example of neutron scattering data collected at V20 (Si sample), before (top) and after (bottom) stitching.
+Figure 2 shows an example of neutron scattering data collected at V20 (Si sample), before (top) and after (bottom) stitching. Note that some artifacts (spikes) show up between some of the frames, due to signal overlap. However, these get corrected when the data is normalized by a monitor signal which shows identical artifacts.
 
-
+![before-after](si_frames.png)
+**Figure 2:** Before (top panel) and after (bottom panel) the stitching procedure.
 
 ### Short-comings of the peak-finding method
 
