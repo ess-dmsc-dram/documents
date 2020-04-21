@@ -78,7 +78,7 @@ The time-of-flight diagram shows us the path taken by the slowest and fastest ne
 In addition, the diagram gives a visual illustration on the origin of the frame shifts. If we are now saying that the WFM choppers are effectively being treated as source choppers, we need to account for the shift between the position of the real source (at 0 m) and the mid-point between the two WFM choppers (6.85 m). Taking the flight path for the fastest neutrons in frame 1 show that they arrival time should be shifted by ~6341 &mu;s, which is very close to the 6630 &mu;s found above by Bragg-edge fitting. The shifts for the other frames are given in the table below.
 
 ![tof-diagram](tof_diagram_v20.png)
-**Figure 3:** Time-of-flight diagram for the V20 instrument in WFM mode.
+**Figure 3:** Time-of-flight diagram for the V20 instrument in WFM mode. Note that in this diagram (unlike what is commonly used elsewhere), a horizontal line represents a chopper opening, and not when the chopper is closed.
 
 Here is the output from the calculation of the TOF diagram for V20 in WFM mode, using [this](https://github.com/nvaytet/tofdiagrams) small utility:
 
