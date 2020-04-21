@@ -2,7 +2,8 @@
 
 ## 1. Introduction
 
-
+There is currently two different methods that can be employed to perform what is commonly known as 'stitching' of neutron data that was recorded in wave-frame multiplication (WFM) mode at the ESS V20 test beamline.
+This document describes in detail the two different methods, their advatanges and drawbacks, as well as listing links to where the software can be downloaded.
 
 ## 2. Method 1: Using peak-finding
 
@@ -22,6 +23,11 @@ The procedure employed to find the WFM frames in the recorded data is the follow
 
 ![peak-finding](peak_finding.png)
 **Figure 1:** Left: raw data from a diffraction experiment at V20, showing the 6 WFM frames in different colours, as well as various markers that illustrate the steps in the frame finding algorithm (see text). Right: Histogramming of counts in amplitude bins to detect the background as the most common count occurence.
+
+**Links**
+
+- The software that implements Method 1 can be found here: https://git.esss.dk/wedel/wfm_stitching.
+- Contact: Neil Vaytet (ESS/DMSC), Owen Arnold (STFC, Tessella)
 
 ### 2.2 Applying the conversion to time-of-flight
 
@@ -46,7 +52,7 @@ There are a number of short-comings of the peak finding method for finding the f
 
 #### 2.3.1 Peak-finding algorithms are unpredictable
 
-Peak-finding algorithms are notoriously unstable, often requiring tuning to work on a case-by-case basis [Ref needed], which defies the point to trying to automate the task of finding frame edges. For instance, the values for the peak prominence and background estimation will almost certainly need to be adjusted if a large diffraction spike is present in the data (see an example in Fig. 3).
+Peak-finding algorithms are notoriously unstable, often requiring tuning to work on a case-by-case basis [Ref needed], which defies the point to trying to automate the task of finding frame edges. For instance, the values for the peak prominence and background estimation will almost certainly need to be adjusted if a large diffraction spike is present in the data.
 
 #### 2.3.2 Peak-finding requires enough signal-to-noise
 
@@ -61,10 +67,10 @@ However, this will not be true for all the instruments at ESS that are planning 
 
 ## 3. Method 2: Using TOF diagrams in a post-processing step
 
-The second method was developed as an attempt to solve the issues listed above. In principle, it is possible to predict the location of the frame boundaries analytically, using the information about the beamline. Indeed, using only the positions of the neutron source, the detector and the choppers, as well as the chopper rotation frequencies, we can construct a time-of-flight diagram for the instrument, as shown in Fig. 4 (see also [Strobl et al. 2013](https://www.sciencedirect.com/science/article/pii/S0168900212016142)). The time-of-flight diagram shows us the path taken by the slowest and fastest neutrons in the distance versus time space, effectively giving the boundaries of the frame at the position of the detector (28 m from the source).
+The second method was developed as an attempt to solve the issues listed above. In principle, it is possible to predict the location of the frame boundaries analytically, using the information about the beamline. Indeed, using only the positions of the neutron source, the detector and the choppers, as well as the chopper rotation frequencies, we can construct a time-of-flight diagram for the instrument, as shown in Fig. 3 (see also [Strobl et al. 2013](https://www.sciencedirect.com/science/article/pii/S0168900212016142)). The time-of-flight diagram shows us the path taken by the slowest and fastest neutrons in the distance versus time space, effectively giving the boundaries of the frame at the position of the detector (28 m from the source).
 
 ![tof-diagram](tof_diagram_v20.png)
-**Figure 4:** Time-of-flight diagram for V20 in WFM mode.
+**Figure 3:** Time-of-flight diagram for the V20 instrument in WFM mode.
 
 Using this method has the following advantages:
 
@@ -72,9 +78,9 @@ Using this method has the following advantages:
 1. Removing the need for peak-finding also removes the need for enough signal-to-noise before stitching can be performed. In principle, the TOF for each event could be individually corrected, as they come in, naturally enabling on-the-fly stitching of live data.
 1. Analytical calculations of frame boundaries also make it possible to have a different correction for each individual pixel, thus maximizing the resolution of the instrument.
 
-There are however some possible drawbacks to this method. Indeed, this solution assumes that everything is known about the instrument beamline's behaviour, and would probably not be very useful during an early operation phase such as hot commissioning. It can also be difficult to identify if something has gone wrong during the measurement, such as an out-of-phase chopper for instance, making the stitched data hard to interpret. We believe that this method could be used as a default, keeping Method 1 as a safety/sanity check, so that both methods complement each other.
+There are however some possible drawbacks to this method. Indeed, this solution assumes that everything is known about the instrument beamline's behaviour, and would probably not be very useful during an early operation phase such as hot commissioning. It can also be difficult to identify if something has gone wrong during the measurement, such as an out-of-phase chopper for instance, making the stitched data hard to interpret. We believe that this method could be used as a default, keeping Method 1 as a safety/sanity check, so that both methods would complement each other. It is also not entirely clear if neutron flight paths are trivial to calculate analytically for all instruments at ESS with WFM capabilities.
 
-The software that implements Method 2 can be found here: https://github.com/nvaytet/wfmess. (Note that there is currently no documentation on this project, as it is very much a work in progress). This is already an optimized version of the algorithm where the boundaries of the six frames are not searched for each event with
+The software that implements Method 2 can be found [here](https://github.com/nvaytet/wfmess) (Note that there is currently no documentation on this project, as it is very much a work in progress). This is already an optimized version of the algorithm where the boundaries of the six frames are not searched for each event with
 ```Py
 for e in raw_events:
     for n in len(frame_boundaries):
@@ -102,6 +108,11 @@ for e in raw_events:
     e += frame_shifts[frame_number[iframe]]
 ```
 This assumes that the number of events to be processed is much higher than `Nbins`. This can provide 5x to 10x speedups for the conversion to TOF. Some questions remain as to whether such an optimization is applicable to the case where different corrections are applied to different detector pixels if a very large number of pixels is present, as having 5000 different bins for 1M pixels does not fit in memory for common computers.
+
+**Links**
+
+- The software is available at: https://github.com/nvaytet/wfmess
+- Contact: Neil Vaytet (ESS/DMSC)
 
 ## 4. In-reduction stitching vs post-processing stitching
 
