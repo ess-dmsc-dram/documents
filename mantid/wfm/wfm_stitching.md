@@ -9,8 +9,8 @@ For more information about WFM experiments at V20, see [Strobl et al. (2013)](ht
 
 ## 2. Method 1: Using peak-finding
 
-Until 2018, WFM frame boundaries had to be given manually as an input to the WFM processing module 
-This first method 
+Until 2018, WFM frame boundaries had to be given manually as an input to the [ESS WFM processing module](https://git.esss.dk/wedel/wfm_stitching).
+This first method aimed to automatize the frame boundary detection process by using some signal processing techniques (including peak-finding).
 
 ### 2.1 Description of the frame-edge detection procedure
 
