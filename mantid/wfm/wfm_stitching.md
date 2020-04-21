@@ -74,12 +74,43 @@ Using this method has the following advantages:
 
 There are however some possible drawbacks to this method. Indeed, this solution assumes that everything is known about the instrument beamline's behaviour, and would probably not be very useful during an early operation phase such as hot commissioning. It can also be difficult to identify if something has gone wrong during the measurement, such as an out-of-phase chopper for instance, making the stitched data hard to interpret. We believe that this method could be used as a default, keeping Method 1 as a safety/sanity check, so that both methods complement each other.
 
-The software that implements Method 2 can be found here: https://github.com/nvaytet/wfmess. (Note that there is currently no documentation on this project, as it is very much a work in progress)
+The software that implements Method 2 can be found here: https://github.com/nvaytet/wfmess. (Note that there is currently no documentation on this project, as it is very much a work in progress). This is already an optimized version of the algorithm where the boundaries of the six frames are not searched for each event with
+```Py
+for e in raw_events:
+    for n in len(frame_boundaries):
+        if e >= frame_boundaries[n].lower and e < frame_boundaries[n].upper:
+            e += frame_shifts[n]
+            break
+```
+Instead, a large number (commonly of the order of 5000) of high-resolution equally spaced bins spanning the entire range of 'arrival time at detector' are created. Each one of these bins is given a TOF shift to be applied, depending on which frame number it corresponds to. Finally, the events can be efficiently processed with fast index finding:
+```Py
+# Set up the bins
+Nbins = 5000
+bins = np.linspace(tmin, tmax, Nbins + 1)
+frame_number = np.zeros(Nbins, dtype=np.int32)
+bin_width = bins[1] - bins[0]
+for b in range(Nbins):
+    x = bins[b] + 0.5 * bin_width
+    for n in len(frame_boundaries):
+        if x >= frame_boundaries[n].lower and x < frame_boundaries[n].upper:
+            frame_number[b] = n
+            break
+
+# Perform correction to TOF
+for e in raw_events:
+    iframe = int((e - tmin) / bin_width)
+    e += frame_shifts[frame_number[iframe]]
+```
+This assumes that the number of events to be processed is much higher than `Nbins`. This can provide 5x to 10x speedups for the conversion to TOF. Some questions remain as to whether such an optimization is applicable to the case where different corrections are applied to different detector pixels if a very large number of pixels is present, as having 5000 different bins for 1M pixels does not fit in memory for common computers.
 
 ## 4. In-reduction stitching vs post-processing stitching
 
-The early versions of the stitching procedure (including Method 1) depended on the Mantid software to perform the stitching, and consisted of several function calls that had to be made in a reduction workflow in order to stitch the data before further manipulation/reduction could be carried out. This was reported to be very time-consuming by several users, as they had to re-run a potentially lengthy
+The early versions of the stitching procedure (including Method 1) depended on the Mantid software to perform the stitching, and consisted of several function calls that had to be made in a reduction workflow in order to stitch the data before further manipulation/reduction could be carried out. This was reported to be very time-consuming by several users, as they had to re-run a potentially lengthy stitching step, which was always performing the same calculations.
 
+In principle, stitching is only required to be run once, as very little tweaking of the stitching parameters should be necessary. In addition, some users were carrying out a study that was comparing WFM and single-pulse data using the same sample set-up, and were having to maintain two different (but very similar) reduction scripts, depending on whether they were reducing WFM or single-pulse data.
 
+We thus propose that WFM stitching could be implemented as a post-processing step in the data acquisition. The raw data could be read in, stitched using the parameters from the beamline (the Nexus geometry is contained inside the data file), and a new post-processed file would then be written (and added to SciCat) to disk. All the parameters that were used for the stitching would be included in the file metadata. This would effectively alleviate all the issues listed above.
 
+The users would still have access to the raw un-stitched data, so that they are able to perform the stitching themselves, if they suspect something went wrong during that phase. But for 99% of cases, assuming auto-reduction is operating to satisfaction at an ESS facilty in full production mode, automatic post-processed stitching should work nicely.
 
+Going one step further, one could even imagine including the event-by-event stitching (although it makes less sense to call it stitching here, conversion to time-of-flight may be more appropriate) as part of the filewriter. It should be possible to 
