@@ -2,7 +2,7 @@
 
 ## 1. Introduction
 
-There is currently two different methods that can be employed to perform what is commonly known as 'stitching' of neutron data that was recorded in wave-frame multiplication (WFM) mode at the ESS V20 test beamline.
+There are currently two different methods that can be employed to perform what is commonly known as 'stitching' of neutron data that was recorded in wave-frame multiplication (WFM) mode at the ESS V20 test beamline.
 This document describes in detail the two different methods, their advatanges and drawbacks, as well as listing links to where the software can be downloaded.
 
 For more information about WFM experiments at V20, see [Strobl et al. (2013)](https://www.sciencedirect.com/science/article/pii/S0168900212016142) and [Woracek et al. (2016)](https://doi.org/10.1016/j.nima.2016.09.034).
