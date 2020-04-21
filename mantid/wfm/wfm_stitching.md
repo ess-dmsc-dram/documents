@@ -9,6 +9,9 @@ For more information about WFM experiments at V20, see [Strobl et al. (2013)](ht
 
 ## 2. Method 1: Using peak-finding
 
+Until 2018, WFM frame boundaries had to be given manually as an input to the WFM processing module 
+This first method 
+
 ### 2.1 Description of the frame-edge detection procedure
 
 The procedure employed to find the WFM frames in the recorded data is the following.
@@ -69,15 +72,34 @@ However, this will not be true for all the instruments at ESS that are planning 
 
 ## 3. Method 2: Using TOF diagrams in a post-processing step
 
-The second method was developed as an attempt to solve the issues listed above. In principle, it is possible to predict the location of the frame boundaries analytically, using the information about the beamline. Indeed, using only the positions of the neutron source, the detector and the choppers, as well as the chopper rotation frequencies, we can construct a time-of-flight diagram for the instrument, as shown in Fig. 3 (see also [Strobl et al. 2013](https://www.sciencedirect.com/science/article/pii/S0168900212016142)). The time-of-flight diagram shows us the path taken by the slowest and fastest neutrons in the distance versus time space, effectively giving the boundaries of the frame at the position of the detector (28 m from the source).
+The second method was developed as an attempt to solve the issues listed above. In principle, it is possible to predict the location of the frame boundaries analytically, using the information about the beamline. Indeed, using only the positions of the neutron source, the detector and the choppers, as well as the chopper rotation frequencies, we can construct a time-of-flight diagram for the instrument, as shown in Fig. 3 (see also [Strobl et al. 2013](https://www.sciencedirect.com/science/article/pii/S0168900212016142)).
+
+The time-of-flight diagram shows us the path taken by the slowest and fastest neutrons in the distance versus time space, effectively giving the boundaries of the frame at the position of the detector (28 m from the source).
+In addition, the diagram gives a visual illustration on the origin of the frame shifts. If we are now saying that the WFM choppers are effectively being treated as source choppers, we need to account for the shift between the position of the real source (at 0 m) and the mid-point between the two WFM choppers (6.85 m). Taking the flight path for the fastest neutrons in frame 1 show that they arrival time should be shifted by ~6341 &mu;s, which is very close to the 6630 &mu;s found above by Bragg-edge fitting. The shifts for the other frames are given in the table below.
 
 ![tof-diagram](tof_diagram_v20.png)
 **Figure 3:** Time-of-flight diagram for the V20 instrument in WFM mode.
+
+Here is the output from the calculation of the TOF diagram for V20 in WFM mode, using [this](https://github.com/nvaytet/tofdiagrams) small utility:
+
+| Frame number | 1 | 2 | 3 | 4 | 5 | 6 |
+|---|---|---|---|---|---|---|
+| Left boundary [&mu;s] | 1.73014e+04 | 2.72316e+04 | 3.65942e+04 | 4.49639e+04 | 5.29435e+04 | 6.10383e+04 |
+| Right boundary [&mu;s] | 2.52468e+04 | 3.58779e+04 | 4.42032e+04 | 5.19824e+04 | 5.95506e+04 | 6.84522e+04 |
+| Frame shift [&mu;s] |    6.34078e+03 | 8.73422e+03 | 1.09909e+04 | 1.30082e+04 | 1.49315e+04 | 1.68826e+04 |
+| Min speed [m/s] | 1.12569e+03 | 7.92132e+02 | 6.42940e+02 | 5.46724e+02 | 4.77241e+02 | 4.15180e+02 |
+| Max speed [m/s] | 1.96795e+03 | 1.16611e+03 | 8.42467e+02 | 6.74997e+02 | 5.67453e+02 | 4.88498e+02 |
+| Min wavelength [&#8491;] | 2.01022e+00 | 3.39247e+00 | 4.69573e+00 | 5.86077e+00 | 6.97151e+00 | 8.09829e+00 |
+| Max wavelength [&#8491;] | 3.51430e+00 | 4.99412e+00 | 6.15299e+00 | 7.23583e+00 | 8.28930e+00 | 9.52839e+00 |
+| Min energy [meV] | 6.63546e+00 | 3.28573e+00 | 2.16460e+00 | 1.56521e+00 | 1.19265e+00 | 9.02631e-01 |
+| Max energy [meV] | 2.02798e+01 | 7.12063e+00 | 3.71658e+00 | 2.38583e+00 | 1.68615e+00 | 1.24958e+00 |
+
 
 Using this method has the following advantages:
 
 1. No more peak-finding is required, which leads to more robust results.
 1. Removing the need for peak-finding also removes the need for enough signal-to-noise before stitching can be performed. In principle, the TOF for each event could be individually corrected, as they come in, naturally enabling on-the-fly stitching of live data.
+1. There is no more free parameter to give for the shift of the first frame (which all subsequent frames shifts were depending on), it is fully determined by the beamline geometry.
 1. Analytical calculations of frame boundaries also make it possible to have a different correction for each individual pixel, thus maximizing the resolution of the instrument.
 
 There are however some possible drawbacks to this method. Indeed, this solution assumes that everything is known about the instrument beamline's behaviour, and would probably not be very useful during an early operation phase such as hot commissioning. It can also be difficult to identify if something has gone wrong during the measurement, such as an out-of-phase chopper for instance, making the stitched data hard to interpret. We believe that this method could be used as a default, keeping Method 1 as a safety/sanity check, so that both methods would complement each other. It is also not entirely clear if neutron flight paths are trivial to calculate analytically for all instruments at ESS with WFM capabilities.
@@ -131,6 +153,8 @@ Going one step further, one could even imagine including the event-by-event stit
 ## 5. Conclusion and distribution
 
 We conclude that both peak-finding and analytical predictions for WFM frame boundary determination should be complementary. While Method 1 presents several major drawbacks that make it unfit to a production set-up, it should prove extremely useful as a diagnostic or verification tool during the hot commissioning phase.
+
+Currently, the different methods are scattered across different repositories, no both Gitlab and Github, with virtually no documentation. Moving forward, we should ensure that everything is put in one place, alongside appropriate documentation.
 
 The programs to perform the WFM stitching should be distributed as follows:
 
