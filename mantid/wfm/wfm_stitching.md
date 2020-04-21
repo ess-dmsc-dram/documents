@@ -1,12 +1,12 @@
 # Stitching wave-frame multiplication data at ESS
 
-## Introduction
+## 1. Introduction
 
 
 
-## Method 1: Using peak-finding
+## 2. Method 1: Using peak-finding
 
-### Description of the frame-edge detection procedure
+### 2.1 Description of the frame-edge detection procedure
 
 The procedure employed to find the WFM frames in the recorded data is the following.
 
@@ -23,7 +23,7 @@ The procedure employed to find the WFM frames in the recorded data is the follow
 ![peak-finding](peak_finding.png)
 **Figure 1:** Left: raw data from a diffraction experiment at V20, showing the 6 WFM frames in different colours, as well as various markers that illustrate the steps in the frame finding algorithm (see text). Right: Histogramming of counts in amplitude bins to detect the background as the most common count occurence.
 
-### Applying the conversion to time-of-flight
+### 2.2 Applying the conversion to time-of-flight
 
 Because WFM is essentially making 6 new pulses from a single long pulse, the position of the neutron source (or source chopper in the case of V20) is considered to be half-way between the two WFM choppers. In order to conserve the wavelength of the neutrons, the data needs to be converted  from 'Arrival time at detector' to real 'Time-of-flight'.
 
@@ -40,29 +40,46 @@ Figure 2 shows an example of neutron scattering data collected at V20 (Si sample
 ![before-after](si_frames.png)
 **Figure 2:** Before (top panel) and after (bottom panel) the stitching procedure.
 
-### Short-comings of the peak-finding method
+### 2.3 Short-comings of the peak-finding method
 
 There are a number of short-comings of the peak finding method for finding the frame boundaries and applying the conversion to time-of-flight, which have led us to develop a second method, which is described in the next section.
 
-#### Peak-finding algorithms are unpredictable
+#### 2.3.1 Peak-finding algorithms are unpredictable
 
 Peak-finding algorithms are notoriously unstable, often requiring tuning to work on a case-by-case basis [Ref needed], which defies the point to trying to automate the task of finding frame edges. For instance, the values for the peak prominence and background estimation will almost certainly need to be adjusted if a large diffraction spike is present in the data (see an example in Fig. 3).
 
-#### Peak-finding requires enough signal-to-noise
+#### 2.3.2 Peak-finding requires enough signal-to-noise
 
 Enough signal-to-noise is required to be able to perform peak finding, meaning that it will most probably fail on noisy data. In addition, this implies that it is not possible to perform on-the-fly stitching on live data acquisition, as all the data needs to be collected before it can be stitched.
 
-#### Excessive grouping of detector pixels leads to blurring
+#### 2.3.3 Excessive grouping of detector pixels leads to blurring
 
 The signal-to-noise requirement also poses another problem; the data for V20 were histogrammed into a single spectrum to obtain most optimal signal-to-noise, and this was a reasonable simplification of the data as the DENEX delay-line detector at V20 was a single square panel 30cm across. The small size and shape of the panel meant that the distance from the sample was similar for all detector pixels, and little blurring was observed in the single spectrum that grouped all the detector pixels.
 
 However, this will not be true for all the instruments at ESS that are planning to make use of WFM. In some extreme cases, it might even be required to compute slightly different frame boundaries for each detector pixel.
 
 
-## Method 2: Using TOF diagrams in a post-processing step
+## 3. Method 2: Using TOF diagrams in a post-processing step
 
-The second method was developed as an attempt to solve the issues listed above. In principle, 
+The second method was developed as an attempt to solve the issues listed above. In principle, it is possible to predict the location of the frame boundaries analytically, using the information about the beamline. Indeed, using only the positions of the neutron source, the detector and the choppers, as well as the chopper rotation frequencies, we can construct a time-of-flight diagram for the instrument, as shown in Fig. 4 (see also [Strobl et al. 2013](https://www.sciencedirect.com/science/article/pii/S0168900212016142)). The time-of-flight diagram shows us the path taken by the slowest and fastest neutrons in the distance versus time space, effectively giving the boundaries of the frame at the position of the detector (28 m from the source).
 
 ![tof-diagram](tof_diagram_v20.png)
 **Figure 4:** Time-of-flight diagram for V20 in WFM mode.
+
+Using this method has the following advantages:
+
+1. No more peak-finding is required, which leads to more robust results.
+1. Removing the need for peak-finding also removes the need for enough signal-to-noise before stitching can be performed. In principle, the TOF for each event could be individually corrected, as they come in, naturally enabling on-the-fly stitching of live data.
+1. Analytical calculations of frame boundaries also make it possible to have a different correction for each individual pixel, thus maximizing the resolution of the instrument.
+
+There are however some possible drawbacks to this method. Indeed, this solution assumes that everything is known about the instrument beamline's behaviour, and would probably not be very useful during an early operation phase such as hot commissioning. It can also be difficult to identify if something has gone wrong during the measurement, such as an out-of-phase chopper for instance, making the stitched data hard to interpret. We believe that this method could be used as a default, keeping Method 1 as a safety/sanity check, so that both methods complement each other.
+
+The software that implements Method 2 can be found here: https://github.com/nvaytet/wfmess. (Note that there is currently no documentation on this project, as it is very much a work in progress)
+
+## 4. In-reduction stitching vs post-processing stitching
+
+The early versions of the stitching procedure (including Method 1) depended on the Mantid software to perform the stitching, and consisted of several function calls that had to be made in a reduction workflow in order to stitch the data before further manipulation/reduction could be carried out. This was reported to be very time-consuming by several users, as they had to re-run a potentially lengthy
+
+
+
 
