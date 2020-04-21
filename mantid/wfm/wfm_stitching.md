@@ -154,7 +154,7 @@ Going one step further, one could even imagine including the event-by-event stit
 
 We conclude that both peak-finding and analytical predictions for WFM frame boundary determination should be complementary. While Method 1 presents several major drawbacks that make it unfit to a production set-up, it should prove extremely useful as a diagnostic or verification tool during the hot commissioning phase.
 
-Currently, the different methods are scattered across different repositories, no both Gitlab and Github, with virtually no documentation. Moving forward, we should ensure that everything is put in one place, alongside appropriate documentation.
+Currently, the different methods are scattered across different repositories, on both Gitlab and Github, with virtually no documentation. Moving forward, we should ensure that everything is put in one place, alongside appropriate documentation.
 
 The programs to perform the WFM stitching should be distributed as follows:
 
