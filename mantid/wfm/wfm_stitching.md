@@ -113,4 +113,13 @@ We thus propose that WFM stitching could be implemented as a post-processing ste
 
 The users would still have access to the raw un-stitched data, so that they are able to perform the stitching themselves, if they suspect something went wrong during that phase. But for 99% of cases, assuming auto-reduction is operating to satisfaction at an ESS facilty in full production mode, automatic post-processed stitching should work nicely.
 
-Going one step further, one could even imagine including the event-by-event stitching (although it makes less sense to call it stitching here, conversion to time-of-flight may be more appropriate) as part of the filewriter. It should be possible to 
+Going one step further, one could even imagine including the event-by-event stitching (although it makes less sense to call it 'stitching' here, 'conversion to time-of-flight' may be more appropriate) as part of the filewriter. It should be possible to write the raw and stitched data files simultaneously, thus cutting out the time needed to re-read the raw data to perform the conversion.
+
+## 5. Conclusion and distribution
+
+We conclude that both peak-finding and analytical predictions for WFM frame boundary determination should be complementary. While Method 1 presents several major drawbacks that make it unfit to a production set-up, it should prove extremely useful as a diagnostic or verification tool during the hot commissioning phase.
+
+The programs to perform the WFM stitching should be distributed as follows:
+
+1. A separate package containing the frame boundary determination, which would be distributed on `pip` and `conda`. This should aim to remain Python-only, with no large dependencies such as Mantid. This package would allow a user to decide which method they want to use to obtain the frame boundaries: either using the peaking finding, or the TOF diagram, or just a manual input. This package would also provide a basic (non-optimized) method to perform the TOF conversion, that could be used by e.g. Mantid users who do not wish to use the Scipp package.
+1. A highly-optimized C++ algorithm to perform the conversion to TOF will be included as part of the [Scipp-neutron](https://scipp.github.io/scipp-neutron/overview.html) module. This would be used in the auto-reduction post-processing step. I will first import the aforementioned Python package to get the frame boundaries, and then perform the conversion.
