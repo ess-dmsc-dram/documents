@@ -2,11 +2,17 @@
 
 ## 1. Introduction
 
-The ESS produces a broad pulse 2.86 ms in length at 14 Hz. The default pulse offers poor wavelength resolution, and is unsuitable for some applications. The ability to use choppers to shape the pulse gives flexibility to control the resolution by selectively slicing the broader pulse.
+Each ESS pulse has a `t0` timestamp of which there are 14 every second, for normal time-of-flight neutron scattering, this allows you to determine the time-of-flight based on time stamps for neturon detection taken at the detector.
+
+The ESS produces a broad pulse 2.86 ms in length at 14 Hz. The default pulse offers poor wavelength resolution, and is unsuitable for some applications. The ability to use choppers to shape the pulse gives flexibility to control the resolution by selectively slicing the broader pulse. 
 
 ```Δλ/λ  =  τ(λ)/t(λ)```
 
-where `τ` is pulse width and `t` is time-of-flight as a function of wavlength `λ`. [Woracek et al. (2016)](https://doi.org/10.1016/j.nima.2016.09.034). So reducing the effective pulse width yields a tighter resolution. To maximise the flux, multiple pulses should be sliced from the source ESS pulse. However, it is essential that there is no overlap between pulses to ensure that any neutron can unambiguously be attribute to single sub-pulse and hence have a unique `t0`. 
+where `τ` is pulse width and `t` is time-of-flight as a function of wavlength `λ`. [Woracek et al. (2016)](https://doi.org/10.1016/j.nima.2016.09.034). So reducing the effective pulse width yields a tighter resolution. To maximise the flux, multiple pulses should be sliced from the source ESS pulse. However, it is essential that there is no overlap between pulses at the detector to ensure that any neutron can unambiguously be attribute to single sub-pulse. Neutrons from each subpulse will have a time-of-flight correction made based on chopper frequency and chopper geometry and the chopper opening from which they originated. 
+
+It is best to consider the WFM chopper setup as providing `n` `t0`s where `n` is the number of chopper slit openings. So the data in it's raw form based on TOF calculated from the source chopper is incorrect and does not represent the true time-of-flight of the neutrons. Calculating the offset is trivial and described later.
+
+Once the time-of-flight correction is made, pulses will overlap and the data can be taken forward for further treatement as though it came from a single pulse.
 
 There are currently two different methods that can be employed to perform what is commonly known as 'stitching' of neutron data that was recorded in wave-frame multiplication (WFM) mode at the ESS V20 test beamline.
 This document describes in detail the two different methods, their advatanges and drawbacks, as well as listing links to where the software can be downloaded.
