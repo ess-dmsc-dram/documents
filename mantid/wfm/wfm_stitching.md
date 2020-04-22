@@ -2,10 +2,16 @@
 
 ## 1. Introduction
 
+The ESS produces a broad pulse 2.86 ms in length at 14 Hz. The default pulse offers poor wavelength resolution, and is unsuitable for some applications. The ability to use choppers to shape the pulse gives flexibility to control the resolution by selectively slicing the broader pulse.
+
+```Δλ/λ  =  τ(λ)/t(λ)```
+
+where `τ` is pulse width and `t` is time-of-flight as a function of wavlength `λ`. [Woracek et al. (2016)](https://doi.org/10.1016/j.nima.2016.09.034). So reducing the effective pulse width yields a tighter resolution. To maximise the flux, multiple pulses should be sliced from the source ESS pulse. However, it is essential that there is no overlap between pulses to ensure that any neutron can unambiguously be attribute to single sub-pulse and hence have a unique `t0`. 
+
 There are currently two different methods that can be employed to perform what is commonly known as 'stitching' of neutron data that was recorded in wave-frame multiplication (WFM) mode at the ESS V20 test beamline.
 This document describes in detail the two different methods, their advatanges and drawbacks, as well as listing links to where the software can be downloaded.
 
-For more information about WFM experiments at V20, see [Strobl et al. (2013)](https://www.sciencedirect.com/science/article/pii/S0168900212016142) and [Woracek et al. (2016)](https://doi.org/10.1016/j.nima.2016.09.034).
+For more information about WFM experiments at V20, see [Strobl et al. (2013)](https://www.sciencedirect.com/science/article/pii/S0168900212016142)
 
 ## 2. Method 1: Using peak-finding
 
