@@ -12,7 +12,7 @@ For more information about WFM experiments at V20, see [Strobl et al. (2013)](ht
 Until 2018, WFM frame boundaries had to be given manually as an input to the [ESS WFM processing module](https://git.esss.dk/wedel/wfm_stitching).
 This first method aimed to automatize the frame boundary detection process by using some signal processing techniques (including peak-finding).
 
-Note that throughout this document, we assume that the long pulse is being split into 6 frames, as this is the number of frames given by the WFM choppers at V20. There is however no reason the number has to be 6, and some ESS instruments are planning to use more than 6 frames (e.g. FREIA has a chopper design for 7 frames). The procedures outlined below do not depend on the numebr of frames, and would remain identical.
+Note that throughout this document, we assume that the long pulse is being split into 6 frames, as this is the number of frames given by the WFM choppers at V20. There is however no reason the number has to be 6, and some ESS instruments are indeed planning to use more than 6 frames (e.g. FREIA has a chopper design for 7 frames). The procedures outlined below do not depend on the numebr of frames, and would remain identical.
 
 ### 2.1 Description of the frame-edge detection procedure
 
