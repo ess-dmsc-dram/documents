@@ -12,7 +12,7 @@ where `τ` is pulse width and `t` is time-of-flight as a function of wavlength `
 
 It is best to consider the WFM chopper setup as providing `n` `t0`s where `n` is the number of chopper slit openings. So the data in it's raw form based on TOF calculated from the source chopper is incorrect and does not represent the true time-of-flight of the neutrons. Calculating the offset is trivial and described later.
 
-Once the time-of-flight correction is made, pulses will overlap and the data can be taken forward for further treatement as though it came from a single pulse.
+Once the time-of-flight correction is made, pulses will overlap and the data can be taken forward for further treatement as though it came from a single pulse with no choppers.
 
 There are currently two different methods that can be employed to perform what is commonly known as 'stitching' of neutron data that was recorded in wave-frame multiplication (WFM) mode at the ESS V20 test beamline.
 This document describes in detail the two different methods, their advatanges and drawbacks, as well as listing links to where the software can be downloaded.
@@ -20,6 +20,8 @@ This document describes in detail the two different methods, their advatanges an
 For more information about WFM experiments at V20, see [Strobl et al. (2013)](https://www.sciencedirect.com/science/article/pii/S0168900212016142)
 
 ## 2. Method 1: Using peak-finding
+
+As the recorded neutron data does not represent a real TOF, we must extract each sub-frame and apply as correction shift to yield the true TOF for all sub-pulses. The following concerns the first step in the process, finding each sub-frame and edges.
 
 Until 2018, WFM frame boundaries had to be given manually as an input to the [ESS WFM processing module](https://git.esss.dk/wedel/wfm_stitching).
 This first method aimed to automatize the frame boundary detection process by using some signal processing techniques (including peak-finding).
