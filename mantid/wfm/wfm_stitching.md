@@ -42,7 +42,7 @@ The procedure employed to find the WFM frames in the recorded data is the follow
 1. The inter-frame gaps are cut out by defining a frame edge as the first value, starting from the centre of a given valley, that exceeds 30% of the frame average (brown horizontal lines). The frame edges are found by starting from each of the five red dots and navigating through the spectrum towards first the left, to find the previous frame's upper bound, and then the right, to find the next frame's lower bound.
 1. The leading (blue dot) and trailing (yellow dot) edges complete the set of frame boundaries.
 
-![peak-finding](peak_finding.png)
+![peak-finding](wfm_peak_finding.png)
 **Figure 1:** Left: raw data from a diffraction experiment at V20, showing the 6 WFM frames in different colours, as well as various markers that illustrate the steps in the frame finding algorithm (see text). Right: Histogramming of counts in amplitude bins to detect the background as the most common count occurence.
 
 **Links**
