@@ -86,7 +86,7 @@ The signal-to-noise requirement also poses another problem; the data for V20 wer
 However, this will not be true for all the instruments at ESS that are planning to make use of WFM. In some extreme cases, it might even be required to compute slightly different frame boundaries for each detector pixel.
 
 
-## 3. Method 2: Using TOF diagrams in a post-processing step
+## 3. Method 2: Analytical approach
 
 The second method was developed as an attempt to solve the issues listed above. In principle, it is possible to predict the location of the frame boundaries analytically, using the information about the beamline. Indeed, using only the positions of the neutron source, the detector and the choppers, as well as the chopper rotation frequencies, we can construct a time-of-flight diagram for the instrument, as shown in Fig. 3 (see also [Strobl et al. 2013](https://www.sciencedirect.com/science/article/pii/S0168900212016142)).
 
