@@ -162,7 +162,7 @@ In principle, stitching is only required to be run once, as very little tweaking
 
 We thus propose that WFM stitching could be implemented as a post-processing step in the data acquisition. The raw data could be read in, stitched using the parameters from the beamline (the Nexus geometry is contained inside the data file), and a new post-processed file would then be written to disk (and added to SciCat). All the parameters that were used for the stitching would be included in the file metadata. This would effectively alleviate all the issues listed above.
 
-The users would still have access to the raw un-stitched data, so that they are able to perform the stitching themselves, if they suspect something went wrong during that phase. But for 99% of cases, assuming auto-reduction is operating to satisfaction at an ESS facilty in full production mode, automatic post-processed stitching should work nicely.
+The users would still have access to the raw un-stitched data, so that they are able to perform the stitching themselves, if they suspect something went wrong during that phase. But for >90% of cases, assuming auto-reduction is operating to satisfaction at an ESS facilty in full production mode, automatic post-processed stitching should work nicely.
 
 Going one step further, one could even imagine including the event-by-event stitching (although it makes less sense to call it 'stitching' here, 'conversion to time-of-flight' may be more appropriate) as part of the filewriter. It should be possible to write the raw and stitched data files simultaneously, thus cutting out the time needed to re-read the raw data to perform the conversion.
 
